@@ -20,6 +20,10 @@ Four screens, each backed by a real API call (not hard-coded UI):
   suggested urgency level, recommendations, and OTC products.
 - **Dashboard (Pharmacist Portal)** — an internal-admin-style view: prescription "verification"
   against seeded RX records, and a patient lookup.
+- **English / Macedonian toggle** — an EN/МК switch in the top nav (persisted in
+  `localStorage`) translates every static label plus the seeded demo content (articles,
+  products, patients, prescriptions). The AI Checker's rules engine also matches Macedonian
+  symptom keywords, so it works end-to-end in either language.
 
   > The original design's "Patient SSN Lookup" field is implemented here as a lookup by a
   > fictitious **Patient ID** (e.g. `992-BA-01`) against seeded demo patients — never a real

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
 import type { DashboardStats, Patient, Prescription } from '../api/types'
+import { useLanguage } from '../i18n/LanguageContext'
+import { translatePatient, translateProductName } from '../i18n/content'
 
 const STATUS_STYLE: Record<Prescription['status'], string> = {
   Active: 'bg-green-100 text-green-700',
@@ -9,6 +11,7 @@ const STATUS_STYLE: Record<Prescription['status'], string> = {
 }
 
 export function Dashboard() {
+  const { t, language } = useLanguage()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [recentRx, setRecentRx] = useState<Pick<Prescription, 'rxId' | 'medication' | 'status'>[]>([])
   const [rxInput, setRxInput] = useState('')
@@ -28,7 +31,11 @@ export function Dashboard() {
     e.preventDefault()
     if (!rxInput.trim()) return
     const match = recentRx.find((rx) => rx.rxId.toLowerCase() === rxInput.trim().toLowerCase())
-    setVerified(match ? `Verified: ${match.medication} (${match.status})` : 'No matching prescription found in demo data.')
+    setVerified(
+      match
+        ? `${t.dashboard.verifiedPrefix} ${translateProductName(match.medication, language)} (${(t.prescriptionStatus as Record<string, string>)[match.status]})`
+        : t.dashboard.noMatch,
+    )
   }
 
   async function lookupPatient(e: React.FormEvent) {
@@ -47,29 +54,29 @@ export function Dashboard() {
     }
   }
 
+  const displayPatient = patient ? translatePatient(patient, language) : null
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">Internal Administration</p>
-          <h1 className="text-2xl font-bold text-slate-900">Pharmacist Portal</h1>
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{t.dashboard.badge}</p>
+          <h1 className="text-2xl font-bold text-slate-900">{t.dashboard.title}</h1>
         </div>
         <span className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600">
-          <span className="h-2 w-2 rounded-full bg-green-500" /> System Status: Online
+          <span className="h-2 w-2 rounded-full bg-green-500" /> {t.dashboard.systemOnline}
         </span>
       </div>
 
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h3 className="text-sm font-semibold text-slate-800">Prescription Verification</h3>
-          <p className="mt-1 text-xs text-slate-500">
-            Enter the unique identifier provided by the patient to verify a prescription.
-          </p>
+          <h3 className="text-sm font-semibold text-slate-800">{t.dashboard.verifyTitle}</h3>
+          <p className="mt-1 text-xs text-slate-500">{t.dashboard.verifyCopy}</p>
           <form onSubmit={verifyPrescription} className="mt-3 flex gap-2">
             <input
               value={rxInput}
               onChange={(e) => setRxInput(e.target.value)}
-              placeholder="Enter RX ID (e.g. RX-448291)…"
+              placeholder={t.dashboard.rxPlaceholder}
               className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm"
             />
           </form>
@@ -77,17 +84,17 @@ export function Dashboard() {
             onClick={verifyPrescription}
             className="mt-2 w-full rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800"
           >
-            ✓ Verify Prescription
+            {t.dashboard.verifyButton}
           </button>
           {verified && <p className="mt-2 text-xs font-medium text-slate-600">{verified}</p>}
 
           <div className="mt-4">
-            <p className="mb-2 text-xs font-semibold text-slate-500">Recent Scans</p>
+            <p className="mb-2 text-xs font-semibold text-slate-500">{t.dashboard.recentScans}</p>
             <div className="space-y-2">
               {recentRx.map((rx) => (
                 <div key={rx.rxId} className="flex items-center justify-between rounded-md bg-slate-50 px-3 py-2 text-xs">
                   <span className="font-medium text-slate-700">{rx.rxId}</span>
-                  <span className="text-slate-400">Verified</span>
+                  <span className="text-slate-400">{t.dashboard.verifiedLabel}</span>
                   <span className="text-green-600">✓</span>
                 </div>
               ))}
@@ -96,58 +103,56 @@ export function Dashboard() {
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5">
-          <h3 className="text-sm font-semibold text-slate-800">Patient ID Lookup</h3>
-          <p className="mt-1 text-xs text-slate-500">
-            Look up a patient by their internal patient ID (demo data only — never a real SSN).
-          </p>
+          <h3 className="text-sm font-semibold text-slate-800">{t.dashboard.lookupTitle}</h3>
+          <p className="mt-1 text-xs text-slate-500">{t.dashboard.lookupCopy}</p>
           <form onSubmit={lookupPatient} className="mt-3 flex gap-2">
             <input
               value={patientCode}
               onChange={(e) => setPatientCode(e.target.value)}
-              placeholder="e.g. 992-BA-01"
+              placeholder={t.dashboard.lookupPlaceholder}
               className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm"
             />
             <button className="rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800">
-              {looking ? '…' : 'Retrieve Info'}
+              {looking ? t.dashboard.lookingButton : t.dashboard.lookupButton}
             </button>
           </form>
           {lookupError && <p className="mt-2 text-xs text-red-600">{lookupError}</p>}
 
-          {patient && (
+          {displayPatient && (
             <div className="mt-4 rounded-lg border border-slate-200 p-4">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-slate-300 to-slate-400" />
                 <div>
-                  <p className="text-sm font-semibold text-slate-800">{patient.fullName}</p>
+                  <p className="text-sm font-semibold text-slate-800">{displayPatient.fullName}</p>
                   <p className="text-xs text-slate-400">
-                    ID: {patient.patientCode} · <span className="text-green-600">{patient.insuranceStatus}</span>
+                    ID: {displayPatient.patientCode} · <span className="text-green-600">{displayPatient.insuranceStatus}</span>
                   </p>
                 </div>
               </div>
               <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                <span className="rounded-md bg-slate-50 px-2 py-1">DOB: {patient.dateOfBirth}</span>
-                <span className="rounded-md bg-slate-50 px-2 py-1">Blood Type: {patient.bloodType}</span>
-                <span className="rounded-md bg-slate-50 px-2 py-1">Allergies: {patient.allergies}</span>
+                <span className="rounded-md bg-slate-50 px-2 py-1">{t.dashboard.dob}: {displayPatient.dateOfBirth}</span>
+                <span className="rounded-md bg-slate-50 px-2 py-1">{t.dashboard.bloodType}: {displayPatient.bloodType}</span>
+                <span className="rounded-md bg-slate-50 px-2 py-1">{t.dashboard.allergies}: {displayPatient.allergies}</span>
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {patient && (
+      {displayPatient && (
         <div className="mb-6 rounded-xl border border-slate-200 bg-white p-5">
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="text-xs uppercase text-slate-400">
-                <th className="pb-2">Date</th>
-                <th className="pb-2">Medication</th>
-                <th className="pb-2">Dosage</th>
-                <th className="pb-2">Physician</th>
-                <th className="pb-2">Status</th>
+                <th className="pb-2">{t.dashboard.tableDate}</th>
+                <th className="pb-2">{t.dashboard.tableMedication}</th>
+                <th className="pb-2">{t.dashboard.tableDosage}</th>
+                <th className="pb-2">{t.dashboard.tablePhysician}</th>
+                <th className="pb-2">{t.dashboard.tableStatus}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {patient.prescriptions.map((rx) => (
+              {displayPatient.prescriptions.map((rx) => (
                 <tr key={rx.id}>
                   <td className="py-2 text-slate-500">{rx.datePrescribed}</td>
                   <td className="py-2">
@@ -158,7 +163,7 @@ export function Dashboard() {
                   <td className="py-2 text-slate-600">{rx.physician}</td>
                   <td className="py-2">
                     <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLE[rx.status]}`}>
-                      {rx.status}
+                      {(t.prescriptionStatus as Record<string, string>)[rx.status]}
                     </span>
                   </td>
                 </tr>
@@ -170,11 +175,11 @@ export function Dashboard() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-semibold uppercase text-slate-400">Pending</p>
+          <p className="text-xs font-semibold uppercase text-slate-400">{t.dashboard.pending}</p>
           <p className="mt-1 text-2xl font-bold text-slate-800">{stats?.pending ?? '—'}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs font-semibold uppercase text-slate-400">Filled Today</p>
+          <p className="text-xs font-semibold uppercase text-slate-400">{t.dashboard.filledToday}</p>
           <p className="mt-1 text-2xl font-bold text-slate-800">{stats?.filledToday ?? '—'}</p>
         </div>
       </div>
