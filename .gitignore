@@ -1,0 +1,26 @@
+# .NET
+server/bin/
+server/obj/
+*.db
+*.db-shm
+*.db-wal
+
+# Node / client
+client/node_modules/
+client/dist/
+client/dist-ssr/
+client/*.local
+
+# Editors / OS
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+server/run.log
