@@ -153,6 +153,18 @@ export function InfoIcon(props: IconProps) {
   )
 }
 
+export function CookieIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M12 3.25c-4.83 0-8.75 3.92-8.75 8.75S7.17 20.75 12 20.75c3.9 0 7.2-2.55 8.32-6.08a1 1 0 0 0-1.15-1.28 3.4 3.4 0 0 1-.67.07 3.5 3.5 0 0 1-3.5-3.5c0-.18.01-.36.04-.53a1 1 0 0 0-1.13-1.15A3.5 3.5 0 0 1 10.5 4.8c0-.24.02-.47.07-.7a1 1 0 0 0-1.12-1.19c-.62.1-1 .1-1.45.1" />
+      <circle cx="9" cy="10.5" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="8.5" cy="15" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="13" cy="16.5" r=".9" fill="currentColor" stroke="none" />
+      <circle cx="14.5" cy="12.2" r=".9" fill="currentColor" stroke="none" />
+    </Icon>
+  )
+}
+
 export function SparklesIcon(props: IconProps) {
   return (
     <Icon {...props}>

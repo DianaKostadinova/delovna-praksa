@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
+import { CookieConsent } from './CookieConsent'
 
 export function Layout() {
   const { t } = useLanguage()
@@ -39,6 +40,7 @@ export function Layout() {
       </main>
 
       <Footer />
+      <CookieConsent />
     </div>
   )
 }

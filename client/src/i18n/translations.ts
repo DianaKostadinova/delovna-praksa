@@ -123,6 +123,11 @@ export interface TranslationDict {
   }
   prescriptionStatus: { Active: string; Completed: string; Pending: string }
   languageToggle: { label: string }
+  cookies: {
+    message: string
+    acceptButton: string
+    declineButton: string
+  }
 }
 
 export const translations: Record<Language, TranslationDict> = {
@@ -282,6 +287,12 @@ export const translations: Record<Language, TranslationDict> = {
     languageToggle: {
       label: 'Јазик / Language',
     },
+    cookies: {
+      message:
+        'We use cookies and local storage to remember your language preference and keep the demo cart working. This is a portfolio project — nothing is sold or shared with third parties.',
+      acceptButton: 'Accept',
+      declineButton: 'Decline',
+    },
   },
   mk: {
     nav: {
@@ -438,6 +449,12 @@ export const translations: Record<Language, TranslationDict> = {
     },
     languageToggle: {
       label: 'Јазик / Language',
+    },
+    cookies: {
+      message:
+        'Користиме колачиња и локално складирање за да го запомниме вашиот јазик и да ја одржиме демо-кошничката функционална. Ова е портфолио проект — ништо не се продава ниту споделува со трети страни.',
+      acceptButton: 'Прифати',
+      declineButton: 'Одбиј',
     },
   },
 }
