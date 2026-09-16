@@ -6,7 +6,6 @@ export interface TranslationDict {
     pharmacy: string
     kbeauty: string
     aiChecker: string
-    dashboard: string
     cart: string
     team: string
     blog: string
@@ -73,6 +72,12 @@ export interface TranslationDict {
     recipesTitle: string
     readMore: string
   }
+  articleDetail: {
+    back: string
+    loading: string
+    loadError: string
+    notFound: string
+  }
   pharmacy: {
     title: string
     subtitle: string
@@ -128,43 +133,6 @@ export interface TranslationDict {
     featureNearbyText: string
   }
   urgency: { Low: string; Moderate: string; 'See a doctor': string }
-  dashboard: {
-    badge: string
-    title: string
-    systemOnline: string
-    verifyTitle: string
-    verifyCopy: string
-    rxPlaceholder: string
-    verifyButton: string
-    verifiedPrefix: string
-    noMatch: string
-    recentScans: string
-    verifiedLabel: string
-    lookupTitle: string
-    lookupCopy: string
-    lookupPlaceholder: string
-    lookupButton: string
-    lookingButton: string
-    dob: string
-    bloodType: string
-    allergies: string
-    tableDate: string
-    tableMedication: string
-    tableDosage: string
-    tablePhysician: string
-    tableStatus: string
-    pending: string
-    filledToday: string
-    analyticsTitle: string
-    analyticsCopy: string
-    analyticsTotalViews: string
-    analyticsUniqueVisitors: string
-    analyticsByPage: string
-    analyticsNoData: string
-    analyticsViewsLabel: string
-    analyticsVisitorsLabel: string
-  }
-  prescriptionStatus: { Active: string; Completed: string; Pending: string }
   languageToggle: { label: string }
   cartPage: {
     title: string
@@ -215,7 +183,6 @@ export const translations: Record<Language, TranslationDict> = {
       pharmacy: 'Pharmacy',
       kbeauty: 'K-Beauty',
       aiChecker: 'Symptom Checker',
-      dashboard: 'Dashboard',
       cart: 'Cart',
       team: 'Team',
       blog: 'Blog',
@@ -283,6 +250,12 @@ export const translations: Record<Language, TranslationDict> = {
       recipesTitle: 'Recipes',
       readMore: 'Read More',
     },
+    articleDetail: {
+      back: 'Back',
+      loading: 'Loading article…',
+      loadError: "Couldn't load this article:",
+      notFound: "This article couldn't be found.",
+    },
     pharmacy: {
       title: 'Pharmacy Catalog',
       subtitle:
@@ -349,47 +322,6 @@ export const translations: Record<Language, TranslationDict> = {
       Moderate: 'Moderate',
       'See a doctor': 'See a doctor',
     },
-    dashboard: {
-      badge: 'Internal Administration',
-      title: 'Pharmacist Portal',
-      systemOnline: 'System Status: Online',
-      verifyTitle: 'Prescription Verification',
-      verifyCopy: 'Enter the unique identifier provided by the patient to verify a prescription.',
-      rxPlaceholder: 'Enter RX ID (e.g. RX-448291)…',
-      verifyButton: 'Verify Prescription',
-      verifiedPrefix: 'Verified:',
-      noMatch: 'No matching prescription found in demo data.',
-      recentScans: 'Recent Scans',
-      verifiedLabel: 'Verified',
-      lookupTitle: 'Patient ID Lookup',
-      lookupCopy: 'Look up a patient by their internal patient ID (demo data only — never a real SSN).',
-      lookupPlaceholder: 'e.g. 992-BA-01',
-      lookupButton: 'Retrieve Info',
-      lookingButton: '…',
-      dob: 'DOB',
-      bloodType: 'Blood Type',
-      allergies: 'Allergies',
-      tableDate: 'Date',
-      tableMedication: 'Medication',
-      tableDosage: 'Dosage',
-      tablePhysician: 'Physician',
-      tableStatus: 'Status',
-      pending: 'Pending',
-      filledToday: 'Filled Today',
-      analyticsTitle: 'Site Analytics',
-      analyticsCopy: 'First-party, anonymous page-view tracking — recorded only for visitors who accepted the cookie banner.',
-      analyticsTotalViews: 'Total Page Views',
-      analyticsUniqueVisitors: 'Unique Visitors',
-      analyticsByPage: 'Views by Page',
-      analyticsNoData: 'No page views recorded yet — accept the cookie banner and browse the site to generate data.',
-      analyticsViewsLabel: 'views',
-      analyticsVisitorsLabel: 'visitors',
-    },
-    prescriptionStatus: {
-      Active: 'Active',
-      Completed: 'Completed',
-      Pending: 'Pending',
-    },
     languageToggle: {
       label: 'Јазик / Language',
     },
@@ -441,7 +373,6 @@ export const translations: Record<Language, TranslationDict> = {
       pharmacy: 'Аптека',
       kbeauty: 'K-Beauty',
       aiChecker: 'Проверка на симптоми',
-      dashboard: 'Контролна табла',
       cart: 'Кошница',
       team: 'Тимот',
       blog: 'Блог',
@@ -509,6 +440,12 @@ export const translations: Record<Language, TranslationDict> = {
       recipesTitle: 'Рецепти',
       readMore: 'Прочитај повеќе',
     },
+    articleDetail: {
+      back: 'Назад',
+      loading: 'Се вчитува статијата…',
+      loadError: 'Не успеа да се вчита оваа статија:',
+      notFound: 'Оваа статија не можеше да се пронајде.',
+    },
     pharmacy: {
       title: 'Аптечен каталог',
       subtitle:
@@ -574,47 +511,6 @@ export const translations: Record<Language, TranslationDict> = {
       Low: 'Ниска',
       Moderate: 'Умерена',
       'See a doctor': 'Посетете лекар',
-    },
-    dashboard: {
-      badge: 'Внатрешна администрација',
-      title: 'Портал за фармацевти',
-      systemOnline: 'Статус на системот: Онлајн',
-      verifyTitle: 'Верификација на рецепт',
-      verifyCopy: 'Внесете го уникатниот идентификатор доставен од пациентот за да верификувате рецепт.',
-      rxPlaceholder: 'Внесете RX ID (на пр. RX-448291)…',
-      verifyButton: 'Верификувај рецепт',
-      verifiedPrefix: 'Верификувано:',
-      noMatch: 'Нема пронајдено соодветен рецепт во демо податоците.',
-      recentScans: 'Неодамнешни скенирања',
-      verifiedLabel: 'Верификувано',
-      lookupTitle: 'Пребарување по ID на пациент',
-      lookupCopy: 'Пребарајте пациент по нивниот интерен ID (само демо податоци — никогаш вистински ЕМБГ).',
-      lookupPlaceholder: 'на пр. 992-BA-01',
-      lookupButton: 'Преземи податоци',
-      lookingButton: '…',
-      dob: 'Дата на раѓање',
-      bloodType: 'Крвна група',
-      allergies: 'Алергии',
-      tableDate: 'Датум',
-      tableMedication: 'Лек',
-      tableDosage: 'Дозирање',
-      tablePhysician: 'Лекар',
-      tableStatus: 'Статус',
-      pending: 'Во исчекување',
-      filledToday: 'Издадени денес',
-      analyticsTitle: 'Аналитика на страницата',
-      analyticsCopy: 'Анонимно следење на прегледи на страници од прва страна — снимено само за посетители кои ги прифатиле колачињата.',
-      analyticsTotalViews: 'Вкупно прегледи',
-      analyticsUniqueVisitors: 'Уникатни посетители',
-      analyticsByPage: 'Прегледи по страница',
-      analyticsNoData: 'Сè уште нема снимени прегледи — прифатете ги колачињата и разгледајте ја страницата за да се генерираат податоци.',
-      analyticsViewsLabel: 'прегледи',
-      analyticsVisitorsLabel: 'посетители',
-    },
-    prescriptionStatus: {
-      Active: 'Активен',
-      Completed: 'Завршен',
-      Pending: 'Во исчекување',
     },
     languageToggle: {
       label: 'Јазик / Language',

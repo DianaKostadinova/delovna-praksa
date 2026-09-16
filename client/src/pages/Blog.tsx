@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Article } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -59,7 +60,11 @@ export function Blog() {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {pageItems.map((post) => (
-                <div key={post.id} className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <Link
+                  key={post.id}
+                  to={`/articles/${post.id}`}
+                  className="overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200"
+                >
                   <div className="aspect-[16/10] bg-gradient-to-br from-slate-200 to-slate-300" />
                   <div className="p-4">
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600">{post.tag}</p>
@@ -67,13 +72,13 @@ export function Blog() {
                     <p className="mt-1 text-xs text-slate-500 line-clamp-2">{post.excerpt}</p>
                     <div className="mt-2 flex items-center justify-between">
                       <p className="text-[11px] text-slate-400">{post.readTime}</p>
-                      <button className="flex items-center gap-1 text-xs font-semibold text-blue-700 hover:text-blue-800">
+                      <span className="flex items-center gap-1 text-xs font-semibold text-blue-700">
                         {t.blog.readMore}
                         <ArrowRightIcon className="h-3.5 w-3.5" />
-                      </button>
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
@@ -126,7 +131,9 @@ export function Blog() {
                   <p className="text-[10px] text-slate-400">
                     {new Date(recipe.publishedAt).toLocaleDateString(language === 'mk' ? 'mk-MK' : 'en-US')}
                   </p>
-                  <p className="font-medium text-slate-700 hover:text-blue-700">{recipe.title}</p>
+                  <Link to={`/articles/${recipe.id}`} className="font-medium text-slate-700 hover:text-blue-700">
+                    {recipe.title}
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -135,44 +135,6 @@ public static class SeedData
             );
         }
 
-        if (!db.Patients.Any())
-        {
-            var patient = new Patient
-            {
-                PatientCode = "992-BA-01",
-                FullName = "James T. Harrison",
-                DateOfBirth = new DateOnly(1978, 5, 12),
-                BloodType = "O Positive",
-                Allergies = "Penicillin",
-                InsuranceStatus = "Insurance Active",
-                PhotoUrl = "/images/patient-james-harrison.jpg"
-            };
-            db.Patients.Add(patient);
-            db.SaveChanges();
-
-            db.Prescriptions.AddRange(
-                new Prescription { PatientId = patient.Id, RxId = "RX-448291", Medication = "Lisinopril", DosageInfo = "ACE Inhibitor", Dosage = "10mg Oral Tab", Physician = "Dr. Aris Thorne", Status = PrescriptionStatus.Active, DatePrescribed = new DateOnly(2023, 10, 24) },
-                new Prescription { PatientId = patient.Id, RxId = "RX-129038", Medication = "Amoxicillin", DosageInfo = "Antibiotic", Dosage = "500mg (14 days)", Physician = "Dr. Sarah Miller", Status = PrescriptionStatus.Completed, DatePrescribed = new DateOnly(2023, 9, 12) },
-                new Prescription { PatientId = patient.Id, RxId = "RX-448212", Medication = "Atorvastatin", DosageInfo = "Statin", Dosage = "20mg Oral Tab", Physician = "Dr. Aris Thorne", Status = PrescriptionStatus.Active, DatePrescribed = new DateOnly(2023, 8, 5) },
-                new Prescription { PatientId = patient.Id, RxId = "RX-771034", Medication = "Ibuprofen", DosageInfo = "NSAID", Dosage = "400mg (As needed)", Physician = "Self-Prescribed", Status = PrescriptionStatus.Completed, DatePrescribed = new DateOnly(2023, 7, 18) }
-            );
-
-            var patient2 = new Patient
-            {
-                PatientCode = "441-CQ-19",
-                FullName = "Maria Gonzalez",
-                DateOfBirth = new DateOnly(1990, 2, 3),
-                BloodType = "A Negative",
-                Allergies = "None known",
-                InsuranceStatus = "Insurance Active",
-                PhotoUrl = "/images/patient-maria-gonzalez.jpg"
-            };
-            db.Patients.Add(patient2);
-            db.SaveChanges();
-
-            db.Prescriptions.Add(new Prescription { PatientId = patient2.Id, RxId = "RX-902213", Medication = "Metformin", DosageInfo = "Antidiabetic", Dosage = "500mg Oral Tab", Physician = "Dr. Sarah Miller", Status = PrescriptionStatus.Active, DatePrescribed = new DateOnly(2024, 1, 9) });
-        }
-
         db.SaveChanges();
     }
 }

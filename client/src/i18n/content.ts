@@ -3,7 +3,7 @@
 // is simply overlaid with a Macedonian one when the language is 'mk', with an English fallback
 // for anything not covered here.
 import type { Language } from './translations'
-import type { Article, HealthFact, Product, Patient, Prescription, SymptomCheckResponse, TeamMember } from '../api/types'
+import type { Article, HealthFact, Product, SymptomCheckResponse, TeamMember } from '../api/types'
 
 const articlesMk: Record<number, Partial<Pick<Article, 'title' | 'excerpt' | 'tag'>>> = {
   1: {
@@ -136,29 +136,6 @@ const productsMk: Record<number, Pick<Product, 'name' | 'description'>> = {
   36: { name: 'Centellian24 360 Shot PDRN', description: 'Есенција за обнова на кожната бариера' },
   37: { name: 'VT Reedle Shot 300', description: 'Серум со микроигли текстура, 50мл' },
   38: { name: 'TIRTIR Mask Fit Red Cushion', description: 'Кушон пудра со сјај и SPF заштита' },
-}
-
-const patientsMk: Record<string, Pick<Patient, 'fullName' | 'bloodType' | 'allergies' | 'insuranceStatus'>> = {
-  '992-BA-01': {
-    fullName: 'Џејмс Т. Харисон',
-    bloodType: 'О позитивна',
-    allergies: 'Пеницилин',
-    insuranceStatus: 'Активно осигурување',
-  },
-  '441-CQ-19': {
-    fullName: 'Марија Гонзалез',
-    bloodType: 'А негативна',
-    allergies: 'Нема познати',
-    insuranceStatus: 'Активно осигурување',
-  },
-}
-
-const prescriptionsMk: Record<string, Pick<Prescription, 'medication' | 'dosageInfo' | 'dosage' | 'physician'>> = {
-  'RX-448291': { medication: 'Лизиноприл', dosageInfo: 'АКЕ инхибитор', dosage: '10мг орална таблета', physician: 'Д-р Арис Торн' },
-  'RX-129038': { medication: 'Амоксицилин', dosageInfo: 'Антибиотик', dosage: '500мг (14 дена)', physician: 'Д-р Сара Милер' },
-  'RX-448212': { medication: 'Аторвастатин', dosageInfo: 'Статин', dosage: '20мг орална таблета', physician: 'Д-р Арис Торн' },
-  'RX-771034': { medication: 'Ибупрофен', dosageInfo: 'НСАИЛ', dosage: '400мг (по потреба)', physician: 'Самопропишано' },
-  'RX-902213': { medication: 'Метформин', dosageInfo: 'Антидијабетик', dosage: '500мг орална таблета', physician: 'Д-р Сара Милер' },
 }
 
 const productNameMkByEn: Record<string, string> = {
@@ -475,22 +452,6 @@ export function translateProduct(product: Product, lang: Language): Product {
   if (lang === 'en') return product
   const mk = productsMk[product.id]
   return mk ? { ...product, ...mk } : product
-}
-
-export function translatePrescription(rx: Prescription, lang: Language): Prescription {
-  if (lang === 'en') return rx
-  const mk = prescriptionsMk[rx.rxId]
-  return mk ? { ...rx, ...mk } : rx
-}
-
-export function translatePatient(patient: Patient, lang: Language): Patient {
-  if (lang === 'en') return patient
-  const mk = patientsMk[patient.patientCode]
-  return {
-    ...patient,
-    ...(mk ?? {}),
-    prescriptions: patient.prescriptions.map((rx) => translatePrescription(rx, lang)),
-  }
 }
 
 export function translateProductName(name: string, lang: Language): string {
