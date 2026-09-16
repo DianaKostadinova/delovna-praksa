@@ -16,6 +16,9 @@ export function Layout() {
     trackPageView(location.pathname, language)
   }, [location.pathname])
 
+  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
+
   const navItems = [
     { to: '/', label: t.nav.home },
     { to: '/blog', label: t.nav.blog },
@@ -32,13 +35,7 @@ export function Layout() {
           <nav className="flex items-center gap-8 text-sm font-medium text-slate-600">
             {navItems.map((item) => (
               <Fragment key={item.to}>
-                <NavLink
-                  to={item.to}
-                  end={item.to === '/'}
-                  className={({ isActive }) =>
-                    isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
-                  }
-                >
+                <NavLink to={item.to} end={item.to === '/'} className={navLinkClass}>
                   {item.label}
                 </NavLink>
                 {item.to === '/pharmacy' && <KBeautyNavLink label={t.nav.kbeauty} />}
