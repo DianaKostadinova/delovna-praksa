@@ -1,9 +1,17 @@
-import { useMemo, useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
+import { CookieConsent } from './CookieConsent'
+import { trackPageView } from '../analytics'
 
 export function Layout() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const location = useLocation()
+
+  useEffect(() => {
+    // Fires on route changes only — a language switch alone shouldn't count as a new pageview.
+    trackPageView(location.pathname, language)
+  }, [location.pathname])
 
   const navItems = [
     { to: '/', label: t.nav.home },
@@ -11,6 +19,7 @@ export function Layout() {
     { to: '/cart', label: t.nav.cart },
     { to: '/ai-checker', label: t.nav.aiChecker },
     { to: '/dashboard', label: t.nav.dashboard },
+    { to: '/team', label: t.nav.team },
   ]
 
   return (
@@ -57,6 +66,7 @@ export function Layout() {
       </main>
 
       <Footer />
+      <CookieConsent />
     </div>
   )
 }

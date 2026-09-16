@@ -1,7 +1,15 @@
 export type Language = 'en' | 'mk'
 
 export interface TranslationDict {
-  nav: { home: string; pharmacy: string; kbeauty: string; aiChecker: string; dashboard: string; cart: string }
+  nav: {
+    home: string
+    pharmacy: string
+    kbeauty: string
+    aiChecker: string
+    dashboard: string
+    cart: string
+    team: string
+  }
   footer: {
     tagline: string
     resources: string
@@ -32,6 +40,20 @@ export interface TranslationDict {
     subscribeButton: string
     subscribedMessage: string
     featuredProductsTitle: string
+    meetTeamTitle: string
+    meetTeamCopy: string
+    meetTeamButton: string
+  }
+  team: {
+    badge: string
+    title: string
+    subtitle: string
+    loadError: string
+    loading: string
+    headOfficeHeading: string
+    branchesHeading: string
+    contactEmail: string
+    contactPhone: string
   }
   pharmacy: {
     title: string
@@ -115,6 +137,14 @@ export interface TranslationDict {
     tableStatus: string
     pending: string
     filledToday: string
+    analyticsTitle: string
+    analyticsCopy: string
+    analyticsTotalViews: string
+    analyticsUniqueVisitors: string
+    analyticsByPage: string
+    analyticsNoData: string
+    analyticsViewsLabel: string
+    analyticsVisitorsLabel: string
   }
   prescriptionStatus: { Active: string; Completed: string; Pending: string }
   languageToggle: { label: string }
@@ -152,6 +182,12 @@ export interface TranslationDict {
     subtitle: string
     pick: string
   }
+  cookies: {
+    title: string
+    message: string
+    acceptButton: string
+    declineButton: string
+  }
 }
 
 export const translations: Record<Language, TranslationDict> = {
@@ -163,6 +199,7 @@ export const translations: Record<Language, TranslationDict> = {
       aiChecker: 'AI Checker',
       dashboard: 'Dashboard',
       cart: 'Cart',
+      team: 'Team',
     },
     footer: {
       tagline:
@@ -182,7 +219,7 @@ export const translations: Record<Language, TranslationDict> = {
       didYouKnowBadge: 'Did You Know?',
       didYouKnowFact: 'Drinking honey before bed can improve liver health and sleep quality.',
       healthTipBadge: 'Health Tip',
-      readMore: 'Read More →',
+      readMore: 'Read More',
       spotlightBadge: 'Healthy Living Spotlight',
       watchInterview: 'Watch Full Interview',
       didYouKnowHeading: 'Did You Know?',
@@ -195,6 +232,20 @@ export const translations: Record<Language, TranslationDict> = {
       subscribeButton: 'Subscribe Now',
       subscribedMessage: "Thanks — you're subscribed!",
       featuredProductsTitle: 'Featured Products',
+      meetTeamTitle: 'Meet the Team',
+      meetTeamCopy: "The pharmacists and support staff behind Zegin's Skopje branches.",
+      meetTeamButton: 'Meet the Team',
+    },
+    team: {
+      badge: 'OUR PEOPLE',
+      title: 'Meet the Team',
+      subtitle: "The pharmacists and head-office support team behind Zegin's branches across Skopje.",
+      loadError: "Couldn't load the team:",
+      loading: 'Loading team…',
+      headOfficeHeading: 'Head Office Support',
+      branchesHeading: 'Branch Pharmacists — Skopje',
+      contactEmail: 'Email',
+      contactPhone: 'Phone',
     },
     pharmacy: {
       title: 'Pharmacy Catalog',
@@ -243,8 +294,8 @@ export const translations: Record<Language, TranslationDict> = {
       symptomsPlaceholder:
         "Tell us what's bothering you... (e.g. 'I have a scratchy throat and a slight headache since yesterday')",
       disclaimerNote:
-        'ℹ️ Demo only — this uses a simple keyword-matching rules engine, not a real clinical AI. It is not medical advice.',
-      submitButton: 'Get Recommendation →',
+        'Demo only — this uses a simple keyword-matching rules engine, not a real clinical AI. It is not medical advice.',
+      submitButton: 'Get Recommendation',
       submitting: 'Analyzing…',
       waitingTitle: 'Waiting for analysis',
       waitingCopy: 'Complete the form to receive a recommendation based on your symptoms.',
@@ -269,7 +320,7 @@ export const translations: Record<Language, TranslationDict> = {
       verifyTitle: 'Prescription Verification',
       verifyCopy: 'Enter the unique identifier provided by the patient to verify a prescription.',
       rxPlaceholder: 'Enter RX ID (e.g. RX-448291)…',
-      verifyButton: '✓ Verify Prescription',
+      verifyButton: 'Verify Prescription',
       verifiedPrefix: 'Verified:',
       noMatch: 'No matching prescription found in demo data.',
       recentScans: 'Recent Scans',
@@ -289,6 +340,14 @@ export const translations: Record<Language, TranslationDict> = {
       tableStatus: 'Status',
       pending: 'Pending',
       filledToday: 'Filled Today',
+      analyticsTitle: 'Site Analytics',
+      analyticsCopy: 'First-party, anonymous page-view tracking — recorded only for visitors who accepted the cookie banner.',
+      analyticsTotalViews: 'Total Page Views',
+      analyticsUniqueVisitors: 'Unique Visitors',
+      analyticsByPage: 'Views by Page',
+      analyticsNoData: 'No page views recorded yet — accept the cookie banner and browse the site to generate data.',
+      analyticsViewsLabel: 'views',
+      analyticsVisitorsLabel: 'visitors',
     },
     prescriptionStatus: {
       Active: 'Active',
@@ -332,6 +391,13 @@ export const translations: Record<Language, TranslationDict> = {
       subtitle: 'Korean skincare favorites, picked by Zegin — glass skin, gentle formulas, and glow.',
       pick: 'Editor’s Pick',
     },
+    cookies: {
+      title: 'Cookies & Privacy',
+      message:
+        "We use local storage for your language and demo cart, and — only if you accept — anonymous first-party analytics (page views, no accounts, no IP, nothing sold or shared with third parties).",
+      acceptButton: 'Accept',
+      declineButton: 'Decline',
+    },
   },
   mk: {
     nav: {
@@ -341,6 +407,7 @@ export const translations: Record<Language, TranslationDict> = {
       aiChecker: 'АИ Проверка',
       dashboard: 'Контролна табла',
       cart: 'Кошница',
+      team: 'Тимот',
     },
     footer: {
       tagline:
@@ -360,7 +427,7 @@ export const translations: Record<Language, TranslationDict> = {
       didYouKnowBadge: 'Дали знаете?',
       didYouKnowFact: 'Пиењето мед пред спиење може да го подобри здравјето на црниот дроб и квалитетот на сонот.',
       healthTipBadge: 'Здравствен совет',
-      readMore: 'Прочитај повеќе →',
+      readMore: 'Прочитај повеќе',
       spotlightBadge: 'Здрав живот во фокус',
       watchInterview: 'Гледај го целото интервју',
       didYouKnowHeading: 'Дали знаете?',
@@ -373,6 +440,20 @@ export const translations: Record<Language, TranslationDict> = {
       subscribeButton: 'Претплати се',
       subscribedMessage: 'Благодариме — успешно се претплативте!',
       featuredProductsTitle: 'Издвоени производи',
+      meetTeamTitle: 'Запознајте го тимот',
+      meetTeamCopy: 'Фармацевтите и тимот за поддршка зад скопските огранци на Zegin.',
+      meetTeamButton: 'Запознајте го тимот',
+    },
+    team: {
+      badge: 'НАШИТЕ ЛУЃЕ',
+      title: 'Запознајте го тимот',
+      subtitle: 'Фармацевтите и тимот за поддршка во централната канцеларија зад огранците на Zegin низ Скопје.',
+      loadError: 'Не успеа да се вчита тимот:',
+      loading: 'Се вчитува тимот…',
+      headOfficeHeading: 'Поддршка во централна канцеларија',
+      branchesHeading: 'Фармацевти по огранок — Скопје',
+      contactEmail: 'Е-пошта',
+      contactPhone: 'Телефон',
     },
     pharmacy: {
       title: 'Аптечен каталог',
@@ -421,8 +502,8 @@ export const translations: Record<Language, TranslationDict> = {
       symptomsPlaceholder:
         "Кажете ни што ве мачи... (на пр. 'Имам грлобол и лесна главоболка од вчера')",
       disclaimerNote:
-        'ℹ️ Само демо — ова користи едноставен механизам за совпаѓање клучни зборови, не вистинска клиничка вештачка интелигенција. Не претставува медицински совет.',
-      submitButton: 'Добиј препорака →',
+        'Само демо — ова користи едноставен механизам за совпаѓање клучни зборови, не вистинска клиничка вештачка интелигенција. Не претставува медицински совет.',
+      submitButton: 'Добиј препорака',
       submitting: 'Се анализира…',
       waitingTitle: 'Се чека анализа',
       waitingCopy: 'Пополнете ја формата за да добиете препорака врз основа на вашите симптоми.',
@@ -447,7 +528,7 @@ export const translations: Record<Language, TranslationDict> = {
       verifyTitle: 'Верификација на рецепт',
       verifyCopy: 'Внесете го уникатниот идентификатор доставен од пациентот за да верификувате рецепт.',
       rxPlaceholder: 'Внесете RX ID (на пр. RX-448291)…',
-      verifyButton: '✓ Верификувај рецепт',
+      verifyButton: 'Верификувај рецепт',
       verifiedPrefix: 'Верификувано:',
       noMatch: 'Нема пронајдено соодветен рецепт во демо податоците.',
       recentScans: 'Неодамнешни скенирања',
@@ -467,6 +548,14 @@ export const translations: Record<Language, TranslationDict> = {
       tableStatus: 'Статус',
       pending: 'Во исчекување',
       filledToday: 'Издадени денес',
+      analyticsTitle: 'Аналитика на страницата',
+      analyticsCopy: 'Анонимно следење на прегледи на страници од прва страна — снимено само за посетители кои ги прифатиле колачињата.',
+      analyticsTotalViews: 'Вкупно прегледи',
+      analyticsUniqueVisitors: 'Уникатни посетители',
+      analyticsByPage: 'Прегледи по страница',
+      analyticsNoData: 'Сè уште нема снимени прегледи — прифатете ги колачињата и разгледајте ја страницата за да се генерираат податоци.',
+      analyticsViewsLabel: 'прегледи',
+      analyticsVisitorsLabel: 'посетители',
     },
     prescriptionStatus: {
       Active: 'Активен',
@@ -509,6 +598,13 @@ export const translations: Record<Language, TranslationDict> = {
       title: 'K-Beauty',
       subtitle: 'Корејска нега на кожа, избрана од Zegin — стаклена кожа, нежни формули и сјај.',
       pick: 'Избор на уредникот',
+    },
+    cookies: {
+      title: 'Колачиња и приватност',
+      message:
+        'Користиме локално складирање за вашиот јазик и демо-кошничката, и — само ако прифатите — анонимна аналитика од прва страна (прегледи на страници, без сметки, без IP, ништо не се продава ниту споделува со трети страни).',
+      acceptButton: 'Прифати',
+      declineButton: 'Одбиј',
     },
   },
 }

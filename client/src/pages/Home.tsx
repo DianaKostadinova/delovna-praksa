@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ComponentType, type SVGProps } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Article, HealthFact } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateArticle, translateFact } from '../i18n/content'
+import { ArrowRightIcon, HeartPulseIcon, BrainIcon, EyeIcon, DropletIcon, LightbulbIcon, UsersIcon } from '../components/icons'
 
-const FACT_ICONS: Record<string, string> = {
-  heart: '❤️',
-  brain: '🧠',
-  eye: '👁️',
-  droplet: '💧',
+const FACT_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
+  heart: HeartPulseIcon,
+  brain: BrainIcon,
+  eye: EyeIcon,
+  droplet: DropletIcon,
 }
 
 export function Home() {
@@ -78,14 +80,19 @@ export function Home() {
           <div className="rounded-xl bg-blue-700 p-5 text-white">
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">{t.home.didYouKnowBadge}</p>
             <p className="mt-2 text-sm font-medium">{t.home.didYouKnowFact}</p>
-            <button className="mt-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/20">→</button>
+            <button className="mt-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 hover:bg-white/30">
+              <ArrowRightIcon className="h-4 w-4" />
+            </button>
           </div>
           {healthTip && (
             <div className="flex-1 rounded-xl border border-slate-200 bg-white p-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{t.home.healthTipBadge}</p>
               <h3 className="mt-2 text-sm font-semibold text-slate-800">{healthTip.title}</h3>
               <p className="mt-2 text-xs text-slate-500 line-clamp-3">{healthTip.excerpt}</p>
-              <button className="mt-3 text-xs font-semibold text-blue-700">{t.home.readMore}</button>
+              <button className="mt-3 flex items-center gap-1 text-xs font-semibold text-blue-700 hover:text-blue-800">
+                {t.home.readMore}
+                <ArrowRightIcon className="h-3.5 w-3.5" />
+              </button>
             </div>
           )}
         </div>
@@ -107,6 +114,25 @@ export function Home() {
         </div>
       )}
 
+      <Link
+        to="/team"
+        className="mb-10 flex flex-col items-center justify-between gap-4 rounded-xl bg-blue-600 p-6 text-white shadow-sm transition-colors hover:bg-blue-700 sm:flex-row sm:text-left"
+      >
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
+            <UsersIcon className="h-6 w-6" />
+          </span>
+          <div>
+            <h3 className="text-lg font-semibold">{t.home.meetTeamTitle}</h3>
+            <p className="mt-1 text-sm text-blue-100">{t.home.meetTeamCopy}</p>
+          </div>
+        </div>
+        <span className="flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
+          {t.home.meetTeamButton}
+          <ArrowRightIcon className="h-4 w-4" />
+        </span>
+      </Link>
+
       <div className="mb-10">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-800">{t.home.didYouKnowHeading}</h3>
@@ -114,13 +140,18 @@ export function Home() {
         </div>
         <p className="mb-4 text-xs text-slate-400">{t.home.didYouKnowCaption}</p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {translatedFacts.map((fact) => (
-            <div key={fact.id} className="rounded-xl border border-slate-200 bg-white p-4">
-              <span className="text-xl">{FACT_ICONS[fact.icon] ?? '💡'}</span>
-              <h4 className="mt-2 text-sm font-semibold text-slate-800">{fact.title}</h4>
-              <p className="mt-1 text-xs text-slate-500">{fact.detail}</p>
-            </div>
-          ))}
+          {translatedFacts.map((fact) => {
+            const FactIcon = FACT_ICONS[fact.icon] ?? LightbulbIcon
+            return (
+              <div key={fact.id} className="rounded-xl border border-slate-200 bg-white p-4">
+                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
+                  <FactIcon className="h-4 w-4 text-blue-700" />
+                </span>
+                <h4 className="mt-2 text-sm font-semibold text-slate-800">{fact.title}</h4>
+                <p className="mt-1 text-xs text-slate-500">{fact.detail}</p>
+              </div>
+            )
+          })}
         </div>
       </div>
 

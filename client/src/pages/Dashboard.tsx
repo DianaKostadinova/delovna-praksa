@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api/client'
-import type { DashboardStats, Patient, Prescription } from '../api/types'
+import type { AnalyticsSummaryResponse, DashboardStats, Patient, Prescription } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translatePatient, translateProductName } from '../i18n/content'
+import { CheckIcon, BarChartIcon } from '../components/icons'
 
 const STATUS_STYLE: Record<Prescription['status'], string> = {
   Active: 'bg-green-100 text-green-700',
@@ -22,9 +23,12 @@ export function Dashboard() {
   const [lookupError, setLookupError] = useState<string | null>(null)
   const [looking, setLooking] = useState(false)
 
+  const [analytics, setAnalytics] = useState<AnalyticsSummaryResponse | null>(null)
+
   useEffect(() => {
     api.getDashboardStats().then(setStats).catch(() => {})
     api.getRecentPrescriptions().then(setRecentRx).catch(() => {})
+    api.getAnalyticsSummary().then(setAnalytics).catch(() => {})
   }, [])
 
   function verifyPrescription(e: React.FormEvent) {
@@ -82,8 +86,9 @@ export function Dashboard() {
           </form>
           <button
             onClick={verifyPrescription}
-            className="mt-2 w-full rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800"
           >
+            <CheckIcon className="h-4 w-4" />
             {t.dashboard.verifyButton}
           </button>
           {verified && <p className="mt-2 text-xs font-medium text-slate-600">{verified}</p>}
@@ -95,7 +100,7 @@ export function Dashboard() {
                 <div key={rx.rxId} className="flex items-center justify-between rounded-md bg-slate-50 px-3 py-2 text-xs">
                   <span className="font-medium text-slate-700">{rx.rxId}</span>
                   <span className="text-slate-400">{t.dashboard.verifiedLabel}</span>
-                  <span className="text-green-600">✓</span>
+                  <CheckIcon className="h-3.5 w-3.5 text-green-600" />
                 </div>
               ))}
             </div>
@@ -173,7 +178,7 @@ export function Dashboard() {
         </div>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="mb-6 grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold uppercase text-slate-400">{t.dashboard.pending}</p>
           <p className="mt-1 text-2xl font-bold text-slate-800">{stats?.pending ?? '—'}</p>
@@ -182,6 +187,47 @@ export function Dashboard() {
           <p className="text-xs font-semibold uppercase text-slate-400">{t.dashboard.filledToday}</p>
           <p className="mt-1 text-2xl font-bold text-slate-800">{stats?.filledToday ?? '—'}</p>
         </div>
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-white p-5">
+        <div className="flex items-center gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50">
+            <BarChartIcon className="h-4 w-4 text-blue-700" />
+          </span>
+          <h3 className="text-sm font-semibold text-slate-800">{t.dashboard.analyticsTitle}</h3>
+        </div>
+        <p className="mt-1 text-xs text-slate-500">{t.dashboard.analyticsCopy}</p>
+
+        {!analytics || analytics.totalViews === 0 ? (
+          <p className="mt-4 text-xs text-slate-400">{t.dashboard.analyticsNoData}</p>
+        ) : (
+          <>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-lg bg-slate-50 p-3">
+                <p className="text-xs font-semibold uppercase text-slate-400">{t.dashboard.analyticsTotalViews}</p>
+                <p className="mt-1 text-xl font-bold text-slate-800">{analytics.totalViews}</p>
+              </div>
+              <div className="rounded-lg bg-slate-50 p-3">
+                <p className="text-xs font-semibold uppercase text-slate-400">{t.dashboard.analyticsUniqueVisitors}</p>
+                <p className="mt-1 text-xl font-bold text-slate-800">{analytics.totalUniqueVisitors}</p>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <p className="mb-2 text-xs font-semibold text-slate-500">{t.dashboard.analyticsByPage}</p>
+              <div className="space-y-2">
+                {analytics.byPath.map((row) => (
+                  <div key={row.path} className="flex items-center justify-between rounded-md bg-slate-50 px-3 py-2 text-xs">
+                    <span className="font-medium text-slate-700">{row.path === '/' ? '/ (Home)' : row.path}</span>
+                    <span className="text-slate-500">
+                      {row.views} {t.dashboard.analyticsViewsLabel} · {row.uniqueVisitors} {t.dashboard.analyticsVisitorsLabel}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

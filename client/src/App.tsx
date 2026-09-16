@@ -6,6 +6,7 @@ import { KBeauty } from './pages/KBeauty'
 import { Cart } from './pages/Cart'
 import { AiChecker } from './pages/AiChecker'
 import { Dashboard } from './pages/Dashboard'
+import { Team } from './pages/Team'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/ai-checker" element={<AiChecker />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/team" element={<Team />} />
       </Route>
     </Routes>
   )

@@ -5,6 +5,7 @@ import type { Product } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateProduct } from '../i18n/content'
 import { useCart } from '../context/CartContext'
+import { SearchIcon, ShieldCheckIcon, ShoppingCartIcon } from '../components/icons'
 
 const QUICK_FILTERS = ['Allergies', 'Pain Relief', 'Antibiotics', 'Skincare', 'Supplements'] as const
 const PAGE_SIZE = 8
@@ -60,7 +61,7 @@ export function Pharmacy() {
 
       <div className="mb-4 flex gap-3">
         <div className="flex flex-1 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2">
-          <span className="text-slate-400">🔍</span>
+          <SearchIcon className="h-4 w-4 text-slate-400" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -118,8 +119,9 @@ export function Pharmacy() {
                     />
                   )}
                   {product.pharmacistRecommended && (
-                    <span className="absolute left-2 top-2 rounded bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 shadow">
-                      🛡 {t.pharmacy.pharmacistRecommended}
+                    <span className="absolute left-2 top-2 flex items-center gap-1 rounded bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 shadow">
+                      <ShieldCheckIcon className="h-3 w-3 text-blue-700" />
+                      {t.pharmacy.pharmacistRecommended}
                     </span>
                   )}
                   {product.requiresPrescription && (
@@ -146,11 +148,12 @@ export function Pharmacy() {
                 </div>
                 <button
                   onClick={() => addToCart(product.id)}
-                  className={`mt-3 w-full rounded-md py-2 text-xs font-semibold text-white transition-transform duration-150 active:scale-95 ${
+                  className={`mt-3 flex w-full items-center justify-center gap-1.5 rounded-md py-2 text-xs font-semibold text-white transition-transform duration-150 active:scale-95 ${
                     product.requiresPrescription ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-700 hover:bg-blue-800'
                   }`}
                 >
-                  {product.requiresPrescription ? '🔒' : '🛒'} {t.pharmacy.addToCart}
+                  {product.requiresPrescription ? '🔒' : <ShoppingCartIcon className="h-3.5 w-3.5" />}
+                  {t.pharmacy.addToCart}
                   {cart[product.id] ? ` (${cart[product.id]})` : ''}
                 </button>
               </div>
