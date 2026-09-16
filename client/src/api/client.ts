@@ -1,15 +1,4 @@
-import type {
-  Article,
-  HealthFact,
-  Product,
-  SymptomCheckRequest,
-  SymptomCheckResponse,
-  Patient,
-  DashboardStats,
-  Prescription,
-  PageViewRequest,
-  AnalyticsSummaryResponse,
-} from './types'
+import type { Article, HealthFact, Product, SymptomCheckRequest, SymptomCheckResponse, PageViewRequest } from './types'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
@@ -26,6 +15,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   getArticles: (section?: string) => request<Article[]>(`/articles${section ? `?section=${encodeURIComponent(section)}` : ''}`),
+  getArticleById: (id: number) => request<Article>(`/articles/${id}`),
   getHealthFacts: () => request<HealthFact[]>('/articles/facts'),
 
   getProducts: (params?: { category?: string; search?: string }) => {
@@ -43,15 +33,9 @@ export const api = {
       body: JSON.stringify(payload),
     }),
 
-  getDashboardStats: () => request<DashboardStats>('/dashboard/stats'),
-  getRecentPrescriptions: () =>
-    request<Pick<Prescription, 'rxId' | 'medication' | 'status'>[]>('/dashboard/prescriptions'),
-  getPatient: (patientCode: string) => request<Patient>(`/dashboard/patients/${encodeURIComponent(patientCode)}`),
-
   trackPageView: (payload: PageViewRequest) =>
     request<void>('/analytics/pageview', {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
-  getAnalyticsSummary: () => request<AnalyticsSummaryResponse>('/analytics/summary'),
 }

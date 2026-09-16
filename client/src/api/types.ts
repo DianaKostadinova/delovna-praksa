@@ -46,53 +46,10 @@ export interface SymptomCheckResponse {
   disclaimer: string
 }
 
-export type PrescriptionStatus = 'Active' | 'Completed' | 'Pending'
-
-export interface Prescription {
-  id: number
-  patientId: number
-  rxId: string
-  medication: string
-  dosageInfo: string
-  dosage: string
-  physician: string
-  status: PrescriptionStatus
-  datePrescribed: string
-}
-
-export interface Patient {
-  id: number
-  patientCode: string
-  fullName: string
-  dateOfBirth: string
-  bloodType: string
-  allergies: string
-  insuranceStatus: string
-  photoUrl: string | null
-  prescriptions: Prescription[]
-}
-
-export interface DashboardStats {
-  pending: number
-  filledToday: number
-}
-
 export interface PageViewRequest {
   visitorId: string
   path: string
   language: string
-}
-
-export interface PageViewSummary {
-  path: string
-  views: number
-  uniqueVisitors: number
-}
-
-export interface AnalyticsSummaryResponse {
-  totalViews: number
-  totalUniqueVisitors: number
-  byPath: PageViewSummary[]
 }
 
 export interface TeamMember {

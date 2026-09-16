@@ -28,4 +28,14 @@ public class ArticlesController : ControllerBase
         var facts = await _db.HealthFacts.ToListAsync();
         return Ok(facts);
     }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var article = await _db.Articles.FindAsync(id);
+        if (article is null)
+            return NotFound(new { message = $"No article found with id {id}." });
+
+        return Ok(article);
+    }
 }

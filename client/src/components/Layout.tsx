@@ -23,7 +23,6 @@ export function Layout() {
     { to: '/blog', label: t.nav.blog },
     { to: '/pharmacy', label: t.nav.pharmacy },
     { to: '/ai-checker', label: t.nav.aiChecker },
-    { to: '/dashboard', label: t.nav.dashboard },
     { to: '/team', label: t.nav.team },
   ]
 

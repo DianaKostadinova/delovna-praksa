@@ -135,14 +135,6 @@ export function ShoppingCartIcon(props: IconProps) {
   )
 }
 
-export function CheckIcon(props: IconProps) {
-  return (
-    <Icon {...props}>
-      <path d="M5 12.5l4.5 4.5L19 7" />
-    </Icon>
-  )
-}
-
 export function InfoIcon(props: IconProps) {
   return (
     <Icon {...props}>
@@ -161,17 +153,6 @@ export function CookieIcon(props: IconProps) {
       <circle cx="8.5" cy="15" r=".9" fill="currentColor" stroke="none" />
       <circle cx="13" cy="16.5" r=".9" fill="currentColor" stroke="none" />
       <circle cx="14.5" cy="12.2" r=".9" fill="currentColor" stroke="none" />
-    </Icon>
-  )
-}
-
-export function BarChartIcon(props: IconProps) {
-  return (
-    <Icon {...props}>
-      <path d="M4 20V10" />
-      <path d="M10 20V4" />
-      <path d="M16 20v-7" />
-      <path d="M3 20h18" />
     </Icon>
   )
 }
