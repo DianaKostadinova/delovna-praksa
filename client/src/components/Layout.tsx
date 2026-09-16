@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -7,6 +8,7 @@ export function Layout() {
   const navItems = [
     { to: '/', label: t.nav.home },
     { to: '/pharmacy', label: t.nav.pharmacy },
+    { to: '/cart', label: t.nav.cart },
     { to: '/ai-checker', label: t.nav.aiChecker },
     { to: '/dashboard', label: t.nav.dashboard },
   ]
@@ -16,11 +18,28 @@ export function Layout() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <nav className="flex items-center gap-8 text-sm font-medium text-slate-600">
-            {navItems.map((item) => (
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
+              }
+            >
+              {t.nav.home}
+            </NavLink>
+            <NavLink
+              to="/pharmacy"
+              className={({ isActive }) =>
+                isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
+              }
+            >
+              {t.nav.pharmacy}
+            </NavLink>
+            <KBeautyNavLink label={t.nav.kbeauty} />
+            {navItems.slice(2).map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
-                end={item.to === '/'}
                 className={({ isActive }) =>
                   isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
                 }
@@ -39,6 +58,59 @@ export function Layout() {
 
       <Footer />
     </div>
+  )
+}
+
+const PETAL_EMOJIS = ['🌸', '🌺', '💮']
+
+function KBeautyNavLink({ label }: { label: string }) {
+  const [hovering, setHovering] = useState(false)
+
+  const petals = useMemo(
+    () =>
+      Array.from({ length: 8 }, (_, i) => ({
+        id: i,
+        emoji: PETAL_EMOJIS[i % PETAL_EMOJIS.length],
+        left: Math.random() * 100,
+        duration: 1.2 + Math.random() * 1,
+        delay: Math.random() * 1.2,
+        size: 10 + Math.random() * 6,
+        drift: `${Math.random() > 0.5 ? '' : '-'}${10 + Math.random() * 20}px`,
+      })),
+    [],
+  )
+
+  return (
+    <span
+      className="relative inline-block"
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    >
+      {hovering &&
+        petals.map((petal) => (
+          <span
+            key={petal.id}
+            className="petal"
+            style={{
+              left: `${petal.left}%`,
+              fontSize: petal.size,
+              animationDuration: `${petal.duration}s`,
+              animationDelay: `${petal.delay}s`,
+              ['--petal-drift' as string]: petal.drift,
+            }}
+          >
+            {petal.emoji}
+          </span>
+        ))}
+      <NavLink
+        to="/k-beauty"
+        className={({ isActive }) =>
+          isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
+        }
+      >
+        {label}
+      </NavLink>
+    </span>
   )
 }
 

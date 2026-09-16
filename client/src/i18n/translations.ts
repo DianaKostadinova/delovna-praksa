@@ -1,7 +1,7 @@
 export type Language = 'en' | 'mk'
 
 export interface TranslationDict {
-  nav: { home: string; pharmacy: string; aiChecker: string; dashboard: string }
+  nav: { home: string; pharmacy: string; kbeauty: string; aiChecker: string; dashboard: string; cart: string }
   footer: {
     tagline: string
     resources: string
@@ -47,13 +47,22 @@ export interface TranslationDict {
     addToCart: string
     nearbyStores: (n: number) => string
     onlyOneLeft: string
-    consultTitle: string
-    consultCopy: string
-    consultButton: string
+    prescriptionRequired: string
+    prescriptionNote: string
   }
   stock: { InStock: string; LowStock: string; OutOfStock: string }
   categories: Record<
-    'Allergies' | 'Pain Relief' | 'Antibiotics' | 'Skincare' | 'Supplements' | 'Respiratory' | 'Vitamins' | 'Topical Care' | 'Diagnostics',
+    | 'Allergies'
+    | 'Pain Relief'
+    | 'Antibiotics'
+    | 'Skincare'
+    | 'Supplements'
+    | 'Respiratory'
+    | 'Vitamins'
+    | 'Topical Care'
+    | 'Diagnostics'
+    | 'Digestive'
+    | 'K-Beauty',
     string
   >
   aiChecker: {
@@ -109,6 +118,40 @@ export interface TranslationDict {
   }
   prescriptionStatus: { Active: string; Completed: string; Pending: string }
   languageToggle: { label: string }
+  cartPage: {
+    title: string
+    subtitle: string
+    emptyTitle: string
+    emptyCopy: string
+    continueShopping: string
+    remove: string
+    subtotal: string
+    total: string
+    itemsCount: (n: number) => string
+    checkoutButton: string
+    back: string
+    detailsTitle: string
+    firstName: string
+    lastName: string
+    address: string
+    contact: string
+    continueButton: string
+    paymentTitle: string
+    cash: string
+    card: string
+    cardNumber: string
+    cardExpiry: string
+    cardCvv: string
+    confirmOrder: string
+    successTitle: string
+    successCopy: string
+  }
+  kbeauty: {
+    badge: string
+    title: string
+    subtitle: string
+    pick: string
+  }
 }
 
 export const translations: Record<Language, TranslationDict> = {
@@ -116,8 +159,10 @@ export const translations: Record<Language, TranslationDict> = {
     nav: {
       home: 'Home',
       pharmacy: 'Pharmacy',
+      kbeauty: 'K-Beauty',
       aiChecker: 'AI Checker',
       dashboard: 'Dashboard',
+      cart: 'Cart',
     },
     footer: {
       tagline:
@@ -166,10 +211,8 @@ export const translations: Record<Language, TranslationDict> = {
       addToCart: 'Add to Cart',
       nearbyStores: (n: number) => `Available at ${n} nearby store${n > 1 ? 's' : ''}`,
       onlyOneLeft: 'Only 1 nearby store left',
-      consultTitle: 'Consult with our Pharmacists Online',
-      consultCopy:
-        'Need advice on dosage or interactions? Our licensed pharmacists are available 24/7 for a secure video consultation.',
-      consultButton: 'Start Consultancy',
+      prescriptionRequired: 'Prescription Required',
+      prescriptionNote: 'A doctor’s prescription is required to purchase this medicine.',
     },
     stock: {
       InStock: 'In Stock',
@@ -186,6 +229,8 @@ export const translations: Record<Language, TranslationDict> = {
       Vitamins: 'Vitamins',
       'Topical Care': 'Topical Care',
       Diagnostics: 'Diagnostics',
+      Digestive: 'Digestive',
+      'K-Beauty': 'K-Beauty',
     },
     aiChecker: {
       badge: 'AI-POWERED CARE',
@@ -253,13 +298,49 @@ export const translations: Record<Language, TranslationDict> = {
     languageToggle: {
       label: 'Јазик / Language',
     },
+    cartPage: {
+      title: 'Your Cart',
+      subtitle: 'Review the items you’ve added before checking out.',
+      emptyTitle: 'Your cart is empty',
+      emptyCopy: 'Browse the pharmacy catalog and add some products to your cart.',
+      continueShopping: 'Back to Catalog',
+      remove: 'Remove',
+      subtotal: 'Subtotal',
+      total: 'Total',
+      itemsCount: (n: number) => `${n} item${n === 1 ? '' : 's'}`,
+      checkoutButton: 'Proceed to Checkout',
+      back: 'Back',
+      detailsTitle: 'Delivery Details',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      address: 'Home Address',
+      contact: 'Contact (phone or email)',
+      continueButton: 'Continue',
+      paymentTitle: 'Payment Method',
+      cash: 'Cash on Delivery',
+      card: 'Card',
+      cardNumber: 'Card Number',
+      cardExpiry: 'Expiry Date',
+      cardCvv: 'CVV',
+      confirmOrder: 'Done',
+      successTitle: 'Your order has been approved',
+      successCopy: 'Thank you — we’ve received your order and it’s on its way.',
+    },
+    kbeauty: {
+      badge: '✨ K-Beauty',
+      title: 'K-Beauty',
+      subtitle: 'Korean skincare favorites, picked by Zegin — glass skin, gentle formulas, and glow.',
+      pick: 'Editor’s Pick',
+    },
   },
   mk: {
     nav: {
       home: 'Почетна',
       pharmacy: 'Аптека',
+      kbeauty: 'K-Beauty',
       aiChecker: 'АИ Проверка',
       dashboard: 'Контролна табла',
+      cart: 'Кошница',
     },
     footer: {
       tagline:
@@ -308,10 +389,8 @@ export const translations: Record<Language, TranslationDict> = {
       addToCart: 'Додади во кошничка',
       nearbyStores: (n: number) => `Достапно во ${n} блиски продавниц${n === 1 ? 'а' : 'и'}`,
       onlyOneLeft: 'Само 1 блиска продавница останата',
-      consultTitle: 'Консултирајте се со наши фармацевти онлајн',
-      consultCopy:
-        'Ви треба совет за дозирање или интеракции? Нашите лиценцирани фармацевти се достапни 24/7 за сигурна видео консултација.',
-      consultButton: 'Започни консултација',
+      prescriptionRequired: 'Потребен е лекарски упат',
+      prescriptionNote: 'За купување на овој лек е потребен лекарски упат (рецепт).',
     },
     stock: {
       InStock: 'Достапно',
@@ -328,6 +407,8 @@ export const translations: Record<Language, TranslationDict> = {
       Vitamins: 'Витамини',
       'Topical Care': 'Локална нега',
       Diagnostics: 'Дијагностика',
+      Digestive: 'Пробава',
+      'K-Beauty': 'K-Beauty',
     },
     aiChecker: {
       badge: 'ГРИЖА ПОДДРЖАНА СО АИ',
@@ -394,6 +475,40 @@ export const translations: Record<Language, TranslationDict> = {
     },
     languageToggle: {
       label: 'Јазик / Language',
+    },
+    cartPage: {
+      title: 'Вашата кошница',
+      subtitle: 'Прегледајте ги додадените производи пред да продолжите.',
+      emptyTitle: 'Кошничката е празна',
+      emptyCopy: 'Разгледајте го аптечниот каталог и додадете производи во кошничката.',
+      continueShopping: 'Назад кон каталогот',
+      remove: 'Отстрани',
+      subtotal: 'Меѓузбир',
+      total: 'Вкупно',
+      itemsCount: (n: number) => `${n} производ${n === 1 ? '' : 'и'}`,
+      checkoutButton: 'Продолжи за купување',
+      back: 'Назад',
+      detailsTitle: 'Податоци за достава',
+      firstName: 'Име',
+      lastName: 'Презиме',
+      address: 'Адреса на живеење',
+      contact: 'Контакт (телефон или е-пошта)',
+      continueButton: 'Продолжи',
+      paymentTitle: 'Начин на плаќање',
+      cash: 'Кеш при достава',
+      card: 'Картичка',
+      cardNumber: 'Број на картичка',
+      cardExpiry: 'Датум на важност',
+      cardCvv: 'CVV',
+      confirmOrder: 'Заврши',
+      successTitle: 'Вашата пратка е одобрена',
+      successCopy: 'Ви благодариме — нарачката е примена и е на пат.',
+    },
+    kbeauty: {
+      badge: '✨ K-Beauty',
+      title: 'K-Beauty',
+      subtitle: 'Корејска нега на кожа, избрана од Zegin — стаклена кожа, нежни формули и сјај.',
+      pick: 'Избор на уредникот',
     },
   },
 }

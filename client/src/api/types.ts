@@ -30,6 +30,7 @@ export interface Product {
   nearbyStoreCount: number
   imageUrl: string | null
   pharmacistRecommended: boolean
+  requiresPrescription: boolean
 }
 
 export interface SymptomCheckRequest {

@@ -18,4 +18,5 @@ public class Product
     public int NearbyStoreCount { get; set; }
     public string? ImageUrl { get; set; }
     public bool PharmacistRecommended { get; set; }
+    public bool RequiresPrescription { get; set; }
 }
