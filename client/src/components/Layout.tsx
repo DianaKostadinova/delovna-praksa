@@ -13,8 +13,11 @@ export function Layout() {
     trackPageView(location.pathname, language)
   }, [location.pathname])
 
+  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+    isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
+
   const navItems = [
-    { to: '/', label: t.nav.home },
+    { to: '/', label: t.nav.home, end: true },
     { to: '/blog', label: t.nav.blog },
     { to: '/pharmacy', label: t.nav.pharmacy },
     { to: '/cart', label: t.nav.cart },
@@ -28,32 +31,14 @@ export function Layout() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <nav className="flex items-center gap-8 text-sm font-medium text-slate-600">
-            <NavLink
-              to="/"
-              end
-              className={({ isActive }) =>
-                isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
-              }
-            >
-              {t.nav.home}
-            </NavLink>
-            <NavLink
-              to="/pharmacy"
-              className={({ isActive }) =>
-                isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
-              }
-            >
-              {t.nav.pharmacy}
-            </NavLink>
+            {navItems.slice(0, 3).map((item) => (
+              <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
+                {item.label}
+              </NavLink>
+            ))}
             <KBeautyNavLink label={t.nav.kbeauty} />
-            {navItems.slice(2).map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
-                }
-              >
+            {navItems.slice(3).map((item) => (
+              <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
                 {item.label}
               </NavLink>
             ))}
