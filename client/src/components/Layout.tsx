@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useCart } from '../context/CartContext'
 import { CookieConsent } from './CookieConsent'
 import { trackPageView } from '../analytics'
+import { ShoppingCartIcon } from './icons'
 
 export function Layout() {
   const { t, language } = useLanguage()
@@ -17,10 +19,9 @@ export function Layout() {
     isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
 
   const navItems = [
-    { to: '/', label: t.nav.home, end: true },
+    { to: '/', label: t.nav.home },
     { to: '/blog', label: t.nav.blog },
     { to: '/pharmacy', label: t.nav.pharmacy },
-    { to: '/cart', label: t.nav.cart },
     { to: '/ai-checker', label: t.nav.aiChecker },
     { to: '/dashboard', label: t.nav.dashboard },
     { to: '/team', label: t.nav.team },
@@ -31,19 +32,19 @@ export function Layout() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <nav className="flex items-center gap-8 text-sm font-medium text-slate-600">
-            {navItems.slice(0, 3).map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
-                {item.label}
-              </NavLink>
-            ))}
-            <KBeautyNavLink label={t.nav.kbeauty} />
-            {navItems.slice(3).map((item) => (
-              <NavLink key={item.to} to={item.to} end={item.end} className={navLinkClass}>
-                {item.label}
-              </NavLink>
+            {navItems.map((item) => (
+              <Fragment key={item.to}>
+                <NavLink to={item.to} end={item.to === '/'} className={navLinkClass}>
+                  {item.label}
+                </NavLink>
+                {item.to === '/pharmacy' && <KBeautyNavLink label={t.nav.kbeauty} />}
+              </Fragment>
             ))}
           </nav>
-          <LanguageToggle />
+          <div className="flex items-center gap-4">
+            <CartIconLink />
+            <LanguageToggle />
+          </div>
         </div>
       </header>
 
@@ -107,6 +108,28 @@ function KBeautyNavLink({ label }: { label: string }) {
         {label}
       </NavLink>
     </span>
+  )
+}
+
+function CartIconLink() {
+  const { totalItems } = useCart()
+
+  return (
+    <NavLink
+      to="/cart"
+      className={({ isActive }) =>
+        `relative flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
+          isActive ? 'bg-blue-700 text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-700'
+        }`
+      }
+    >
+      <ShoppingCartIcon className="h-5 w-5" />
+      {totalItems > 0 && (
+        <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-bold text-white">
+          {totalItems}
+        </span>
+      )}
+    </NavLink>
   )
 }
 
