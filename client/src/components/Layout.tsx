@@ -5,7 +5,9 @@ import { useCart } from '../context/CartContext'
 import { CookieConsent } from './CookieConsent'
 import { trackPageView } from '../analytics'
 import { api } from '../api/client'
-import { ShoppingCartIcon } from './icons'
+import { ShoppingCartIcon, MapPinIcon } from './icons'
+import { LocationsMap } from './LocationsMap'
+import { BRANCHES } from '../data/branches'
 
 export function Layout() {
   const { t, language } = useLanguage()
@@ -194,6 +196,33 @@ function Footer() {
           <ContactForm />
         </div>
       </div>
+
+      <div className="border-t border-slate-800 px-6 py-10">
+        <div className="mx-auto max-w-6xl">
+          <h4 className="mb-1 text-sm font-semibold text-blue-400">{t.footer.locationsTitle}</h4>
+          <p className="mb-4 text-xs text-slate-500">{t.footer.locationsSubtitle}</p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="h-80 overflow-hidden rounded-lg">
+              <LocationsMap />
+            </div>
+            <div className="max-h-80 space-y-2 overflow-y-auto pr-2">
+              {BRANCHES.map((branch) => (
+                <div key={branch.id} className="flex items-start gap-2 rounded-md bg-slate-800/60 p-3 text-xs">
+                  <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" />
+                  <div>
+                    <p className="font-semibold text-slate-200">{branch.name}</p>
+                    <p className="text-slate-400">{branch.address}</p>
+                    <p className="text-slate-400">
+                      {branch.phone} · {branch.email}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="border-t border-slate-800 px-6 py-4 text-center text-xs text-slate-500">{t.footer.rights}</div>
     </footer>
   )

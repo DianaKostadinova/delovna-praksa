@@ -27,6 +27,8 @@ export interface TranslationDict {
     contactFormSubmitting: string
     contactFormSuccess: string
     contactFormError: string
+    locationsTitle: string
+    locationsSubtitle: string
   }
   home: {
     title: string
@@ -235,6 +237,8 @@ export const translations: Record<Language, TranslationDict> = {
       contactFormSubmitting: 'Sending…',
       contactFormSuccess: 'Thanks — we’ll get back to you soon!',
       contactFormError: 'Something went wrong. Please try again.',
+      locationsTitle: 'Our Branches Across North Macedonia',
+      locationsSubtitle: 'Tap a pin to see that branch’s address and contact details.',
     },
     home: {
       title: 'ZEGIN HEALTH HUB',
@@ -459,6 +463,8 @@ export const translations: Record<Language, TranslationDict> = {
       contactFormSubmitting: 'Се испраќа…',
       contactFormSuccess: 'Ви благодариме — ќе ви одговориме наскоро!',
       contactFormError: 'Настана грешка. Обидете се повторно.',
+      locationsTitle: 'Нашите ограноци низ Северна Македонија',
+      locationsSubtitle: 'Кликнете на пинче за адреса и контакт на тој огранок.',
     },
     home: {
       title: 'ZEGIN ЗДРАВСТВЕН ХАБ',
