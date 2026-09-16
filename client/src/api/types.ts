@@ -80,6 +80,7 @@ export interface TeamMember {
   id: number
   name: string
   role: string
+  bio: string
   branchName: string
   branchAddress: string
   email: string

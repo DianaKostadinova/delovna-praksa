@@ -79,6 +79,7 @@ function TeamCard({ member }: { member: TeamMember }) {
           <p className="text-xs font-medium text-blue-700">{member.role}</p>
         </div>
       </div>
+      <p className="mt-3 text-xs leading-relaxed text-slate-600">{member.bio}</p>
       <div className="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-500">
         <p className="font-medium text-slate-600">{member.branchName}</p>
         <p>{member.branchAddress}</p>

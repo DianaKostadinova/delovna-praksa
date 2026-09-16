@@ -108,6 +108,24 @@ export function Home() {
         </div>
       )}
 
+      <Link
+        to="/team"
+        className="mb-10 flex flex-col items-center justify-between gap-4 rounded-xl bg-blue-600 p-6 text-white shadow-sm transition-colors hover:bg-blue-700 sm:flex-row sm:text-left"
+      >
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-2xl">
+            👥
+          </span>
+          <div>
+            <h3 className="text-lg font-semibold">{t.home.meetTeamTitle}</h3>
+            <p className="mt-1 text-sm text-blue-100">{t.home.meetTeamCopy}</p>
+          </div>
+        </div>
+        <span className="shrink-0 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
+          {t.home.meetTeamButton}
+        </span>
+      </Link>
+
       <div className="mb-10">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-800">{t.home.didYouKnowHeading}</h3>
@@ -185,15 +203,6 @@ export function Home() {
               </div>
             </div>
           </div>
-
-          <Link
-            to="/team"
-            className="block rounded-xl border border-blue-200 bg-blue-50 p-5 transition-colors hover:border-blue-300 hover:bg-blue-100"
-          >
-            <h4 className="text-sm font-semibold text-blue-900">{t.home.meetTeamTitle}</h4>
-            <p className="mt-1 text-xs text-blue-800/80">{t.home.meetTeamCopy}</p>
-            <span className="mt-3 inline-block text-xs font-semibold text-blue-700">{t.home.meetTeamButton}</span>
-          </Link>
         </div>
       </div>
     </div>

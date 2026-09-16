@@ -131,6 +131,7 @@ public static class SeedData
                 {
                     Name = "Dr. Biljana Stefanovska",
                     Role = "Chief Pharmacist Officer",
+                    Bio = "Leads clinical standards across all Zegin branches. 18 years in hospital and community pharmacy, with a focus on medication safety.",
                     BranchName = "Zegin Head Office",
                     BranchAddress = "Bulevar Ilinden 1, Skopje",
                     Email = "b.stefanovska@zegin.com",
@@ -143,6 +144,7 @@ public static class SeedData
                 {
                     Name = "Aleksandar Jovanovski",
                     Role = "Patient Support Lead",
+                    Bio = "Runs the 24/7 pharmacist consultation line and patient support team. First point of contact for prescription or insurance questions.",
                     BranchName = "Zegin Head Office",
                     BranchAddress = "Bulevar Ilinden 1, Skopje",
                     Email = "a.jovanovski@zegin.com",
@@ -155,6 +157,7 @@ public static class SeedData
                 {
                     Name = "Elena Trajkovska",
                     Role = "Operations Manager",
+                    Bio = "Oversees stock, logistics, and day-to-day operations across all Skopje branches, keeping shelves stocked and wait times short.",
                     BranchName = "Zegin Head Office",
                     BranchAddress = "Bulevar Ilinden 1, Skopje",
                     Email = "e.trajkovska@zegin.com",
@@ -167,6 +170,7 @@ public static class SeedData
                 {
                     Name = "Marko Ilievski",
                     Role = "Branch Pharmacist",
+                    Bio = "Specializes in chronic disease management and medication reviews. Fluent in Macedonian, English, and Albanian.",
                     BranchName = "Zegin Centar",
                     BranchAddress = "Makedonija 11, Skopje",
                     Email = "m.ilievski@zegin.com",
@@ -179,6 +183,7 @@ public static class SeedData
                 {
                     Name = "Sara Petkovska",
                     Role = "Branch Pharmacist",
+                    Bio = "Leads travel-health and vaccination consultations at the Aerodrom branch, near Skopje's main transit hub.",
                     BranchName = "Zegin Aerodrom",
                     BranchAddress = "Aleksandar Makedonski 42, Skopje",
                     Email = "s.petkovska@zegin.com",
@@ -191,6 +196,7 @@ public static class SeedData
                 {
                     Name = "Filip Naumovski",
                     Role = "Branch Pharmacist",
+                    Bio = "Focuses on pediatric dosing and family care at the Karpoš branch. Runs monthly community health-screening days.",
                     BranchName = "Zegin Karpoš",
                     BranchAddress = "Partizanski Odredi 45, Skopje",
                     Email = "f.naumovski@zegin.com",
@@ -203,6 +209,7 @@ public static class SeedData
                 {
                     Name = "Ivana Georgievska",
                     Role = "Branch Pharmacist",
+                    Bio = "Handles compounding and specialty prescriptions at the Gazi Baba branch, with a background in clinical nutrition.",
                     BranchName = "Zegin Gazi Baba",
                     BranchAddress = "Nikola Karev 5, Skopje",
                     Email = "i.georgievska@zegin.com",

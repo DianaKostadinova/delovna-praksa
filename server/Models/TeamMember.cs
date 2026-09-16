@@ -7,6 +7,7 @@ public class TeamMember
     public int Id { get; set; }
     public required string Name { get; set; }
     public required string Role { get; set; }
+    public required string Bio { get; set; }
     public required string BranchName { get; set; } // e.g. "Zegin Centar"
     public required string BranchAddress { get; set; }
     public required string Email { get; set; }
