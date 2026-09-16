@@ -1,9 +1,10 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState, type FormEvent } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useCart } from '../context/CartContext'
 import { CookieConsent } from './CookieConsent'
 import { trackPageView } from '../analytics'
+import { api } from '../api/client'
 import { ShoppingCartIcon } from './icons'
 
 export function Layout() {
@@ -190,12 +191,75 @@ function Footer() {
           <h4 className="mb-3 text-sm font-semibold text-blue-400">{t.footer.contact}</h4>
           <ul className="space-y-2 text-sm text-slate-400">
             <li>support@zegin.com</li>
-            <li>+1 (555) 013-3456</li>
-            <li>Global Health Plaza, NY</li>
+            <li>+389 70 512 384</li>
+            <li>Skopje, North Macedonia</li>
           </ul>
+          <ContactForm />
         </div>
       </div>
       <div className="border-t border-slate-800 px-6 py-4 text-center text-xs text-slate-500">{t.footer.rights}</div>
     </footer>
+  )
+}
+
+function ContactForm() {
+  const { t } = useLanguage()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setStatus('submitting')
+    try {
+      await api.submitContact({ name, email, subject: 'Website contact form', message })
+      setStatus('success')
+      setName('')
+      setEmail('')
+      setMessage('')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'success') {
+    return <p className="mt-4 text-sm text-green-400">{t.footer.contactFormSuccess}</p>
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-4 space-y-2">
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+        placeholder={t.footer.contactFormNamePlaceholder}
+        className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500"
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        placeholder={t.footer.contactFormEmailPlaceholder}
+        className="w-full rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500"
+      />
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        required
+        rows={3}
+        placeholder={t.footer.contactFormMessagePlaceholder}
+        className="w-full resize-none rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500"
+      />
+      {status === 'error' && <p className="text-xs text-red-400">{t.footer.contactFormError}</p>}
+      <button
+        type="submit"
+        disabled={status === 'submitting'}
+        className="rounded-md bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+      >
+        {status === 'submitting' ? t.footer.contactFormSubmitting : t.footer.contactFormSubmit}
+      </button>
+    </form>
   )
 }

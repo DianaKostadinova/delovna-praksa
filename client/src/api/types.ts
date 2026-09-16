@@ -95,6 +95,13 @@ export interface AnalyticsSummaryResponse {
   byPath: PageViewSummary[]
 }
 
+export interface ContactRequest {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
 export interface TeamMember {
   id: number
   name: string

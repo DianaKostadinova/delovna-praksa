@@ -9,6 +9,7 @@ import type {
   Prescription,
   PageViewRequest,
   AnalyticsSummaryResponse,
+  ContactRequest,
 } from './types'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -54,4 +55,10 @@ export const api = {
       body: JSON.stringify(payload),
     }),
   getAnalyticsSummary: () => request<AnalyticsSummaryResponse>('/analytics/summary'),
+
+  submitContact: (payload: ContactRequest) =>
+    request<void>('/contact', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
 }

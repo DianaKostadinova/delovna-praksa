@@ -13,6 +13,7 @@ public class ZeginDbContext : DbContext
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<Prescription> Prescriptions => Set<Prescription>();
     public DbSet<PageViewEvent> PageViewEvents => Set<PageViewEvent>();
+    public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
