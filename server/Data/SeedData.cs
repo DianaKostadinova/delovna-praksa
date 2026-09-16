@@ -124,6 +124,96 @@ public static class SeedData
             db.Prescriptions.Add(new Prescription { PatientId = patient2.Id, RxId = "RX-902213", Medication = "Metformin", DosageInfo = "Antidiabetic", Dosage = "500mg Oral Tab", Physician = "Dr. Sarah Miller", Status = PrescriptionStatus.Active, DatePrescribed = new DateOnly(2024, 1, 9) });
         }
 
+        if (!db.TeamMembers.Any())
+        {
+            db.TeamMembers.AddRange(
+                new TeamMember
+                {
+                    Name = "Dr. Biljana Stefanovska",
+                    Role = "Chief Pharmacist Officer",
+                    BranchName = "Zegin Head Office",
+                    BranchAddress = "Bulevar Ilinden 1, Skopje",
+                    Email = "b.stefanovska@zegin.com",
+                    Phone = "+389 2 3100 101",
+                    PhotoUrl = "/images/team-biljana-stefanovska.jpg",
+                    IsHeadOffice = true,
+                    SortOrder = 1,
+                },
+                new TeamMember
+                {
+                    Name = "Aleksandar Jovanovski",
+                    Role = "Patient Support Lead",
+                    BranchName = "Zegin Head Office",
+                    BranchAddress = "Bulevar Ilinden 1, Skopje",
+                    Email = "a.jovanovski@zegin.com",
+                    Phone = "+389 2 3100 102",
+                    PhotoUrl = "/images/team-aleksandar-jovanovski.jpg",
+                    IsHeadOffice = true,
+                    SortOrder = 2,
+                },
+                new TeamMember
+                {
+                    Name = "Elena Trajkovska",
+                    Role = "Operations Manager",
+                    BranchName = "Zegin Head Office",
+                    BranchAddress = "Bulevar Ilinden 1, Skopje",
+                    Email = "e.trajkovska@zegin.com",
+                    Phone = "+389 2 3100 103",
+                    PhotoUrl = "/images/team-elena-trajkovska.jpg",
+                    IsHeadOffice = true,
+                    SortOrder = 3,
+                },
+                new TeamMember
+                {
+                    Name = "Marko Ilievski",
+                    Role = "Branch Pharmacist",
+                    BranchName = "Zegin Centar",
+                    BranchAddress = "Makedonija 11, Skopje",
+                    Email = "m.ilievski@zegin.com",
+                    Phone = "+389 2 3100 201",
+                    PhotoUrl = "/images/team-marko-ilievski.jpg",
+                    IsHeadOffice = false,
+                    SortOrder = 4,
+                },
+                new TeamMember
+                {
+                    Name = "Sara Petkovska",
+                    Role = "Branch Pharmacist",
+                    BranchName = "Zegin Aerodrom",
+                    BranchAddress = "Aleksandar Makedonski 42, Skopje",
+                    Email = "s.petkovska@zegin.com",
+                    Phone = "+389 2 3100 202",
+                    PhotoUrl = "/images/team-sara-petkovska.jpg",
+                    IsHeadOffice = false,
+                    SortOrder = 5,
+                },
+                new TeamMember
+                {
+                    Name = "Filip Naumovski",
+                    Role = "Branch Pharmacist",
+                    BranchName = "Zegin Karpoš",
+                    BranchAddress = "Partizanski Odredi 45, Skopje",
+                    Email = "f.naumovski@zegin.com",
+                    Phone = "+389 2 3100 203",
+                    PhotoUrl = "/images/team-filip-naumovski.jpg",
+                    IsHeadOffice = false,
+                    SortOrder = 6,
+                },
+                new TeamMember
+                {
+                    Name = "Ivana Georgievska",
+                    Role = "Branch Pharmacist",
+                    BranchName = "Zegin Gazi Baba",
+                    BranchAddress = "Nikola Karev 5, Skopje",
+                    Email = "i.georgievska@zegin.com",
+                    Phone = "+389 2 3100 204",
+                    PhotoUrl = "/images/team-ivana-georgievska.jpg",
+                    IsHeadOffice = false,
+                    SortOrder = 7,
+                }
+            );
+        }
+
         db.SaveChanges();
     }
 }

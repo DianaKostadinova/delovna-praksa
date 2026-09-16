@@ -3,7 +3,7 @@
 // is simply overlaid with a Macedonian one when the language is 'mk', with an English fallback
 // for anything not covered here.
 import type { Language } from './translations'
-import type { Article, HealthFact, Product, Patient, Prescription, SymptomCheckResponse } from '../api/types'
+import type { Article, HealthFact, Product, Patient, Prescription, SymptomCheckResponse, TeamMember } from '../api/types'
 
 const articlesMk: Record<number, Partial<Pick<Article, 'title' | 'excerpt' | 'tag'>>> = {
   1: {
@@ -145,6 +145,57 @@ const symptomCheckMk: Record<string, { summary: string; recommendations: string[
     ],
     disclaimer: 'Само демо — ова е механизам базиран на правила, не вистински клинички ВИ или медицински совет. Секогаш консултирајте лиценциран професионалец.',
   },
+}
+
+const teamMk: Record<number, Partial<Pick<TeamMember, 'name' | 'role' | 'branchName' | 'branchAddress'>>> = {
+  1: {
+    name: 'Д-р Билјана Стефановска',
+    role: 'Главен фармацевт',
+    branchName: 'Централна канцеларија на Zegin',
+    branchAddress: 'Булевар Илинден 1, Скопје',
+  },
+  2: {
+    name: 'Александар Јовановски',
+    role: 'Раководител на поддршка за пациенти',
+    branchName: 'Централна канцеларија на Zegin',
+    branchAddress: 'Булевар Илинден 1, Скопје',
+  },
+  3: {
+    name: 'Елена Трајковска',
+    role: 'Оперативен менаџер',
+    branchName: 'Централна канцеларија на Zegin',
+    branchAddress: 'Булевар Илинден 1, Скопје',
+  },
+  4: {
+    name: 'Марко Илиевски',
+    role: 'Фармацевт во оддел',
+    branchName: 'Zegin Центар',
+    branchAddress: 'Македонија 11, Скопје',
+  },
+  5: {
+    name: 'Сара Петковска',
+    role: 'Фармацевт во оддел',
+    branchName: 'Zegin Аеродром',
+    branchAddress: 'Александар Македонски 42, Скопје',
+  },
+  6: {
+    name: 'Филип Наумовски',
+    role: 'Фармацевт во оддел',
+    branchName: 'Zegin Карпош',
+    branchAddress: 'Партизански Одреди 45, Скопје',
+  },
+  7: {
+    name: 'Ивана Ѓорѓиевска',
+    role: 'Фармацевт во оддел',
+    branchName: 'Zegin Гази Баба',
+    branchAddress: 'Никола Карев 5, Скопје',
+  },
+}
+
+export function translateTeamMember(member: TeamMember, lang: Language): TeamMember {
+  if (lang === 'en') return member
+  const mk = teamMk[member.id]
+  return mk ? { ...member, ...mk } : member
 }
 
 export function translateArticle(article: Article, lang: Language): Article {

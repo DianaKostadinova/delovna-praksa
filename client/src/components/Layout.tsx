@@ -9,6 +9,7 @@ export function Layout() {
     { to: '/pharmacy', label: t.nav.pharmacy },
     { to: '/ai-checker', label: t.nav.aiChecker },
     { to: '/dashboard', label: t.nav.dashboard },
+    { to: '/team', label: t.nav.team },
   ]
 
   return (

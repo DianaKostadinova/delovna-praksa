@@ -1,7 +1,7 @@
 export type Language = 'en' | 'mk'
 
 export interface TranslationDict {
-  nav: { home: string; pharmacy: string; aiChecker: string; dashboard: string }
+  nav: { home: string; pharmacy: string; aiChecker: string; dashboard: string; team: string }
   footer: {
     tagline: string
     resources: string
@@ -32,6 +32,20 @@ export interface TranslationDict {
     subscribeButton: string
     subscribedMessage: string
     featuredProductsTitle: string
+    meetTeamTitle: string
+    meetTeamCopy: string
+    meetTeamButton: string
+  }
+  team: {
+    badge: string
+    title: string
+    subtitle: string
+    loadError: string
+    loading: string
+    headOfficeHeading: string
+    branchesHeading: string
+    contactEmail: string
+    contactPhone: string
   }
   pharmacy: {
     title: string
@@ -118,6 +132,7 @@ export const translations: Record<Language, TranslationDict> = {
       pharmacy: 'Pharmacy',
       aiChecker: 'AI Checker',
       dashboard: 'Dashboard',
+      team: 'Team',
     },
     footer: {
       tagline:
@@ -150,6 +165,20 @@ export const translations: Record<Language, TranslationDict> = {
       subscribeButton: 'Subscribe Now',
       subscribedMessage: "Thanks — you're subscribed!",
       featuredProductsTitle: 'Featured Products',
+      meetTeamTitle: 'Meet the Team',
+      meetTeamCopy: "The pharmacists and support staff behind Zegin's Skopje branches.",
+      meetTeamButton: 'Meet the Team →',
+    },
+    team: {
+      badge: 'OUR PEOPLE',
+      title: 'Meet the Team',
+      subtitle: "The pharmacists and head-office support team behind Zegin's branches across Skopje.",
+      loadError: "Couldn't load the team:",
+      loading: 'Loading team…',
+      headOfficeHeading: 'Head Office Support',
+      branchesHeading: 'Branch Pharmacists — Skopje',
+      contactEmail: 'Email',
+      contactPhone: 'Phone',
     },
     pharmacy: {
       title: 'Pharmacy Catalog',
@@ -260,6 +289,7 @@ export const translations: Record<Language, TranslationDict> = {
       pharmacy: 'Аптека',
       aiChecker: 'АИ Проверка',
       dashboard: 'Контролна табла',
+      team: 'Тимот',
     },
     footer: {
       tagline:
@@ -292,6 +322,20 @@ export const translations: Record<Language, TranslationDict> = {
       subscribeButton: 'Претплати се',
       subscribedMessage: 'Благодариме — успешно се претплативте!',
       featuredProductsTitle: 'Издвоени производи',
+      meetTeamTitle: 'Запознајте го тимот',
+      meetTeamCopy: 'Фармацевтите и тимот за поддршка зад скопските огранци на Zegin.',
+      meetTeamButton: 'Запознајте го тимот →',
+    },
+    team: {
+      badge: 'НАШИТЕ ЛУЃЕ',
+      title: 'Запознајте го тимот',
+      subtitle: 'Фармацевтите и тимот за поддршка во централната канцеларија зад огранците на Zegin низ Скопје.',
+      loadError: 'Не успеа да се вчита тимот:',
+      loading: 'Се вчитува тимот…',
+      headOfficeHeading: 'Поддршка во централна канцеларија',
+      branchesHeading: 'Фармацевти по огранок — Скопје',
+      contactEmail: 'Е-пошта',
+      contactPhone: 'Телефон',
     },
     pharmacy: {
       title: 'Аптечен каталог',

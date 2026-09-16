@@ -75,3 +75,16 @@ export interface DashboardStats {
   pending: number
   filledToday: number
 }
+
+export interface TeamMember {
+  id: number
+  name: string
+  role: string
+  branchName: string
+  branchAddress: string
+  email: string
+  phone: string
+  photoUrl: string | null
+  isHeadOffice: boolean
+  sortOrder: number
+}

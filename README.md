@@ -20,6 +20,9 @@ Four screens, each backed by a real API call (not hard-coded UI):
   suggested urgency level, recommendations, and OTC products.
 - **Dashboard (Pharmacist Portal)** — an internal-admin-style view: prescription "verification"
   against seeded RX records, and a patient lookup.
+- **Meet the Team** — a directory of Zegin's fictional Skopje pharmacy branches: head-office
+  support staff and branch pharmacists, each with a contact email/phone and role. Linked from
+  the main nav and from a teaser card on the Home page.
 - **English / Macedonian toggle** — an EN/МК switch in the top nav (persisted in
   `localStorage`) translates every static label plus the seeded demo content (articles,
   products, patients, prescriptions). The AI Checker's rules engine also matches Macedonian

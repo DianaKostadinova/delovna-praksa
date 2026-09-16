@@ -7,6 +7,7 @@ import type {
   Patient,
   DashboardStats,
   Prescription,
+  TeamMember,
 } from './types'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -44,4 +45,6 @@ export const api = {
   getRecentPrescriptions: () =>
     request<Pick<Prescription, 'rxId' | 'medication' | 'status'>[]>('/dashboard/prescriptions'),
   getPatient: (patientCode: string) => request<Patient>(`/dashboard/patients/${encodeURIComponent(patientCode)}`),
+
+  getTeam: () => request<TeamMember[]>('/team'),
 }

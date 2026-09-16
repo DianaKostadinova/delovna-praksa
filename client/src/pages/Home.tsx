@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Article, HealthFact } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -184,6 +185,15 @@ export function Home() {
               </div>
             </div>
           </div>
+
+          <Link
+            to="/team"
+            className="block rounded-xl border border-blue-200 bg-blue-50 p-5 transition-colors hover:border-blue-300 hover:bg-blue-100"
+          >
+            <h4 className="text-sm font-semibold text-blue-900">{t.home.meetTeamTitle}</h4>
+            <p className="mt-1 text-xs text-blue-800/80">{t.home.meetTeamCopy}</p>
+            <span className="mt-3 inline-block text-xs font-semibold text-blue-700">{t.home.meetTeamButton}</span>
+          </Link>
         </div>
       </div>
     </div>
