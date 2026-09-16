@@ -1,4 +1,12 @@
-import type { Article, HealthFact, Product, SymptomCheckRequest, SymptomCheckResponse, PageViewRequest } from './types'
+import type {
+  Article,
+  HealthFact,
+  Product,
+  SymptomCheckRequest,
+  SymptomCheckResponse,
+  PageViewRequest,
+  ContactRequest,
+} from './types'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
@@ -35,6 +43,12 @@ export const api = {
 
   trackPageView: (payload: PageViewRequest) =>
     request<void>('/analytics/pageview', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+
+  submitContact: (payload: ContactRequest) =>
+    request<void>('/contact', {
       method: 'POST',
       body: JSON.stringify(payload),
     }),

@@ -52,6 +52,13 @@ export interface PageViewRequest {
   language: string
 }
 
+export interface ContactRequest {
+  name: string
+  email: string
+  subject: string
+  message: string
+}
+
 export interface TeamMember {
   id: number
   name: string

@@ -11,4 +11,5 @@ public class ZeginDbContext : DbContext
     public DbSet<HealthFact> HealthFacts => Set<HealthFact>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<PageViewEvent> PageViewEvents => Set<PageViewEvent>();
+    public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
 }

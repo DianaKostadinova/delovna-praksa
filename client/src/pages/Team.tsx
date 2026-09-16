@@ -49,12 +49,31 @@ export function Team() {
   )
 }
 
+// A couple of the team photos frame the face high up in the source image, so the default
+// centered crop clips the chin/mouth in the small round avatar — nudge those down a bit.
+const PHOTO_POSITION_OVERRIDES: Record<number, string> = {
+  3: 'center 25%', // Elena
+  7: 'center 20%', // Ivana
+}
+
 function TeamCard({ member }: { member: TeamMember }) {
   const { t } = useLanguage()
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5">
       <div className="flex items-center gap-3">
-        <div className="h-12 w-12 shrink-0 rounded-full bg-gradient-to-br from-slate-300 to-slate-400" />
+        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-slate-300 to-slate-400">
+          {member.photoUrl && (
+            <img
+              src={member.photoUrl}
+              alt={member.name}
+              className="h-full w-full object-cover"
+              style={{ objectPosition: PHOTO_POSITION_OVERRIDES[member.id] }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          )}
+        </div>
         <div>
           <h3 className="text-sm font-semibold text-slate-800">{member.name}</h3>
           <p className="text-xs font-medium text-blue-700">{member.role}</p>

@@ -19,6 +19,13 @@ export interface TranslationDict {
     insurancePartners: string
     contact: string
     rights: string
+    contactFormNamePlaceholder: string
+    contactFormEmailPlaceholder: string
+    contactFormMessagePlaceholder: string
+    contactFormSubmit: string
+    contactFormSubmitting: string
+    contactFormSuccess: string
+    contactFormError: string
   }
   home: {
     title: string
@@ -173,7 +180,7 @@ export const translations: Record<Language, TranslationDict> = {
       home: 'Home',
       pharmacy: 'Pharmacy',
       kbeauty: 'K-Beauty',
-      aiChecker: 'AI Checker',
+      aiChecker: 'Symptom Checker',
       cart: 'Cart',
       team: 'Team',
       blog: 'Blog',
@@ -188,6 +195,13 @@ export const translations: Record<Language, TranslationDict> = {
       insurancePartners: 'Insurance Partners',
       contact: 'Contact',
       rights: '© 2026 Zegin Pharmacy. All Rights Reserved. — demo project, not a real pharmacy.',
+      contactFormNamePlaceholder: 'Your name',
+      contactFormEmailPlaceholder: 'Your email',
+      contactFormMessagePlaceholder: 'Your message',
+      contactFormSubmit: 'Send',
+      contactFormSubmitting: 'Sending…',
+      contactFormSuccess: 'Thanks — we’ll get back to you soon!',
+      contactFormError: 'Something went wrong. Please try again.',
     },
     home: {
       title: 'ZEGIN HEALTH HUB',
@@ -275,8 +289,8 @@ export const translations: Record<Language, TranslationDict> = {
       'K-Beauty': 'K-Beauty',
     },
     aiChecker: {
-      badge: 'AI-POWERED CARE',
-      title: 'AI Symptom Checker',
+      badge: 'GUIDED CARE',
+      title: 'Symptom Checker',
       subtitle:
         'Describe how you feel, and our checker will match your symptoms to common patterns for immediate health guidance and over-the-counter recommendations.',
       ageLabel: 'Age',
@@ -354,7 +368,7 @@ export const translations: Record<Language, TranslationDict> = {
       home: 'Почетна',
       pharmacy: 'Аптека',
       kbeauty: 'K-Beauty',
-      aiChecker: 'АИ Проверка',
+      aiChecker: 'Проверка на симптоми',
       cart: 'Кошница',
       team: 'Тимот',
       blog: 'Блог',
@@ -369,6 +383,13 @@ export const translations: Record<Language, TranslationDict> = {
       insurancePartners: 'Осигурителни партнери',
       contact: 'Контакт',
       rights: '© 2026 Zegin Pharmacy. Сите права се задржани. — демо проект, не е вистинска аптека.',
+      contactFormNamePlaceholder: 'Вашето име',
+      contactFormEmailPlaceholder: 'Вашата е-пошта',
+      contactFormMessagePlaceholder: 'Вашата порака',
+      contactFormSubmit: 'Прати',
+      contactFormSubmitting: 'Се испраќа…',
+      contactFormSuccess: 'Ви благодариме — ќе ви одговориме наскоро!',
+      contactFormError: 'Настана грешка. Обидете се повторно.',
     },
     home: {
       title: 'ZEGIN ЗДРАВСТВЕН ХАБ',
@@ -456,8 +477,8 @@ export const translations: Record<Language, TranslationDict> = {
       'K-Beauty': 'K-Beauty',
     },
     aiChecker: {
-      badge: 'ГРИЖА ПОДДРЖАНА СО АИ',
-      title: 'АИ Проверка на симптоми',
+      badge: 'ВОДЕНА ГРИЖА',
+      title: 'Проверка на симптоми',
       subtitle:
         'Опишете како се чувствувате, а нашата алатка ќе ги спореди вашите симптоми со чести шеми за итни здравствени насоки и препораки за безрецептни производи.',
       ageLabel: 'Возраст',

@@ -1,19 +1,26 @@
-import { useState, type ComponentType, type SVGProps } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { api } from '../api/client'
-import type { SymptomCheckResponse } from '../api/types'
+import type { Product, SymptomCheckResponse } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
-import { translateSymptomCheck } from '../i18n/content'
-import { SparklesIcon, ShieldCheckIcon, ClockIcon, MapPinIcon, InfoIcon, ArrowRightIcon } from '../components/icons'
+import { translateSymptomCheck, translateProduct } from '../i18n/content'
+import { useCart } from '../context/CartContext'
+import { SparklesIcon, InfoIcon, ArrowRightIcon, ShoppingCartIcon } from '../components/icons'
 
 export function AiChecker() {
   const { t, language } = useLanguage()
+  const { cart, addToCart } = useCart()
   const [age, setAge] = useState('')
   const [symptoms, setSymptoms] = useState('')
   const [result, setResult] = useState<SymptomCheckResponse | null>(null)
+  const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  async function handleSubmit(e: React.FormEvent) {
+  useEffect(() => {
+    api.getProducts().then(setProducts)
+  }, [])
+
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (!symptoms.trim()) return
     setLoading(true)
@@ -31,17 +38,19 @@ export function AiChecker() {
   const displayResult = result ? translateSymptomCheck(result, language) : null
   const urgencyLabel = displayResult ? (t.urgency as Record<string, string>)[displayResult.urgency] ?? displayResult.urgency : ''
 
+  const suggestedProducts = (result?.suggestedProducts ?? [])
+    .map((name) => products.find((p) => p.name === name))
+    .filter((p): p is Product => p !== undefined)
+    .map((p) => translateProduct(p, language))
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-8">
-      <div className="mb-8 grid items-center gap-8 lg:grid-cols-2">
-        <div>
-          <span className="mb-3 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-            {t.aiChecker.badge}
-          </span>
-          <h1 className="text-3xl font-bold text-slate-900">{t.aiChecker.title}</h1>
-          <p className="mt-3 text-sm text-slate-500">{t.aiChecker.subtitle}</p>
-        </div>
-        <div className="aspect-video rounded-xl bg-gradient-to-br from-slate-200 to-slate-300" />
+      <div className="mb-8">
+        <span className="mb-3 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+          {t.aiChecker.badge}
+        </span>
+        <h1 className="text-3xl font-bold text-slate-900">{t.aiChecker.title}</h1>
+        <p className="mt-3 max-w-2xl text-sm text-slate-500">{t.aiChecker.subtitle}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -118,14 +127,39 @@ export function AiChecker() {
                 ))}
               </ul>
 
-              {displayResult.suggestedProducts.length > 0 && (
+              {suggestedProducts.length > 0 && (
                 <div className="mt-4">
                   <p className="text-xs font-semibold uppercase text-slate-400">{t.aiChecker.suggestedProducts}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {displayResult.suggestedProducts.map((p) => (
-                      <span key={p} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-                        {p}
-                      </span>
+                  <div className="mt-2 space-y-2">
+                    {suggestedProducts.map((product) => (
+                      <div
+                        key={product.id}
+                        className="flex items-center gap-3 rounded-lg border border-slate-200 p-2"
+                      >
+                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-md bg-gradient-to-br from-slate-100 to-slate-200">
+                          {product.imageUrl && (
+                            <img
+                              src={product.imageUrl}
+                              alt={product.name}
+                              className="h-full w-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none'
+                              }}
+                            />
+                          )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-xs font-semibold text-slate-800">{product.name}</p>
+                          <p className="text-xs font-bold text-blue-700">{product.price.toFixed(0)} ден.</p>
+                        </div>
+                        <button
+                          onClick={() => addToCart(product.id)}
+                          className="flex shrink-0 items-center gap-1 rounded-md bg-blue-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-800"
+                        >
+                          <ShoppingCartIcon className="h-3.5 w-3.5" />
+                          {cart[product.id] ? ` (${cart[product.id]})` : ''}
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -136,32 +170,6 @@ export function AiChecker() {
           )}
         </div>
       </div>
-
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <FeatureCard icon={ShieldCheckIcon} title={t.aiChecker.featureClinicalTitle} text={t.aiChecker.featureClinicalText} />
-        <FeatureCard icon={ClockIcon} title={t.aiChecker.featureTrackTitle} text={t.aiChecker.featureTrackText} />
-        <FeatureCard icon={MapPinIcon} title={t.aiChecker.featureNearbyTitle} text={t.aiChecker.featureNearbyText} />
-      </div>
-    </div>
-  )
-}
-
-function FeatureCard({
-  icon: IconComponent,
-  title,
-  text,
-}: {
-  icon: ComponentType<SVGProps<SVGSVGElement>>
-  title: string
-  text: string
-}) {
-  return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4">
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
-        <IconComponent className="h-4 w-4 text-blue-700" />
-      </span>
-      <h4 className="mt-2 text-sm font-semibold text-slate-800">{title}</h4>
-      <p className="mt-1 text-xs text-slate-500">{text}</p>
     </div>
   )
 }
