@@ -1,7 +1,7 @@
 export type Language = 'en' | 'mk'
 
 export interface TranslationDict {
-  nav: { home: string; pharmacy: string; aiChecker: string; dashboard: string; team: string }
+  nav: { home: string; pharmacy: string; aiChecker: string; dashboard: string; team: string; blog: string }
   footer: {
     tagline: string
     resources: string
@@ -46,6 +46,16 @@ export interface TranslationDict {
     branchesHeading: string
     contactEmail: string
     contactPhone: string
+  }
+  blog: {
+    title: string
+    subtitle: string
+    loadError: string
+    loading: string
+    newsletterTitle: string
+    newsletterCopy: string
+    recipesTitle: string
+    readMore: string
   }
   pharmacy: {
     title: string
@@ -147,6 +157,7 @@ export const translations: Record<Language, TranslationDict> = {
       aiChecker: 'AI Checker',
       dashboard: 'Dashboard',
       team: 'Team',
+      blog: 'Blog',
     },
     footer: {
       tagline:
@@ -193,6 +204,16 @@ export const translations: Record<Language, TranslationDict> = {
       branchesHeading: 'Branch Pharmacists — Skopje',
       contactEmail: 'Email',
       contactPhone: 'Phone',
+    },
+    blog: {
+      title: 'Blog',
+      subtitle: 'Health tips, ingredient explainers, and family-care guides from the Zegin team.',
+      loadError: "Couldn't load the blog:",
+      loading: 'Loading posts…',
+      newsletterTitle: 'Zegin Newsletter',
+      newsletterCopy: "Don't miss a great offer!",
+      recipesTitle: 'Recipes',
+      readMore: 'Read More',
     },
     pharmacy: {
       title: 'Pharmacy Catalog',
@@ -319,6 +340,7 @@ export const translations: Record<Language, TranslationDict> = {
       aiChecker: 'АИ Проверка',
       dashboard: 'Контролна табла',
       team: 'Тимот',
+      blog: 'Блог',
     },
     footer: {
       tagline:
@@ -365,6 +387,16 @@ export const translations: Record<Language, TranslationDict> = {
       branchesHeading: 'Фармацевти по огранок — Скопје',
       contactEmail: 'Е-пошта',
       contactPhone: 'Телефон',
+    },
+    blog: {
+      title: 'Блог',
+      subtitle: 'Здравствени совети, објаснувања за состојки и водичи за семејна нега од тимот на Zegin.',
+      loadError: 'Не успеа да се вчита блогот:',
+      loading: 'Се вчитуваат објавите…',
+      newsletterTitle: 'ZEGIN Билтен',
+      newsletterCopy: 'Не пропуштај ниту една одлична понуда!',
+      recipesTitle: 'Рецепти',
+      readMore: 'Прочитај повеќе',
     },
     pharmacy: {
       title: 'Аптечен каталог',

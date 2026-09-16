@@ -12,9 +12,13 @@ public class ArticlesController : ControllerBase
     public ArticlesController(ZeginDbContext db) => _db = db;
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] string? section)
     {
-        var articles = await _db.Articles.OrderByDescending(a => a.PublishedAt).ToListAsync();
+        var query = _db.Articles.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(section))
+            query = query.Where(a => a.Section == section);
+
+        var articles = await query.OrderByDescending(a => a.PublishedAt).ToListAsync();
         return Ok(articles);
     }
 

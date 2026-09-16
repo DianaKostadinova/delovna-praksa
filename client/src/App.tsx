@@ -5,6 +5,7 @@ import { Pharmacy } from './pages/Pharmacy'
 import { AiChecker } from './pages/AiChecker'
 import { Dashboard } from './pages/Dashboard'
 import { Team } from './pages/Team'
+import { Blog } from './pages/Blog'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/ai-checker" element={<AiChecker />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/team" element={<Team />} />
+        <Route path="/blog" element={<Blog />} />
       </Route>
     </Routes>
   )

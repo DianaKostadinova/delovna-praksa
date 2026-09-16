@@ -60,7 +60,24 @@ public static class SeedData
                     Tag = "MENTAL WELLBEING",
                     ReadTime = "6 Min Read",
                     PublishedAt = DateTime.UtcNow.AddDays(-6)
-                }
+                },
+
+                // Blog page — original posts, written for this demo (not sourced from any real site).
+                new Article { Title = "Magnesium and Sleep: The Mineral Your Nightly Routine Is Missing", Excerpt = "Why this often-overlooked mineral plays a bigger role in muscle recovery and sleep quality than most people realize.", Section = "Blog Post", Tag = "VITAMINS & MINERALS", ReadTime = "5 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-1) },
+                new Article { Title = "Probiotics 101: How to Actually Choose the Right Strain", Excerpt = "Not all probiotic supplements are created equal — a quick guide to matching the strain to the symptom.", Section = "Blog Post", Tag = "GUT HEALTH", ReadTime = "6 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-2) },
+                new Article { Title = "Sunscreen Myths, Debunked by a Dermatologist", Excerpt = "From \"my skin is too dark to burn\" to \"higher SPF means I can skip reapplying\" — separating fact from habit.", Section = "Blog Post", Tag = "SKIN CARE", ReadTime = "4 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-3) },
+                new Article { Title = "Managing Seasonal Allergies Without Overmedicating", Excerpt = "A practical, step-by-step approach — from air quality habits to knowing when an antihistamine is actually necessary.", Section = "Blog Post", Tag = "ALLERGIES", ReadTime = "5 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-4) },
+                new Article { Title = "Building a Home Pharmacy Cabinet That's Actually Baby-Safe", Excerpt = "What belongs in easy reach, what belongs locked away, and the OTC basics every new parent should stock.", Section = "Blog Post", Tag = "FAMILY CARE", ReadTime = "7 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-6) },
+                new Article { Title = "Understanding Your Blood Pressure Numbers", Excerpt = "What systolic and diastolic actually measure, and why one high reading isn't automatically a diagnosis.", Section = "Blog Post", Tag = "HEART HEALTH", ReadTime = "5 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-7) },
+                new Article { Title = "The Gut-Skin Connection: Is Your Diet Behind Your Breakouts?", Excerpt = "Emerging research on how gut inflammation shows up on your skin — and what changes actually help.", Section = "Blog Post", Tag = "SKIN CARE", ReadTime = "6 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-8) },
+                new Article { Title = "Hydration Beyond Eight Glasses a Day", Excerpt = "Why the old rule of thumb oversimplifies things, and how to actually gauge whether you're drinking enough.", Section = "Blog Post", Tag = "WELLNESS", ReadTime = "4 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-9) },
+                new Article { Title = "When Back Pain Needs a Doctor, Not Just Rest", Excerpt = "Most back pain resolves on its own — here are the specific warning signs that mean it's time to get checked.", Section = "Blog Post", Tag = "PAIN MANAGEMENT", ReadTime = "5 Min Read", PublishedAt = DateTime.UtcNow.AddDays(-10) },
+
+                // Blog sidebar — recipe stubs, original.
+                new Article { Title = "Iron-Rich Lentil Soup for Busy Weeknights", Excerpt = "Recipe", Section = "Recipe", PublishedAt = DateTime.UtcNow.AddDays(-2) },
+                new Article { Title = "No-Sugar Oat Energy Bites", Excerpt = "Recipe", Section = "Recipe", PublishedAt = DateTime.UtcNow.AddDays(-4) },
+                new Article { Title = "Anti-Inflammatory Turmeric Smoothie", Excerpt = "Recipe", Section = "Recipe", PublishedAt = DateTime.UtcNow.AddDays(-7) },
+                new Article { Title = "High-Fiber Breakfast Bowl in 10 Minutes", Excerpt = "Recipe", Section = "Recipe", PublishedAt = DateTime.UtcNow.AddDays(-12) }
             );
         }
 
