@@ -26,7 +26,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  getArticles: () => request<Article[]>('/articles'),
+  getArticles: (section?: string) => request<Article[]>(`/articles${section ? `?section=${encodeURIComponent(section)}` : ''}`),
   getHealthFacts: () => request<HealthFact[]>('/articles/facts'),
 
   getProducts: (params?: { category?: string; search?: string }) => {

@@ -1,11 +1,15 @@
 # Zegin Health Hub
 
 A full-stack recreation of a Stitch-designed pharmacy/health platform mockup, built with a
-React + TypeScript frontend and an ASP.NET Core Web API backend.
+React + TypeScript frontend and an ASP.NET Core Web API backend, for a school assignment to
+redesign [zegin.com.mk](https://zegin.com.mk) (a real pharmacy chain in North Macedonia).
 
-This is a **demo/portfolio project** — not a real pharmacy, not real medical advice, and it
-does not process real patient data or payments. All content (articles, products, patients,
-prescriptions) is fictional seed data.
+This is a **school project** — not affiliated with the real Zegin pharmacy, not real medical
+advice, and it does not process real patient data or payments. All content (articles, products,
+team members, patients, prescriptions, blog posts) is original or fictional seed data written
+for this project — **no text, images, or other content was copied from zegin.com.mk or any
+other site**; only the general page layout/structure was used as a design reference, which the
+assignment called for.
 
 ## What's included
 
@@ -23,6 +27,9 @@ Four screens, each backed by a real API call (not hard-coded UI):
 - **Meet the Team** — a directory of Zegin's fictional Skopje pharmacy branches: head-office
   support staff and branch pharmacists, each with a contact email/phone and role. Linked from
   the main nav and from a teaser card on the Home page.
+- **Blog** — recreates the layout of zegin.com.mk's real `/mk/blog` page (post grid, newsletter
+  sidebar, recipes list, pagination) with 9 original blog posts and 4 recipe stubs, all written
+  from scratch for this project.
 - **English / Macedonian toggle** — an EN/МК switch in the top nav (persisted in
   `localStorage`) translates every static label plus the seeded demo content (articles,
   products, patients, prescriptions). The AI Checker's rules engine also matches Macedonian

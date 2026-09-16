@@ -15,6 +15,7 @@ export function Layout() {
 
   const navItems = [
     { to: '/', label: t.nav.home },
+    { to: '/blog', label: t.nav.blog },
     { to: '/pharmacy', label: t.nav.pharmacy },
     { to: '/cart', label: t.nav.cart },
     { to: '/ai-checker', label: t.nav.aiChecker },
