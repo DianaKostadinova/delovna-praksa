@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, type ComponentType, type SVGProps } from 'react'
 import { api } from '../api/client'
 import type { SymptomCheckResponse } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateSymptomCheck } from '../i18n/content'
+import { SparklesIcon, ShieldCheckIcon, ClockIcon, MapPinIcon, InfoIcon, ArrowRightIcon } from '../components/icons'
 
 export function AiChecker() {
   const { t, language } = useLanguage()
@@ -66,14 +67,18 @@ export function AiChecker() {
             className="mb-3 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
           />
 
-          <p className="mb-4 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-500">{t.aiChecker.disclaimerNote}</p>
+          <p className="mb-4 flex items-start gap-2 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-500">
+            <InfoIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" />
+            {t.aiChecker.disclaimerNote}
+          </p>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-blue-700 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-700 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60"
           >
             {loading ? t.aiChecker.submitting : t.aiChecker.submitButton}
+            {!loading && <ArrowRightIcon className="h-4 w-4" />}
           </button>
         </form>
 
@@ -82,8 +87,8 @@ export function AiChecker() {
 
           {!displayResult && !error && (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-2xl">
-                🤖
+              <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                <SparklesIcon className="h-6 w-6 text-slate-400" />
               </span>
               <h3 className="text-sm font-semibold text-slate-700">{t.aiChecker.waitingTitle}</h3>
               <p className="mt-1 max-w-xs text-xs text-slate-400">{t.aiChecker.waitingCopy}</p>
@@ -133,18 +138,28 @@ export function AiChecker() {
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
-        <FeatureCard icon="🛡" title={t.aiChecker.featureClinicalTitle} text={t.aiChecker.featureClinicalText} />
-        <FeatureCard icon="🕓" title={t.aiChecker.featureTrackTitle} text={t.aiChecker.featureTrackText} />
-        <FeatureCard icon="📍" title={t.aiChecker.featureNearbyTitle} text={t.aiChecker.featureNearbyText} />
+        <FeatureCard icon={ShieldCheckIcon} title={t.aiChecker.featureClinicalTitle} text={t.aiChecker.featureClinicalText} />
+        <FeatureCard icon={ClockIcon} title={t.aiChecker.featureTrackTitle} text={t.aiChecker.featureTrackText} />
+        <FeatureCard icon={MapPinIcon} title={t.aiChecker.featureNearbyTitle} text={t.aiChecker.featureNearbyText} />
       </div>
     </div>
   )
 }
 
-function FeatureCard({ icon, title, text }: { icon: string; title: string; text: string }) {
+function FeatureCard({
+  icon: IconComponent,
+  title,
+  text,
+}: {
+  icon: ComponentType<SVGProps<SVGSVGElement>>
+  title: string
+  text: string
+}) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4">
-      <span className="text-lg">{icon}</span>
+      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
+        <IconComponent className="h-4 w-4 text-blue-700" />
+      </span>
       <h4 className="mt-2 text-sm font-semibold text-slate-800">{title}</h4>
       <p className="mt-1 text-xs text-slate-500">{text}</p>
     </div>

@@ -3,6 +3,7 @@ import { api } from '../api/client'
 import type { DashboardStats, Patient, Prescription } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translatePatient, translateProductName } from '../i18n/content'
+import { CheckIcon } from '../components/icons'
 
 const STATUS_STYLE: Record<Prescription['status'], string> = {
   Active: 'bg-green-100 text-green-700',
@@ -82,8 +83,9 @@ export function Dashboard() {
           </form>
           <button
             onClick={verifyPrescription}
-            className="mt-2 w-full rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800"
           >
+            <CheckIcon className="h-4 w-4" />
             {t.dashboard.verifyButton}
           </button>
           {verified && <p className="mt-2 text-xs font-medium text-slate-600">{verified}</p>}
@@ -95,7 +97,7 @@ export function Dashboard() {
                 <div key={rx.rxId} className="flex items-center justify-between rounded-md bg-slate-50 px-3 py-2 text-xs">
                   <span className="font-medium text-slate-700">{rx.rxId}</span>
                   <span className="text-slate-400">{t.dashboard.verifiedLabel}</span>
-                  <span className="text-green-600">✓</span>
+                  <CheckIcon className="h-3.5 w-3.5 text-green-600" />
                 </div>
               ))}
             </div>
