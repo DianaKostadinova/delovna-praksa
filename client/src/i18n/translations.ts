@@ -120,10 +120,19 @@ export interface TranslationDict {
     tableStatus: string
     pending: string
     filledToday: string
+    analyticsTitle: string
+    analyticsCopy: string
+    analyticsTotalViews: string
+    analyticsUniqueVisitors: string
+    analyticsByPage: string
+    analyticsNoData: string
+    analyticsViewsLabel: string
+    analyticsVisitorsLabel: string
   }
   prescriptionStatus: { Active: string; Completed: string; Pending: string }
   languageToggle: { label: string }
   cookies: {
+    title: string
     message: string
     acceptButton: string
     declineButton: string
@@ -278,6 +287,14 @@ export const translations: Record<Language, TranslationDict> = {
       tableStatus: 'Status',
       pending: 'Pending',
       filledToday: 'Filled Today',
+      analyticsTitle: 'Site Analytics',
+      analyticsCopy: 'First-party, anonymous page-view tracking — recorded only for visitors who accepted the cookie banner.',
+      analyticsTotalViews: 'Total Page Views',
+      analyticsUniqueVisitors: 'Unique Visitors',
+      analyticsByPage: 'Views by Page',
+      analyticsNoData: 'No page views recorded yet — accept the cookie banner and browse the site to generate data.',
+      analyticsViewsLabel: 'views',
+      analyticsVisitorsLabel: 'visitors',
     },
     prescriptionStatus: {
       Active: 'Active',
@@ -288,8 +305,9 @@ export const translations: Record<Language, TranslationDict> = {
       label: 'Јазик / Language',
     },
     cookies: {
+      title: 'Cookies & Privacy',
       message:
-        'We use cookies and local storage to remember your language preference and keep the demo cart working. This is a portfolio project — nothing is sold or shared with third parties.',
+        "We use local storage for your language and demo cart, and — only if you accept — anonymous first-party analytics (page views, no accounts, no IP, nothing sold or shared with third parties).",
       acceptButton: 'Accept',
       declineButton: 'Decline',
     },
@@ -441,6 +459,14 @@ export const translations: Record<Language, TranslationDict> = {
       tableStatus: 'Статус',
       pending: 'Во исчекување',
       filledToday: 'Издадени денес',
+      analyticsTitle: 'Аналитика на страницата',
+      analyticsCopy: 'Анонимно следење на прегледи на страници од прва страна — снимено само за посетители кои ги прифатиле колачињата.',
+      analyticsTotalViews: 'Вкупно прегледи',
+      analyticsUniqueVisitors: 'Уникатни посетители',
+      analyticsByPage: 'Прегледи по страница',
+      analyticsNoData: 'Сè уште нема снимени прегледи — прифатете ги колачињата и разгледајте ја страницата за да се генерираат податоци.',
+      analyticsViewsLabel: 'прегледи',
+      analyticsVisitorsLabel: 'посетители',
     },
     prescriptionStatus: {
       Active: 'Активен',
@@ -451,8 +477,9 @@ export const translations: Record<Language, TranslationDict> = {
       label: 'Јазик / Language',
     },
     cookies: {
+      title: 'Колачиња и приватност',
       message:
-        'Користиме колачиња и локално складирање за да го запомниме вашиот јазик и да ја одржиме демо-кошничката функционална. Ова е портфолио проект — ништо не се продава ниту споделува со трети страни.',
+        'Користиме локално складирање за вашиот јазик и демо-кошничката, и — само ако прифатите — анонимна аналитика од прва страна (прегледи на страници, без сметки, без IP, ништо не се продава ниту споделува со трети страни).',
       acceptButton: 'Прифати',
       declineButton: 'Одбиј',
     },

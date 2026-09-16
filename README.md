@@ -33,6 +33,13 @@ Four screens, each backed by a real API call (not hard-coded UI):
   > Social Security Number. Looking patients up by SSN is a pattern real systems should avoid;
   > this app follows the design's layout while swapping in a safer identifier.
 
+- **Cookie consent + first-party analytics** — a compact bottom-left card asks for consent on
+  first visit. Only after accepting does the app track anonymous page views (a random per-browser
+  id, the path, and the language — no accounts, no IP address, nothing shared with third
+  parties); declining tracks nothing. The Pharmacist Dashboard has a **Site Analytics** panel
+  showing the live totals and a per-page breakdown, so the tracking is actually visible, not
+  just theoretical.
+
 ## Tech stack
 
 - **Frontend:** React 19 + TypeScript, Vite, React Router, Tailwind CSS 4
@@ -75,12 +82,15 @@ server/                 ASP.NET Core Web API
   Models/                domain models (Article, Product, Patient, Prescription, ...)
   Data/                  EF Core DbContext + seed data
   Services/              SymptomCheckerService (mock rules engine)
-  Controllers/           API endpoints (/api/articles, /api/products, /api/symptomcheck, /api/dashboard/*)
+  Controllers/           API endpoints (/api/articles, /api/products, /api/symptomcheck,
+                         /api/dashboard/*, /api/team, /api/analytics/*)
 
 client/                 React + TypeScript app (Vite)
   src/api/               typed fetch client
-  src/components/        shared layout (nav + footer)
-  src/pages/              Home, Pharmacy, AiChecker, Dashboard
+  src/components/        shared layout (nav + footer), icon set, cookie consent card
+  src/i18n/               EN/MK translation dictionaries + content overlays
+  src/analytics.ts        consent-gated page-view tracking helper
+  src/pages/              Home, Pharmacy, AiChecker, Dashboard, Team
 ```
 
 ## Notes for building on this

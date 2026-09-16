@@ -165,6 +165,17 @@ export function CookieIcon(props: IconProps) {
   )
 }
 
+export function BarChartIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M4 20V10" />
+      <path d="M10 20V4" />
+      <path d="M16 20v-7" />
+      <path d="M3 20h18" />
+    </Icon>
+  )
+}
+
 export function SparklesIcon(props: IconProps) {
   return (
     <Icon {...props}>

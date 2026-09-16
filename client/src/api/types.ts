@@ -76,6 +76,24 @@ export interface DashboardStats {
   filledToday: number
 }
 
+export interface PageViewRequest {
+  visitorId: string
+  path: string
+  language: string
+}
+
+export interface PageViewSummary {
+  path: string
+  views: number
+  uniqueVisitors: number
+}
+
+export interface AnalyticsSummaryResponse {
+  totalViews: number
+  totalUniqueVisitors: number
+  byPath: PageViewSummary[]
+}
+
 export interface TeamMember {
   id: number
   name: string

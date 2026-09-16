@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { CookieIcon } from './icons'
+import { trackPageView } from '../analytics'
 
 const STORAGE_KEY = 'zegin-cookie-consent'
 
@@ -16,7 +18,8 @@ function readStoredConsent(): Consent | null {
 }
 
 export function CookieConsent() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const location = useLocation()
   const [consent, setConsent] = useState<Consent | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
@@ -32,33 +35,35 @@ export function CookieConsent() {
     } catch {
       // ignore — e.g. private browsing without storage access
     }
+    if (value === 'accepted') {
+      // Track the page the visitor is already on — otherwise analytics would miss it, since
+      // the route-change tracker only fires on navigation, not on this consent change.
+      trackPageView(location.pathname, language)
+    }
   }
 
   if (!hydrated || consent) return null
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur px-6 py-4 shadow-[0_-4px_16px_rgba(15,23,42,0.08)]">
-      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-3">
-          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50">
-            <CookieIcon className="h-4 w-4 text-blue-700" />
-          </span>
-          <p className="text-xs text-slate-600 sm:text-sm">{t.cookies.message}</p>
-        </div>
-        <div className="flex w-full shrink-0 gap-2 sm:w-auto">
-          <button
-            onClick={() => choose('declined')}
-            className="flex-1 rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 sm:flex-none"
-          >
-            {t.cookies.declineButton}
-          </button>
-          <button
-            onClick={() => choose('accepted')}
-            className="flex-1 rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800 sm:flex-none"
-          >
-            {t.cookies.acceptButton}
-          </button>
-        </div>
+    <div className="fixed bottom-6 left-6 z-50 w-72 rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:w-80">
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50">
+        <CookieIcon className="h-5 w-5 text-blue-700" />
+      </span>
+      <h3 className="mt-3 text-sm font-semibold text-slate-800">{t.cookies.title}</h3>
+      <p className="mt-2 text-xs leading-relaxed text-slate-500">{t.cookies.message}</p>
+      <div className="mt-4 flex flex-col gap-2">
+        <button
+          onClick={() => choose('accepted')}
+          className="w-full rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+        >
+          {t.cookies.acceptButton}
+        </button>
+        <button
+          onClick={() => choose('declined')}
+          className="w-full rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+        >
+          {t.cookies.declineButton}
+        </button>
       </div>
     </div>
   )
