@@ -212,7 +212,7 @@ export const translations: Record<Language, TranslationDict> = {
       home: 'Home',
       pharmacy: 'Pharmacy',
       kbeauty: 'K-Beauty',
-      aiChecker: 'AI Checker',
+      aiChecker: 'Symptom Checker',
       dashboard: 'Dashboard',
       cart: 'Cart',
       team: 'Team',
@@ -316,8 +316,8 @@ export const translations: Record<Language, TranslationDict> = {
       'K-Beauty': 'K-Beauty',
     },
     aiChecker: {
-      badge: 'AI-POWERED CARE',
-      title: 'AI Symptom Checker',
+      badge: 'GUIDED CARE',
+      title: 'Symptom Checker',
       subtitle:
         'Describe how you feel, and our checker will match your symptoms to common patterns for immediate health guidance and over-the-counter recommendations.',
       ageLabel: 'Age',
@@ -436,7 +436,7 @@ export const translations: Record<Language, TranslationDict> = {
       home: 'Почетна',
       pharmacy: 'Аптека',
       kbeauty: 'K-Beauty',
-      aiChecker: 'АИ Проверка',
+      aiChecker: 'Проверка на симптоми',
       dashboard: 'Контролна табла',
       cart: 'Кошница',
       team: 'Тимот',
@@ -540,8 +540,8 @@ export const translations: Record<Language, TranslationDict> = {
       'K-Beauty': 'K-Beauty',
     },
     aiChecker: {
-      badge: 'ГРИЖА ПОДДРЖАНА СО АИ',
-      title: 'АИ Проверка на симптоми',
+      badge: 'ВОДЕНА ГРИЖА',
+      title: 'Проверка на симптоми',
       subtitle:
         'Опишете како се чувствувате, а нашата алатка ќе ги спореди вашите симптоми со чести шеми за итни здравствени насоки и препораки за безрецептни производи.',
       ageLabel: 'Возраст',
