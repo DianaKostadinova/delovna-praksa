@@ -40,8 +40,6 @@ export interface TranslationDict {
     badge: string
     title: string
     subtitle: string
-    loadError: string
-    loading: string
     headOfficeHeading: string
     branchesHeading: string
     contactEmail: string
@@ -198,8 +196,6 @@ export const translations: Record<Language, TranslationDict> = {
       badge: 'OUR PEOPLE',
       title: 'Meet the Team',
       subtitle: "The pharmacists and head-office support team behind Zegin's branches across Skopje.",
-      loadError: "Couldn't load the team:",
-      loading: 'Loading team…',
       headOfficeHeading: 'Head Office Support',
       branchesHeading: 'Branch Pharmacists — Skopje',
       contactEmail: 'Email',
@@ -381,8 +377,6 @@ export const translations: Record<Language, TranslationDict> = {
       badge: 'НАШИТЕ ЛУЃЕ',
       title: 'Запознајте го тимот',
       subtitle: 'Фармацевтите и тимот за поддршка во централната канцеларија зад огранците на Zegin низ Скопје.',
-      loadError: 'Не успеа да се вчита тимот:',
-      loading: 'Се вчитува тимот…',
       headOfficeHeading: 'Поддршка во централна канцеларија',
       branchesHeading: 'Фармацевти по огранок — Скопје',
       contactEmail: 'Е-пошта',

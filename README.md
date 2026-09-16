@@ -13,7 +13,8 @@ assignment called for.
 
 ## What's included
 
-Four screens, each backed by a real API call (not hard-coded UI):
+Six screens. Most are backed by a real API call (not hard-coded UI) — the one deliberate
+exception is Meet the Team, which is static in-code data (see note below):
 
 - **Home** — a health-content hub (trending article, health tips, spotlight interview, "Did You
   Know?" facts, health hub originals, newsletter signup, featured products).
@@ -27,6 +28,16 @@ Four screens, each backed by a real API call (not hard-coded UI):
 - **Meet the Team** — a directory of Zegin's fictional Skopje pharmacy branches: head-office
   support staff and branch pharmacists, each with a contact email/phone and role. Linked from
   the main nav and from a teaser card on the Home page.
+
+  > This data lives in `client/src/data/team.ts` as a plain static array — **not** in the
+  > database. It never changes at runtime, so there's nothing to gain from a DB round-trip, and
+  > it sidesteps a real bug we hit: the API used `EnsureCreated()`, which only builds the schema
+  > the *first* time a local `.db` file is created — it doesn't add new tables/columns to an
+  > existing one. Anyone who'd run the API before this feature existed and then pulled latest
+  > code without deleting their local `server/zeginhealthhub.db` would get a 500 on `/api/team`
+  > (missing table). Moving static data out of the DB entirely removes that failure mode for
+  > good, for this feature at least — the same risk still applies to any *other* new
+  > DB-backed feature, so if that happens again, delete `server/zeginhealthhub.db` and restart.
 - **Blog** — recreates the layout of zegin.com.mk's real `/mk/blog` page (post grid, newsletter
   sidebar, recipes list, pagination) with 9 original blog posts and 4 recipe stubs, all written
   from scratch for this project.
@@ -90,11 +101,12 @@ server/                 ASP.NET Core Web API
   Data/                  EF Core DbContext + seed data
   Services/              SymptomCheckerService (mock rules engine)
   Controllers/           API endpoints (/api/articles, /api/products, /api/symptomcheck,
-                         /api/dashboard/*, /api/team, /api/analytics/*)
+                         /api/dashboard/*, /api/analytics/*)
 
 client/                 React + TypeScript app (Vite)
   src/api/               typed fetch client
   src/components/        shared layout (nav + footer), icon set, cookie consent card
+  src/data/               static in-code data (team.ts) — not DB-backed, see note above
   src/i18n/               EN/MK translation dictionaries + content overlays
   src/analytics.ts        consent-gated page-view tracking helper
   src/pages/              Home, Pharmacy, AiChecker, Dashboard, Team

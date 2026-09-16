@@ -7,7 +7,6 @@ import type {
   Patient,
   DashboardStats,
   Prescription,
-  TeamMember,
   PageViewRequest,
   AnalyticsSummaryResponse,
 } from './types'
@@ -48,8 +47,6 @@ export const api = {
   getRecentPrescriptions: () =>
     request<Pick<Prescription, 'rxId' | 'medication' | 'status'>[]>('/dashboard/prescriptions'),
   getPatient: (patientCode: string) => request<Patient>(`/dashboard/patients/${encodeURIComponent(patientCode)}`),
-
-  getTeam: () => request<TeamMember[]>('/team'),
 
   trackPageView: (payload: PageViewRequest) =>
     request<void>('/analytics/pageview', {

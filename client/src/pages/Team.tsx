@@ -1,24 +1,12 @@
-import { useEffect, useState } from 'react'
-import { api } from '../api/client'
 import type { TeamMember } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateTeamMember } from '../i18n/content'
+import { getTeamMembers } from '../data/team'
 
 export function Team() {
   const { t, language } = useLanguage()
-  const [members, setMembers] = useState<TeamMember[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    api
-      .getTeam()
-      .then(setMembers)
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [])
-
-  const translated = members.map((m) => translateTeamMember(m, language))
+  const translated = getTeamMembers().map((m) => translateTeamMember(m, language))
   const headOffice = translated.filter((m) => m.isHeadOffice)
   const branches = translated.filter((m) => !m.isHeadOffice)
 
@@ -32,14 +20,7 @@ export function Team() {
         <p className="mx-auto mt-2 max-w-xl text-sm text-slate-500">{t.team.subtitle}</p>
       </div>
 
-      {error && (
-        <p className="mb-6 text-center text-sm text-red-600">
-          {t.team.loadError} {error}
-        </p>
-      )}
-      {loading && <p className="text-center text-sm text-slate-400">{t.team.loading}</p>}
-
-      {!loading && headOffice.length > 0 && (
+      {headOffice.length > 0 && (
         <div className="mb-10">
           <h2 className="mb-4 border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">
             {t.team.headOfficeHeading}
@@ -52,7 +33,7 @@ export function Team() {
         </div>
       )}
 
-      {!loading && branches.length > 0 && (
+      {branches.length > 0 && (
         <div>
           <h2 className="mb-4 border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">
             {t.team.branchesHeading}
