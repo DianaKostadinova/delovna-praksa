@@ -5,6 +5,7 @@ public class Article
     public int Id { get; set; }
     public required string Title { get; set; }
     public required string Excerpt { get; set; }
+    public string? Content { get; set; }
     public string? Author { get; set; }
     public string? ReadTime { get; set; }
     public string? ImageUrl { get; set; }

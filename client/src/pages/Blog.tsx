@@ -65,7 +65,18 @@ export function Blog() {
                   to={`/articles/${post.id}`}
                   className="overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200"
                 >
-                  <div className="aspect-[16/10] bg-gradient-to-br from-slate-200 to-slate-300" />
+                  <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-200 to-slate-300">
+                    {post.imageUrl && (
+                      <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    )}
+                  </div>
                   <div className="p-4">
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600">{post.tag}</p>
                     <h3 className="mt-1 text-sm font-semibold text-slate-800">{post.title}</h3>

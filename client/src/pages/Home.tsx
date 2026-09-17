@@ -69,7 +69,18 @@ export function Home() {
             to={`/articles/${trending.id}`}
             className="group relative overflow-hidden rounded-xl bg-slate-800 text-white lg:col-span-2"
           >
-            <div className="aspect-[16/9] w-full bg-gradient-to-br from-slate-700 to-slate-900" />
+            <div className="aspect-[16/9] w-full overflow-hidden bg-gradient-to-br from-slate-700 to-slate-900">
+              {trending.imageUrl && (
+                <img
+                  src={trending.imageUrl}
+                  alt={trending.title}
+                  className="h-full w-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
+              )}
+            </div>
             <span className="absolute left-4 top-4 rounded bg-blue-600 px-2 py-1 text-xs font-semibold">
               {trending.tag}
             </span>
@@ -124,7 +135,18 @@ export function Home() {
               {t.home.watchInterview}
             </Link>
           </div>
-          <div className="aspect-video rounded-lg bg-gradient-to-br from-slate-200 to-slate-300" />
+          <div className="aspect-video overflow-hidden rounded-lg bg-gradient-to-br from-slate-200 to-slate-300">
+            {spotlight.imageUrl && (
+              <img
+                src={spotlight.imageUrl}
+                alt={spotlight.title}
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            )}
+          </div>
         </div>
       )}
 
@@ -183,7 +205,18 @@ export function Home() {
                 to={`/articles/${article.id}`}
                 className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 hover:border-blue-200"
               >
-                <div className="h-20 w-28 shrink-0 rounded-lg bg-gradient-to-br from-slate-200 to-slate-300" />
+                <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-slate-200 to-slate-300">
+                  {article.imageUrl && (
+                    <img
+                      src={article.imageUrl}
+                      alt={article.title}
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  )}
+                </div>
                 <div>
                   <p className="text-xs font-semibold uppercase text-blue-600">{article.tag}</p>
                   <h4 className="mt-1 text-sm font-semibold text-slate-800">{article.title}</h4>

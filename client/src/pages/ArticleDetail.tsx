@@ -45,7 +45,18 @@ export function ArticleDetail() {
 
       {displayArticle && (
         <article>
-          <div className="mb-6 aspect-[16/9] w-full rounded-xl bg-gradient-to-br from-slate-700 to-slate-900" />
+          <div className="mb-6 aspect-[16/9] w-full overflow-hidden rounded-xl bg-gradient-to-br from-slate-700 to-slate-900">
+            {displayArticle.imageUrl && (
+              <img
+                src={displayArticle.imageUrl}
+                alt={displayArticle.title}
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            )}
+          </div>
           {displayArticle.tag && (
             <span className="mb-3 inline-block rounded bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-700">
               {displayArticle.tag}
@@ -55,8 +66,12 @@ export function ArticleDetail() {
           <p className="mt-2 text-xs text-slate-400">
             {[displayArticle.author, displayArticle.readTime].filter(Boolean).join(' · ')}
           </p>
-          <div className="mt-6 text-base leading-relaxed text-slate-700">
-            <p>{displayArticle.excerpt}</p>
+          <div className="mt-6 space-y-4 text-base leading-relaxed text-slate-700">
+            {(displayArticle.content ?? displayArticle.excerpt)
+              .split(/\n\s*\n/)
+              .map((paragraph, i) => (
+                <p key={i}>{paragraph.trim()}</p>
+              ))}
           </div>
         </article>
       )}

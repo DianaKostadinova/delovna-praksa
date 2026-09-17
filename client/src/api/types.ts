@@ -2,6 +2,7 @@ export interface Article {
   id: number
   title: string
   excerpt: string
+  content: string | null
   author: string | null
   readTime: string | null
   imageUrl: string | null
