@@ -5,6 +5,7 @@ import type { Article } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateArticle } from '../i18n/content'
 import { ArrowRightIcon } from '../components/icons'
+import { Reveal } from '../components/Reveal'
 
 const PAGE_SIZE = 6
 
@@ -60,37 +61,38 @@ export function Blog() {
             <p className="text-sm text-slate-400">{t.blog.loading}</p>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-              {pageItems.map((post) => (
-                <Link
-                  key={post.id}
-                  to={`/articles/${post.id}`}
-                  className="overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200"
-                >
-                  <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-200 to-slate-300">
-                    {post.imageUrl && (
-                      <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className="h-full w-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600">{post.tag}</p>
-                    <h3 className="mt-1 text-sm font-semibold text-slate-800">{post.title}</h3>
-                    <p className="mt-1 text-xs text-slate-500 line-clamp-2">{post.excerpt}</p>
-                    <div className="mt-2 flex items-center justify-between">
-                      <p className="text-[11px] text-slate-400">{post.readTime}</p>
-                      <span className="flex items-center gap-1 text-xs font-semibold text-blue-700">
-                        {t.blog.readMore}
-                        <ArrowRightIcon className="h-3.5 w-3.5" />
-                      </span>
+              {pageItems.map((post, i) => (
+                <Reveal key={post.id} delay={i * 80}>
+                  <Link
+                    to={`/articles/${post.id}`}
+                    className="block overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200"
+                  >
+                    <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-200 to-slate-300">
+                      {post.imageUrl && (
+                        <img
+                          src={post.imageUrl}
+                          alt={post.title}
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                          }}
+                        />
+                      )}
                     </div>
-                  </div>
-                </Link>
+                    <div className="p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600">{post.tag}</p>
+                      <h3 className="mt-1 text-sm font-semibold text-slate-800">{post.title}</h3>
+                      <p className="mt-1 text-xs text-slate-500 line-clamp-2">{post.excerpt}</p>
+                      <div className="mt-2 flex items-center justify-between">
+                        <p className="text-[11px] text-slate-400">{post.readTime}</p>
+                        <span className="flex items-center gap-1 text-xs font-semibold text-blue-700">
+                          {t.blog.readMore}
+                          <ArrowRightIcon className="h-3.5 w-3.5" />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
               ))}
             </div>
           )}
@@ -112,7 +114,7 @@ export function Blog() {
           )}
         </div>
 
-        <div className="space-y-6">
+        <Reveal delay={150} className="space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-5">
             <h4 className="text-sm font-semibold text-slate-800">{t.blog.newsletterTitle}</h4>
             <p className="mt-1 text-xs text-slate-500">{t.blog.newsletterCopy}</p>
@@ -150,7 +152,7 @@ export function Blog() {
               ))}
             </ul>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import type { Article, HealthFact } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateArticle, translateFact } from '../i18n/content'
 import { ArrowRightIcon, HeartPulseIcon, BrainIcon, EyeIcon, DropletIcon, LightbulbIcon, UsersIcon } from '../components/icons'
+import { Reveal } from '../components/Reveal'
 
 const FACT_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   heart: HeartPulseIcon,
@@ -135,7 +136,7 @@ export function Home() {
       </div>
 
       {spotlight && (
-        <div className="mb-10 grid gap-6 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 lg:grid-cols-2">
+        <Reveal className="mb-10 grid gap-6 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 lg:grid-cols-2">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{t.home.spotlightBadge}</p>
             <h2 className="mt-2 text-2xl font-bold text-slate-900">{spotlight.title}</h2>
@@ -161,27 +162,29 @@ export function Home() {
               />
             )}
           </div>
-        </div>
+        </Reveal>
       )}
 
-      <Link
-        to="/team"
-        className="mb-10 flex flex-col items-center justify-between gap-4 rounded-xl bg-blue-600 p-6 text-white shadow-sm transition-colors hover:bg-blue-700 sm:flex-row sm:text-left"
-      >
-        <div className="flex items-center gap-4">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
-            <UsersIcon className="h-6 w-6" />
-          </span>
-          <div>
-            <h3 className="text-lg font-semibold">{t.home.meetTeamTitle}</h3>
-            <p className="mt-1 text-sm text-blue-100">{t.home.meetTeamCopy}</p>
+      <Reveal className="mb-10">
+        <Link
+          to="/team"
+          className="flex flex-col items-center justify-between gap-4 rounded-xl bg-blue-600 p-6 text-white shadow-sm transition-colors hover:bg-blue-700 sm:flex-row sm:text-left"
+        >
+          <div className="flex items-center gap-4">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
+              <UsersIcon className="h-6 w-6" />
+            </span>
+            <div>
+              <h3 className="text-lg font-semibold">{t.home.meetTeamTitle}</h3>
+              <p className="mt-1 text-sm text-blue-100">{t.home.meetTeamCopy}</p>
+            </div>
           </div>
-        </div>
-        <span className="flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
-          {t.home.meetTeamButton}
-          <ArrowRightIcon className="h-4 w-4" />
-        </span>
-      </Link>
+          <span className="flex shrink-0 items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
+            {t.home.meetTeamButton}
+            <ArrowRightIcon className="h-4 w-4" />
+          </span>
+        </Link>
+      </Reveal>
 
       <div className="mb-10">
         <div className="mb-4 flex items-center justify-between">
@@ -192,16 +195,16 @@ export function Home() {
         </div>
         <p className="mb-4 text-xs text-slate-400">{t.home.didYouKnowCaption}</p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {translatedFacts.map((fact) => {
+          {translatedFacts.map((fact, i) => {
             const FactIcon = FACT_ICONS[fact.icon] ?? LightbulbIcon
             return (
-              <div key={fact.id} className="rounded-xl border border-slate-200 bg-white p-4">
+              <Reveal key={fact.id} delay={i * 80} className="rounded-xl border border-slate-200 bg-white p-4">
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
                   <FactIcon className="h-4 w-4 text-blue-700" />
                 </span>
                 <h4 className="mt-2 text-sm font-semibold text-slate-800">{fact.title}</h4>
                 <p className="mt-1 text-xs text-slate-500">{fact.detail}</p>
-              </div>
+              </Reveal>
             )
           })}
         </div>
@@ -213,36 +216,37 @@ export function Home() {
             {t.home.originalsHeading}
           </h3>
           <div className="space-y-4">
-            {originals.map((article) => (
-              <Link
-                key={article.id}
-                to={`/articles/${article.id}`}
-                className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 hover:border-blue-200"
-              >
-                <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-slate-200 to-slate-300">
-                  {article.imageUrl && (
-                    <img
-                      src={article.imageUrl}
-                      alt={article.title}
-                      className="h-full w-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
-                    />
-                  )}
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase text-blue-600">{article.tag}</p>
-                  <h4 className="mt-1 text-sm font-semibold text-slate-800">{article.title}</h4>
-                  <p className="mt-1 text-xs text-slate-500 line-clamp-2">{article.excerpt}</p>
-                  <p className="mt-1 text-[11px] text-slate-400">{article.readTime}</p>
-                </div>
-              </Link>
+            {originals.map((article, i) => (
+              <Reveal key={article.id} delay={i * 80}>
+                <Link
+                  to={`/articles/${article.id}`}
+                  className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4 hover:border-blue-200"
+                >
+                  <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-slate-200 to-slate-300">
+                    {article.imageUrl && (
+                      <img
+                        src={article.imageUrl}
+                        alt={article.title}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-blue-600">{article.tag}</p>
+                    <h4 className="mt-1 text-sm font-semibold text-slate-800">{article.title}</h4>
+                    <p className="mt-1 text-xs text-slate-500 line-clamp-2">{article.excerpt}</p>
+                    <p className="mt-1 text-[11px] text-slate-400">{article.readTime}</p>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
 
-        <div className="space-y-6">
+        <Reveal delay={150} className="space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-5">
             <h4 className="text-sm font-semibold text-slate-800">{t.home.newsletterTitle}</h4>
             <p className="mt-1 text-xs text-slate-500">{t.home.newsletterCopy}</p>
@@ -282,7 +286,7 @@ export function Home() {
               </div>
             </div>
           </Link>
-        </div>
+        </Reveal>
       </div>
     </div>
   )
