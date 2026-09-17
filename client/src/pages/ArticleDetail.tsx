@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Article } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -8,6 +8,7 @@ import { ArrowRightIcon } from '../components/icons'
 
 export function ArticleDetail() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const { t, language } = useLanguage()
   const [article, setArticle] = useState<Article | null>(null)
   const [loading, setLoading] = useState(true)
@@ -28,10 +29,13 @@ export function ArticleDetail() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
-      <Link to="/" className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800"
+      >
         <ArrowRightIcon className="h-3.5 w-3.5 rotate-180" />
         {t.articleDetail.back}
-      </Link>
+      </button>
 
       {loading && <p className="text-sm text-slate-400">{t.articleDetail.loading}</p>}
 

@@ -45,6 +45,7 @@ public static class SeedData
 
                     A blood test for 25-hydroxyvitamin D is the only accurate way to know where you actually stand — guessing from symptoms alone isn't reliable, and taking very high doses without medical guidance can cause problems of its own, since vitamin D is fat-soluble and builds up in the body over time.
                     """,
+                    ImageUrl = "/images/article-vitamin-d.png",
                     Section = "Health Tip",
                     Tag = "HEALTH TIP",
                     IsFeatured = false,
@@ -302,6 +303,7 @@ public static class SeedData
 
                     Method: Sauté the onion, garlic, and carrot in olive oil over medium heat for 5 minutes. Stir in the cumin and paprika and cook for 30 seconds until fragrant. Add the lentils, broth, and tomatoes, then simmer uncovered for 20–25 minutes until the lentils are soft. Finish with the lemon juice and season to taste. Serves 4, ready in about 35 minutes.
                     """,
+                    ImageUrl = "/images/article-lentil-soup.webp",
                     Section = "Recipe",
                     PublishedAt = DateTime.UtcNow.AddDays(-2)
                 },
@@ -316,6 +318,7 @@ public static class SeedData
 
                     Method: Blend the dates in a food processor until they form a sticky paste. Add the oats, almond butter, chia seeds, vanilla, and cinnamon, and pulse until combined — add a little water if the mixture is too dry to hold together. Roll into small balls and refrigerate for at least 30 minutes. Makes about 12 bites; keeps refrigerated for up to a week.
                     """,
+                    ImageUrl = "/images/article-oat-bites.webp",
                     Section = "Recipe",
                     PublishedAt = DateTime.UtcNow.AddDays(-4)
                 },
@@ -330,6 +333,7 @@ public static class SeedData
 
                     Method: Add all ingredients to a blender and blend until smooth, about 45 seconds. Taste and adjust honey or ginger to preference. Serves 1, ready in 5 minutes.
                     """,
+                    ImageUrl = "/images/article-turmeric-smoothie.png",
                     Section = "Recipe",
                     PublishedAt = DateTime.UtcNow.AddDays(-7)
                 },
@@ -344,6 +348,7 @@ public static class SeedData
 
                     Method: Combine the oats, chia seeds, and milk in a jar or bowl and refrigerate overnight (or for at least 2 hours). In the morning, stir in the yogurt, top with berries and walnuts, and finish with a drizzle of honey. Serves 1, ready in 10 minutes if prepped the night before.
                     """,
+                    ImageUrl = "/images/article-breakfast-bowl.webp",
                     Section = "Recipe",
                     PublishedAt = DateTime.UtcNow.AddDays(-12)
                 }

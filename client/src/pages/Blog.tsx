@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Article } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -12,7 +12,8 @@ export function Blog() {
   const { t, language } = useLanguage()
   const [posts, setPosts] = useState<Article[]>([])
   const [recipes, setRecipes] = useState<Article[]>([])
-  const [page, setPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = Math.max(1, Number(searchParams.get('page')) || 1)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [email, setEmail] = useState('')
@@ -99,7 +100,7 @@ export function Blog() {
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <button
                   key={p}
-                  onClick={() => setPage(p)}
+                  onClick={() => setSearchParams(p === 1 ? {} : { page: String(p) })}
                   className={`h-8 w-8 rounded-md text-sm font-medium ${
                     p === page ? 'bg-blue-700 text-white' : 'border border-slate-300 text-slate-600'
                   }`}

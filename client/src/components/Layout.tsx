@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useMemo, useState, type FormEvent } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { NavLink, Outlet, useLocation, useNavigationType } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useCart } from '../context/CartContext'
 import { CookieConsent } from './CookieConsent'
@@ -12,11 +12,52 @@ import { BRANCHES } from '../data/branches'
 export function Layout() {
   const { t, language } = useLanguage()
   const location = useLocation()
+  const navigationType = useNavigationType()
+  const scrollPositions = useRef(new Map<string, number>()).current
 
   useEffect(() => {
     // Fires on route changes only — a language switch alone shouldn't count as a new pageview.
     trackPageView(location.pathname, language)
   }, [location.pathname])
+
+  useEffect(() => {
+    // The browser's own scroll restoration (history.scrollRestoration = 'auto') turned out
+    // unreliable for this SPA — it landed Back navigations near the bottom of the page instead
+    // of where the user actually left off. Track positions ourselves per history entry instead.
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+  }, [])
+
+  useEffect(() => {
+    const key = location.key
+    const onScroll = () => scrollPositions.set(key, window.scrollY)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [location.key, scrollPositions])
+
+  useEffect(() => {
+    if (navigationType !== 'POP') {
+      // A genuine forward navigation (e.g. clicking into an article) always starts at the top.
+      window.scrollTo(0, 0)
+      return
+    }
+
+    const saved = scrollPositions.get(location.key)
+    if (saved === undefined) return
+
+    // The destination page may still be loading data (articles, products, …) and grow taller
+    // after this first paint, so keep re-applying the saved position until it settles rather
+    // than restoring once against a page that's still short.
+    window.scrollTo(0, saved)
+    const observer = new MutationObserver(() => window.scrollTo(0, saved))
+    observer.observe(document.body, { childList: true, subtree: true })
+    const stopObserving = setTimeout(() => observer.disconnect(), 2500)
+    return () => {
+      observer.disconnect()
+      clearTimeout(stopObserving)
+    }
+  }, [location.pathname, location.key, navigationType, scrollPositions])
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'

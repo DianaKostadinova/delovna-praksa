@@ -107,14 +107,28 @@ export function Home() {
             </button>
           </div>
           {healthTip && (
-            <Link to={`/articles/${healthTip.id}`} className="flex-1 rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-200">
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{t.home.healthTipBadge}</p>
-              <h3 className="mt-2 text-sm font-semibold text-slate-800">{healthTip.title}</h3>
-              <p className="mt-2 text-xs text-slate-500 line-clamp-3">{healthTip.excerpt}</p>
-              <span className="mt-3 flex items-center gap-1 text-xs font-semibold text-blue-700">
-                {t.home.readMore}
-                <ArrowRightIcon className="h-3.5 w-3.5" />
-              </span>
+            <Link to={`/articles/${healthTip.id}`} className="flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200">
+              {healthTip.imageUrl && (
+                <div className="aspect-[16/9] w-full overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                  <img
+                    src={healthTip.imageUrl}
+                    alt={healthTip.title}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
+                </div>
+              )}
+              <div className="p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{t.home.healthTipBadge}</p>
+                <h3 className="mt-2 text-sm font-semibold text-slate-800">{healthTip.title}</h3>
+                <p className="mt-2 text-xs text-slate-500 line-clamp-3">{healthTip.excerpt}</p>
+                <span className="mt-3 flex items-center gap-1 text-xs font-semibold text-blue-700">
+                  {t.home.readMore}
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </span>
+              </div>
             </Link>
           )}
         </div>
