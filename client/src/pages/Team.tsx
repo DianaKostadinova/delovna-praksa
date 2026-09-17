@@ -2,6 +2,7 @@ import type { TeamMember } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
 import { translateTeamMember } from '../i18n/content'
 import { getTeamMembers } from '../data/team'
+import { Reveal } from '../components/Reveal'
 
 export function Team() {
   const { t, language } = useLanguage()
@@ -26,8 +27,10 @@ export function Team() {
             {t.team.headOfficeHeading}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {headOffice.map((member) => (
-              <TeamCard key={member.id} member={member} />
+            {headOffice.map((member, i) => (
+              <Reveal key={member.id} delay={i * 80}>
+                <TeamCard member={member} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -39,8 +42,10 @@ export function Team() {
             {t.team.branchesHeading}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {branches.map((member) => (
-              <TeamCard key={member.id} member={member} />
+            {branches.map((member, i) => (
+              <Reveal key={member.id} delay={i * 80}>
+                <TeamCard member={member} />
+              </Reveal>
             ))}
           </div>
         </div>

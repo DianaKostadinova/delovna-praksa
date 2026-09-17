@@ -167,6 +167,16 @@ export interface TranslationDict {
     title: string
     subtitle: string
     pick: string
+    bestSeller: string
+    routineTitle: string
+    routineSubtitle: string
+    routineCleanse: string
+    routineTone: string
+    routineTreat: string
+    routineMoisturize: string
+    routineProtect: string
+    wishlistAdd: string
+    wishlistRemove: string
   }
   cookies: {
     title: string
@@ -358,6 +368,16 @@ export const translations: Record<Language, TranslationDict> = {
       title: 'K-Beauty',
       subtitle: 'Korean skincare favorites, picked by Zegin — glass skin, gentle formulas, and glow.',
       pick: 'Editor’s Pick',
+      bestSeller: 'Best Seller',
+      routineTitle: 'The 5-Step Glow Routine',
+      routineSubtitle: 'The classic K-beauty order, so every product actually does its job.',
+      routineCleanse: 'Cleanse',
+      routineTone: 'Tone',
+      routineTreat: 'Treat',
+      routineMoisturize: 'Moisturize',
+      routineProtect: 'Protect',
+      wishlistAdd: 'Add to wishlist',
+      wishlistRemove: 'Remove from wishlist',
     },
     cookies: {
       title: 'Cookies & Privacy',
@@ -548,6 +568,16 @@ export const translations: Record<Language, TranslationDict> = {
       title: 'K-Beauty',
       subtitle: 'Корејска нега на кожа, избрана од Zegin — стаклена кожа, нежни формули и сјај.',
       pick: 'Избор на уредникот',
+      bestSeller: 'Бестселер',
+      routineTitle: 'Рутина во 5 чекори за сјајна кожа',
+      routineSubtitle: 'Класичниот K-beauty редослед, за секој производ навистина да ја врши својата работа.',
+      routineCleanse: 'Чистење',
+      routineTone: 'Тонер',
+      routineTreat: 'Третман',
+      routineMoisturize: 'Хидратација',
+      routineProtect: 'Заштита',
+      wishlistAdd: 'Додади во листа со желби',
+      wishlistRemove: 'Отстрани од листа со желби',
     },
     cookies: {
       title: 'Колачиња и приватност',
