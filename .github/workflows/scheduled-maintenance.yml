@@ -1,0 +1,62 @@
+# Free alternative to Render's (paid) Cron Job service: GitHub's scheduler calls the same
+# maintenance endpoints.
+#
+# Setup — repo Settings > Secrets and variables > Actions:
+#   secret  API_BASE_URL       https://zegin-api.onrender.com     (no trailing slash)
+#   secret  MAINTENANCE_TOKEN  the value Render generated for the API service
+#
+# Note that GitHub disables scheduled workflows in a repo with no pushes for 60 days, and that
+# scheduled runs can start several minutes late under load. Neither matters for a nightly
+# cleanup; both would matter for anything time-critical.
+
+name: Scheduled maintenance
+
+on:
+  schedule:
+    # Nightly analytics cleanup at 03:00 UTC.
+    - cron: "0 3 * * *"
+    # Keep-alive during daytime hours, so a visitor doesn't land on a cold-started free
+    # instance. Delete this line if the API is on a paid plan that never sleeps.
+    - cron: "*/14 6-20 * * *"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Which task to run
+        type: choice
+        options: [cleanup, ping]
+        default: cleanup
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choose task
+        id: task
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+          MANUAL: ${{ inputs.job }}
+        run: |
+          if [ -n "$MANUAL" ]; then
+            echo "endpoint=$MANUAL" >> "$GITHUB_OUTPUT"
+          elif [ "$SCHEDULE" = "0 3 * * *" ]; then
+            echo "endpoint=cleanup" >> "$GITHUB_OUTPUT"
+          else
+            echo "endpoint=ping" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Call maintenance endpoint
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          MAINTENANCE_TOKEN: ${{ secrets.MAINTENANCE_TOKEN }}
+          ENDPOINT: ${{ steps.task.outputs.endpoint }}
+        run: |
+          set -euo pipefail
+          if [ -z "${API_BASE_URL:-}" ] || [ -z "${MAINTENANCE_TOKEN:-}" ]; then
+            echo "::error::API_BASE_URL and MAINTENANCE_TOKEN repository secrets are required."
+            exit 1
+          fi
+          # --retry covers a free instance that is still cold-starting on the first request.
+          curl -fsS --retry 5 --retry-delay 15 --retry-connrefused --max-time 120 \
+            -X POST "${API_BASE_URL%/}/api/maintenance/$ENDPOINT" \
+            -H "X-Maintenance-Token: $MAINTENANCE_TOKEN" \
+            -w '\nHTTP %{http_code} in %{time_total}s\n'
