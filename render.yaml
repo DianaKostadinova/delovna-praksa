@@ -1,5 +1,9 @@
 # Render Blueprint — New > Blueprint in the Render dashboard, point it at this repo, and it
-# creates the API and the nightly cleanup job.
+# creates the API web service.
+#
+# The scheduled cleanup is NOT defined here: Render Cron Jobs have no free plan (minimum $1
+# per job per month), so the job runs from cron-job.org against /api/maintenance/cleanup
+# instead. See the README.
 #
 # The database is deliberately NOT defined here: Render's free Postgres expires after 30 days,
 # so this setup expects an external Postgres (Neon's free tier doesn't expire) supplied as
@@ -48,30 +52,3 @@ services:
         value: "90"
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-
-  # Cron Jobs are a paid Render feature. If you'd rather not pay, delete this block and use
-  # .github/workflows/scheduled-maintenance.yml instead — it does the same thing for free.
-  - type: cron
-    name: zegin-analytics-cleanup
-    runtime: docker
-    plan: starter
-    region: frankfurt
-    schedule: "0 3 * * *" # 03:00 UTC daily
-    # Reuses the API image purely because it already has curl; it never starts the web server.
-    dockerfilePath: ./server/Dockerfile
-    dockerContext: ./server
-    dockerCommand: >-
-      curl -fsS --retry 3 --retry-delay 10 -X POST
-      "https://$API_HOST/api/maintenance/cleanup"
-      -H "X-Maintenance-Token: $MAINTENANCE_TOKEN"
-    envVars:
-      - key: API_HOST
-        fromService:
-          type: web
-          name: zegin-api
-          property: host
-      - key: MAINTENANCE_TOKEN
-        fromService:
-          type: web
-          name: zegin-api
-          envVarKey: MAINTENANCE_TOKEN

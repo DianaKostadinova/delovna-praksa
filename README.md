@@ -182,8 +182,7 @@ below. Just note the 30-day expiry on the free plan (`basic-256mb` and up don't 
 ### 2. The API on Render
 
 The repo has a `render.yaml` blueprint: in Render, **New > Blueprint**, pick this repo, apply.
-It creates the `zegin-api` web service and the nightly cleanup Cron Job, and prompts for the
-secrets it won't store in git.
+It creates the `zegin-api` web service and prompts for the secrets it won't store in git.
 
 Doing it by hand instead — **New > Web Service**, connect the repo, then set:
 
@@ -228,14 +227,31 @@ Page-view rows are the one table that grows forever, so a nightly job trims anyt
 retention window: `POST /api/maintenance/cleanup` with an `X-Maintenance-Token` header. There's
 also `POST /api/maintenance/ping`, a no-op used to keep a sleeping free instance warm.
 
-`render.yaml` already defines the cleanup as a Render Cron Job at 03:00 UTC. **Render Cron Jobs
-are a paid feature**, so if you'd rather not pay, delete that block and use the free option
-that's also in the repo: `.github/workflows/scheduled-maintenance.yml`. It runs the same
-cleanup nightly plus a keep-alive ping during the day — add two repository secrets under
+Render Cron Jobs have **no free plan** (minimum $1 per job per month), so `render.yaml`
+deliberately leaves the schedule out. Two free ways to run it instead:
+
+**[cron-job.org](https://cron-job.org)** — no repo changes at all. Create two jobs, both
+**POST**, both with an `X-Maintenance-Token` header:
+
+| URL | Schedule |
+| --- | --- |
+| `https://<your-api>.onrender.com/api/maintenance/ping` | every 14 minutes |
+| `https://<your-api>.onrender.com/api/maintenance/cleanup` | daily, 03:00 |
+
+Fourteen minutes because a free Render service sleeps after fifteen. Note that this stores the
+maintenance token on a third-party service — acceptable here, where the worst case is deleting
+analytics rows that were due for deletion anyway.
+
+**`.github/workflows/scheduled-maintenance.yml`** — already in the repo, runs the same cleanup
+nightly plus the keep-alive ping during the day. Add two repository secrets under
 **Settings > Secrets and variables > Actions**:
 
 - `API_BASE_URL` — `https://<your-api>.onrender.com`
 - `MAINTENANCE_TOKEN` — the same value the API has
+
+If you use cron-job.org instead, **disable this workflow** (Actions tab > *Scheduled
+maintenance* > ⋯ > Disable workflow) — otherwise it runs on schedule without its secrets and
+emails you a failure every night.
 
 You can run it by hand from the Actions tab to check it works. To test the endpoint directly:
 
@@ -267,8 +283,8 @@ client/                 React + TypeScript app (Vite)
   vercel.json             Vercel build settings + SPA rewrite
 
 docker-compose.yml      the whole stack: Postgres + API + frontend (+ optional cron)
-render.yaml             Render blueprint: API, Postgres, nightly cron job
-.github/workflows/      free alternative to Render's paid cron job
+render.yaml             Render blueprint for the API web service
+.github/workflows/      scheduled cleanup + keep-alive (free cron alternative)
 .env.example            compose overrides (ports, maintenance token, retention)
 ```
 
