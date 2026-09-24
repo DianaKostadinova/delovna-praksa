@@ -1,0 +1,77 @@
+# Render Blueprint — New > Blueprint in the Render dashboard, point it at this repo, and it
+# creates the API and the nightly cleanup job.
+#
+# The database is deliberately NOT defined here: Render's free Postgres expires after 30 days,
+# so this setup expects an external Postgres (Neon's free tier doesn't expire) supplied as
+# DATABASE_URL. See the README.
+#
+# To use Render's own managed Postgres instead, uncomment this block and change the
+# DATABASE_URL env var below from `sync: false` to the `fromDatabase` form shown there:
+#
+# databases:
+#   - name: zegin-db
+#     databaseName: zeginhealthhub
+#     user: zegin
+#     plan: free          # expires after 30 days; `basic-256mb` and up do not
+#
+# Only the frontend is missing on purpose: that goes to Vercel (see README).
+
+services:
+  - type: web
+    name: zegin-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      # Paste the Neon connection string (the pooled one, ending -pooler) into the Render
+      # dashboard after the first deploy. sync: false means "prompt me, don't store it here".
+      #
+      # With Render's own Postgres instead, replace these two lines with:
+      #   fromDatabase:
+      #     name: zegin-db
+      #     property: connectionString
+      - key: DATABASE_URL
+        sync: false
+      # Set this in the dashboard once the Vercel URL exists. Comma-separated; a leading
+      # wildcard label is allowed so preview deploys keep working:
+      #   https://zegin-health-hub.vercel.app,https://*.vercel.app
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      # Render generates this once and keeps it; the cron job below reads the same value.
+      - key: MAINTENANCE_TOKEN
+        generateValue: true
+      - key: Maintenance__RetentionDays
+        value: "90"
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+  # Cron Jobs are a paid Render feature. If you'd rather not pay, delete this block and use
+  # .github/workflows/scheduled-maintenance.yml instead — it does the same thing for free.
+  - type: cron
+    name: zegin-analytics-cleanup
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    schedule: "0 3 * * *" # 03:00 UTC daily
+    # Reuses the API image purely because it already has curl; it never starts the web server.
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: ./server
+    dockerCommand: >-
+      curl -fsS --retry 3 --retry-delay 10 -X POST
+      "https://$API_HOST/api/maintenance/cleanup"
+      -H "X-Maintenance-Token: $MAINTENANCE_TOKEN"
+    envVars:
+      - key: API_HOST
+        fromService:
+          type: web
+          name: zegin-api
+          property: host
+      - key: MAINTENANCE_TOKEN
+        fromService:
+          type: web
+          name: zegin-api
+          envVarKey: MAINTENANCE_TOKEN

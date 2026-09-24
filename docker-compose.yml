@@ -1,0 +1,87 @@
+# Runs the whole stack — Postgres, the ASP.NET API and the built React app behind nginx —
+# with `docker compose up --build`, then open http://localhost:8080.
+#
+# This deliberately uses Postgres rather than the SQLite file the local `dotnet run` flow
+# defaults to, so that what you run here matches what the deployed app runs against.
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-zegin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zegin_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-zeginhealthhub}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    # Published so you can point psql or a GUI client at localhost:5432; drop this line if the
+    # port collides with a Postgres you already run.
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-zegin} -d ${POSTGRES_DB:-zeginhealthhub}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./server
+    restart: unless-stopped
+    environment:
+      # The API also retries on its own at startup, but waiting for the healthcheck keeps the
+      # first-run logs clean.
+      DATABASE_URL: postgresql://${POSTGRES_USER:-zegin}:${POSTGRES_PASSWORD:-zegin_dev_password}@db:5432/${POSTGRES_DB:-zeginhealthhub}?sslmode=disable
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080}
+      MAINTENANCE_TOKEN: ${MAINTENANCE_TOKEN:-local-dev-maintenance-token}
+      Maintenance__RetentionDays: ${ANALYTICS_RETENTION_DAYS:-90}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+    depends_on:
+      db:
+        condition: service_healthy
+    # Exposed so you can hit http://localhost:5159/health or /api/analytics/summary directly;
+    # the browser app doesn't need it, it goes through nginx.
+    ports:
+      - "${API_PORT:-5159}:8080"
+
+  web:
+    build:
+      context: ./client
+      args:
+        # Empty on purpose — nginx proxies /api to the api service, so the SPA's relative
+        # requests are same-origin.
+        VITE_API_BASE_URL: ""
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+  # The scheduled cleanup, as an always-on container running a plain sleep loop. It is not
+  # started by default (`docker compose up` ignores profiles) — bring it up with
+  # `docker compose --profile cron up -d cron` when you want to watch the job that Render's
+  # Cron Job service will run in production.
+  cron:
+    image: curlimages/curl:8.11.1
+    restart: unless-stopped
+    profiles: ["cron"]
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      MAINTENANCE_TOKEN: ${MAINTENANCE_TOKEN:-local-dev-maintenance-token}
+      CLEANUP_INTERVAL_SECONDS: ${CLEANUP_INTERVAL_SECONDS:-86400}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        while true; do
+          echo "[cron] $$(date -u +%FT%TZ) running analytics cleanup"
+          curl -fsS -X POST http://api:8080/api/maintenance/cleanup \
+            -H "X-Maintenance-Token: $$MAINTENANCE_TOKEN" || echo "[cron] cleanup failed"
+          echo
+          sleep "$$CLEANUP_INTERVAL_SECONDS"
+        done
+
+volumes:
+  db-data:

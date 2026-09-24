@@ -55,13 +55,22 @@ no internal admin/staff area; this app is scoped to what a pharmacy customer wou
 
 - **Frontend:** React 19 + TypeScript, Vite, React Router, Tailwind CSS 4
 - **Backend:** ASP.NET Core Web API (.NET 10), EF Core
-- **Database:** SQLite (a single file, created and seeded automatically on first run — no
-  database server to install)
+- **Database:** SQLite by default (a single file, created and seeded automatically on first
+  run — no database server to install), or PostgreSQL when a `DATABASE_URL` is supplied. The
+  provider is chosen from the connection string at startup; the app code is identical either
+  way.
+- **Deployment:** Docker Compose for the full stack locally; Vercel (frontend) + Render (API)
+  + Neon (Postgres) when deployed
 
 ## Prerequisites
 
+Either install the toolchain:
+
 - [.NET SDK 10](https://dotnet.microsoft.com/download) or later
 - [Node.js](https://nodejs.org/) 20+ and npm
+
+…or just [Docker](https://docs.docker.com/get-docker/), and skip straight to
+[Running it with Docker](#running-it-with-docker).
 
 ## Running it locally
 
@@ -86,6 +95,154 @@ npm run dev
 This starts the Vite dev server at `http://localhost:5173` and proxies `/api/*` requests to the
 backend, so open **http://localhost:5173** in your browser.
 
+## Running it with Docker
+
+`docker compose up --build`, then open **http://localhost:8080**. That brings up three
+containers — Postgres, the API, and the built frontend behind nginx — and nothing else needs to
+be installed, not even the .NET SDK or Node.
+
+Unlike the `dotnet run` flow above, this one runs against **PostgreSQL rather than SQLite**, on
+purpose: it's the same database the deployed app uses, so a query that works here works there.
+
+Useful variations:
+
+```bash
+docker compose up --build -d          # in the background
+docker compose logs -f api            # follow the API logs
+docker compose --profile cron up -d cron   # also run the nightly cleanup job (see below)
+docker compose down                   # stop everything (keeps the database volume)
+docker compose down -v                # stop and delete the database too
+```
+
+Ports are configurable — copy `.env.example` to `.env` if `8080` or `5432` is already taken on
+your machine:
+
+| Variable | Default | What it is |
+| --- | --- | --- |
+| `WEB_PORT` | `8080` | The site |
+| `API_PORT` | `5159` | The API directly, for `curl`/Swagger-style pokes |
+| `POSTGRES_PORT` | `5432` | Postgres, for psql or a GUI client |
+| `MAINTENANCE_TOKEN` | a dev placeholder | Shared secret for the maintenance endpoints |
+| `ANALYTICS_RETENTION_DAYS` | `90` | How long page-view rows are kept |
+
+The API is reachable from the browser at `/api/...` on the same origin, because nginx proxies
+it — exactly like the Vite dev proxy does locally. Nothing in the frontend code changes between
+the two.
+
+## Configuration
+
+Both apps read their environment rather than hard-coding hosts, which is what makes the same
+build work locally, in Docker, and deployed.
+
+**API** (environment variables, or `appsettings.json`):
+
+| Variable | Default | Notes |
+| --- | --- | --- |
+| `DATABASE_URL` / `ConnectionStrings__Default` | SQLite file | A `postgres://…` URL switches the app to PostgreSQL automatically; anything else is treated as SQLite |
+| `CORS_ALLOWED_ORIGINS` | localhost dev ports | Comma-separated. One leading wildcard label is allowed, e.g. `https://*.vercel.app`, so Vercel preview deploys keep working |
+| `MAINTENANCE_TOKEN` | *(unset)* | Shared secret for `/api/maintenance/*`. **While unset those endpoints return 503** rather than being publicly callable |
+| `Maintenance__RetentionDays` | `90` | Age at which page-view rows are deleted |
+| `PORT` | `8080` in the container | Container hosts inject this; the app binds to it |
+
+**Frontend** (`client/.env.local`, or the host's env screen — see `client/.env.example`):
+
+| Variable | Default | Notes |
+| --- | --- | --- |
+| `VITE_API_BASE_URL` | empty | Leave empty whenever the API is same-origin (dev proxy, Docker). Set it to the API's origin when the frontend is hosted separately. Vite inlines it **at build time**, so changing it needs a rebuild, not just a restart |
+
+## Deploying
+
+Three pieces, three hosts, all on free tiers: the frontend is static files (Vercel), the API
+is a long-running container (Render), and the database is managed Postgres (Neon).
+
+### 1. The database (Neon)
+
+Any Postgres works, but [Neon](https://neon.tech)'s free tier is the pragmatic choice here:
+unlike Render's free Postgres it **doesn't expire after 30 days**, and it needs no card.
+
+1. Create a project, pick a region near the API (e.g. Frankfurt if the API is in `frankfurt`).
+2. Copy the connection string — take the **pooled** one, the host ending in `-pooler`. It looks
+   like `postgresql://neondb_owner:...@ep-xxx-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require`.
+3. That's it — no schema step. The API creates and seeds the tables on first boot.
+
+Nothing in the app needs configuring for Neon specifically: the URL is parsed into an Npgsql
+connection string at startup, `sslmode=require` and escaped passwords included. The pooled
+endpoint is PgBouncer in transaction mode, which would break server-side prepared statements —
+Npgsql leaves those off by default (`MaxAutoPrepare=0`), so it works as-is.
+
+> Free Neon compute **suspends after ~5 minutes idle** and wakes on the next query, so the
+> first request after a quiet spell pays a short cold start. The API already retries transient
+> connection failures (`EnableRetryOnFailure`), so this shows up as latency, not an error.
+> Quotas change — check Neon's current free-plan limits rather than trusting this paragraph.
+
+If you'd rather keep everything on one provider, Render's managed Postgres works too: create it
+with **New > PostgreSQL**, copy the **Internal Database URL**, and use that as `DATABASE_URL`
+below. Just note the 30-day expiry on the free plan (`basic-256mb` and up don't expire).
+
+### 2. The API on Render
+
+The repo has a `render.yaml` blueprint: in Render, **New > Blueprint**, pick this repo, apply.
+It creates the `zegin-api` web service and the nightly cleanup Cron Job, and prompts for the
+secrets it won't store in git.
+
+Doing it by hand instead — **New > Web Service**, connect the repo, then set:
+
+- Runtime **Docker**, Dockerfile path `./server/Dockerfile`, Docker context `./server`
+- Health check path `/health`
+- Environment variables:
+  - `DATABASE_URL` — the Neon pooled URL from step 1
+  - `MAINTENANCE_TOKEN` — generate one with `openssl rand -hex 32` and keep it
+
+Deploy, then check `https://<your-api>.onrender.com/health`. It should report
+`"database":"PostgreSQL"` — if it says `"SQLite"`, `DATABASE_URL` didn't reach the container.
+
+`CORS_ALLOWED_ORIGINS` is left blank for now; you need the Vercel URL first.
+
+> A free Render web service **sleeps after 15 minutes idle** and takes 30–60s to wake. The
+> keep-alive job below covers that.
+
+### 3. The frontend on Vercel
+
+1. **Add New > Project**, import the repo.
+2. Set **Root Directory** to `client`. Vercel then detects Vite and reads `client/vercel.json`
+   (which handles the SPA rewrite — without it a refresh on `/blog` would 404).
+3. Add an environment variable `VITE_API_BASE_URL` = `https://<your-api>.onrender.com`
+   (no trailing slash), for Production **and** Preview.
+4. Deploy.
+
+### 4. Point them at each other
+
+Back in Render, set the API's `CORS_ALLOWED_ORIGINS` to your Vercel domains and redeploy:
+
+```
+https://<your-project>.vercel.app,https://*.vercel.app
+```
+
+The second entry covers Vercel's per-commit preview URLs. Without this step every API call from
+the deployed site fails as a CORS error, while the API itself looks perfectly healthy — that
+symptom almost always means this variable.
+
+### 5. The scheduled job
+
+Page-view rows are the one table that grows forever, so a nightly job trims anything past the
+retention window: `POST /api/maintenance/cleanup` with an `X-Maintenance-Token` header. There's
+also `POST /api/maintenance/ping`, a no-op used to keep a sleeping free instance warm.
+
+`render.yaml` already defines the cleanup as a Render Cron Job at 03:00 UTC. **Render Cron Jobs
+are a paid feature**, so if you'd rather not pay, delete that block and use the free option
+that's also in the repo: `.github/workflows/scheduled-maintenance.yml`. It runs the same
+cleanup nightly plus a keep-alive ping during the day — add two repository secrets under
+**Settings > Secrets and variables > Actions**:
+
+- `API_BASE_URL` — `https://<your-api>.onrender.com`
+- `MAINTENANCE_TOKEN` — the same value the API has
+
+You can run it by hand from the Actions tab to check it works. To test the endpoint directly:
+
+```bash
+curl -X POST https://<your-api>.onrender.com/api/maintenance/cleanup -H "X-Maintenance-Token: <token>"
+```
+
 ## Project structure
 
 ```
@@ -96,6 +253,8 @@ server/                 ASP.NET Core Web API
   Controllers/           API endpoints (/api/articles incl. /api/articles/{id},
                          /api/products, /api/symptomcheck, /api/analytics/*)
 
+  Dockerfile             container image for the API
+
 client/                 React + TypeScript app (Vite)
   src/api/               typed fetch client
   src/components/        shared layout (nav + footer), icon set, cookie consent card
@@ -103,14 +262,28 @@ client/                 React + TypeScript app (Vite)
   src/i18n/               EN/MK translation dictionaries + content overlays
   src/analytics.ts        consent-gated page-view tracking helper
   src/pages/              Home, Blog, ArticleDetail, Pharmacy, KBeauty, Cart, AiChecker, Team
+  Dockerfile              build + nginx image for the frontend
+  nginx.conf              SPA fallback + /api proxy
+  vercel.json             Vercel build settings + SPA rewrite
+
+docker-compose.yml      the whole stack: Postgres + API + frontend (+ optional cron)
+render.yaml             Render blueprint: API, Postgres, nightly cron job
+.github/workflows/      free alternative to Render's paid cron job
+.env.example            compose overrides (ports, maintenance token, retention)
 ```
 
 ## Notes for building on this
 
 - To reset the database, stop the API and delete `server/zeginhealthhub.db` — it will be
-  recreated and reseeded on the next `dotnet run`.
-- CORS is pre-configured on the API for `http://localhost:5173` in case you run the frontend
-  without the Vite proxy.
+  recreated and reseeded on the next `dotnet run`. Under Docker the equivalent is
+  `docker compose down -v`.
+- Schema creation still uses `EnsureCreated()`, which builds the schema once and never alters
+  it afterwards. That's fine while the model is append-only seed data, but adding a column to
+  an existing table will need EF Core migrations rather than a redeploy — on a deployed
+  Postgres instance you can't just delete the file.
+- CORS is pre-configured on the API for the usual local ports (`5173` dev, `4173` preview,
+  `8080` the Docker frontend) in case you run the frontend without the Vite proxy. Deployed
+  origins are added through `CORS_ALLOWED_ORIGINS` — see [Configuration](#configuration).
 - The AI Checker's backend logic lives in `server/Services/SymptomCheckerService.cs` — it's a
   small keyword-to-recommendation table, easy to extend with more conditions.
 - There is deliberately no admin/staff area (an earlier "Pharmacist Dashboard" with a patient

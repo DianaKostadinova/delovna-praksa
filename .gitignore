@@ -21,6 +21,15 @@ client/*.local
 .DS_Store
 Thumbs.db
 
+# Env / secrets
+.env
+.env.local
+client/.env
+client/.env.local
+client/.env.*.local
+!.env.example
+!client/.env.example
+
 # Logs
 *.log
 server/run.log

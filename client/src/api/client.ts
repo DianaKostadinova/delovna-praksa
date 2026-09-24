@@ -8,8 +8,15 @@ import type {
   ContactRequest,
 } from './types'
 
+// In local dev this stays empty and Vite proxies /api to the backend, so the browser only ever
+// sees a same-origin request. Once the frontend is deployed on its own host (Vercel) the API
+// lives somewhere else entirely, and VITE_API_BASE_URL points at it — e.g.
+// https://zegin-health-hub-api.onrender.com. Vite inlines this at build time, so changing it
+// on the host requires a redeploy, not just a restart.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${API_BASE_URL}/api${path}`, {
     headers: { 'Content-Type': 'application/json' },
     ...init,
   })
