@@ -1,0 +1,9 @@
+# RepoRun stack definition — sits next to docker-compose.yml (repo_path `/`).
+# Publishes the nginx frontend; it proxies /api to the api service, so it is the only
+# endpoint the browser needs.
+
+endpoints:
+  - name: web
+    service: web
+    port: 80
+    access: public
