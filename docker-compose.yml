@@ -13,8 +13,8 @@
 services:
   db:
     image: postgres:17-alpine
-    cpus: 0.5
-    mem_limit: 512m
+    cpus: 0.2
+    mem_limit: 192m
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-zegin}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zegin_dev_password}
@@ -32,8 +32,8 @@ services:
   api:
     build:
       context: ./server
-    cpus: 0.5
-    mem_limit: 512m
+    cpus: 0.2
+    mem_limit: 256m
     environment:
       # The API also retries on its own at startup, but waiting for the healthcheck keeps the
       # first-run logs clean.
@@ -51,8 +51,8 @@ services:
     # api service, so the SPA's relative requests are same-origin.
     build:
       context: ./client
-    cpus: 0.25
-    mem_limit: 128m
+    cpus: 0.1
+    mem_limit: 64m
     depends_on:
       api:
         condition: service_healthy
