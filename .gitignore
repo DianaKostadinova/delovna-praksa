@@ -33,3 +33,6 @@ client/.env.*.local
 # Logs
 *.log
 server/run.log
+
+# Local bind-mount data (RepoRun deploy)
+.data/
