@@ -12,7 +12,7 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
 
-  api:
+  zegin-api:
     restart: unless-stopped
     # Exposed so you can hit http://localhost:5159/health or /api/analytics/summary directly;
     # the browser app doesn't need it, it goes through nginx.
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
     profiles: ["cron"]
     depends_on:
-      api:
+      zegin-api:
         condition: service_healthy
     environment:
       MAINTENANCE_TOKEN: ${MAINTENANCE_TOKEN:-local-dev-maintenance-token}
@@ -42,7 +42,7 @@ services:
       - |
         while true; do
           echo "[cron] $$(date -u +%FT%TZ) running analytics cleanup"
-          curl -fsS -X POST http://api:8080/api/maintenance/cleanup \
+          curl -fsS -X POST http://zegin-api:8080/api/maintenance/cleanup \
             -H "X-Maintenance-Token: $$MAINTENANCE_TOKEN" || echo "[cron] cleanup failed"
           echo
           sleep "$$CLEANUP_INTERVAL_SECONDS"

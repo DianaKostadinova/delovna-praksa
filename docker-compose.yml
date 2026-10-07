@@ -29,7 +29,9 @@ services:
       timeout: 5s
       retries: 10
 
-  api:
+  # Named zegin-api rather than plain `api`: on RepoRun the web container also sits on a
+  # network shared with other stacks, where a bare `api` can resolve to someone else's service.
+  zegin-api:
     build:
       context: ./server
     cpus: 0.2
@@ -48,11 +50,11 @@ services:
 
   web:
     # VITE_API_BASE_URL is left at the Dockerfile's empty default — nginx proxies /api to the
-    # api service, so the SPA's relative requests are same-origin.
+    # zegin-api service, so the SPA's relative requests are same-origin.
     build:
       context: ./client
     cpus: 0.1
     mem_limit: 64m
     depends_on:
-      api:
+      zegin-api:
         condition: service_healthy

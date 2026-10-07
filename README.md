@@ -108,7 +108,7 @@ Useful variations:
 
 ```bash
 docker compose up --build -d          # in the background
-docker compose logs -f api            # follow the API logs
+docker compose logs -f zegin-api      # follow the API logs
 docker compose --profile cron up -d cron   # also run the nightly cleanup job (see below)
 docker compose down                   # stop everything (keeps the database volume)
 docker compose down -v                # stop and delete the database too
