@@ -35,4 +35,4 @@ client/.env.*.local
 server/run.log
 
 # Local bind-mount data (RepoRun deploy)
-.data/
+.stack-data/
