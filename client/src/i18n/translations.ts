@@ -5,7 +5,6 @@ export interface TranslationDict {
     home: string
     pharmacy: string
     kbeauty: string
-    aiChecker: string
     cart: string
     team: string
     blog: string
@@ -55,6 +54,17 @@ export interface TranslationDict {
     carouselHeading: string
     carouselPrev: string
     carouselNext: string
+    heroEyebrow: string
+    band2Eyebrow: string
+    band2Title: string
+    band2Copy: string
+    band2Button: string
+    bandEyebrow: string
+    bandTitle: string
+    bandCopy: string
+    bandButton: string
+    shelvesHeading: string
+    shelvesLink: string
   }
   team: {
     badge: string
@@ -109,6 +119,10 @@ export interface TranslationDict {
     trustRxDetail: string
     featured: string
     featuredNote: string
+    bandEyebrow: string
+    bandTitle: string
+    bandCopy: string
+    bandButton: string
   }
   stock: { InStock: string; LowStock: string; OutOfStock: string }
   categories: Record<
@@ -125,29 +139,6 @@ export interface TranslationDict {
     | 'K-Beauty',
     string
   >
-  aiChecker: {
-    badge: string
-    title: string
-    subtitle: string
-    ageLabel: string
-    agePlaceholder: string
-    symptomsLabel: string
-    symptomsPlaceholder: string
-    disclaimerNote: string
-    submitButton: string
-    submitting: string
-    waitingTitle: string
-    waitingCopy: string
-    urgencyLabel: string
-    suggestedProducts: string
-    featureClinicalTitle: string
-    featureClinicalText: string
-    featureTrackTitle: string
-    featureTrackText: string
-    featureNearbyTitle: string
-    featureNearbyText: string
-  }
-  urgency: { Low: string; Moderate: string; 'See a doctor': string }
   languageToggle: { label: string }
   cartPage: {
     title: string
@@ -190,6 +181,10 @@ export interface TranslationDict {
     routineTreat: string
     routineMoisturize: string
     routineProtect: string
+    routineDetails: string[]
+    bandEyebrow: string
+    bandTitle: string
+    bandCopy: string
     wishlistAdd: string
     wishlistRemove: string
   }
@@ -207,7 +202,6 @@ export const translations: Record<Language, TranslationDict> = {
       home: 'Home',
       pharmacy: 'Pharmacy',
       kbeauty: 'K-Beauty',
-      aiChecker: 'Symptom Checker',
       cart: 'Cart',
       team: 'Team',
       blog: 'Blog',
@@ -234,7 +228,7 @@ export const translations: Record<Language, TranslationDict> = {
     },
     home: {
       title: 'ZEGIN',
-      subtitle: 'MEDICAL INSIGHTS & MODERN WELLNESS · ISSUE 04 · 2026',
+      subtitle: 'Your neighbourhood pharmacy — health tips, trusted products and real advice.',
       loadError: "Couldn't load content:",
       didYouKnowBadge: 'Did You Know?',
       didYouKnowFact: 'Drinking honey before bed can improve liver health and sleep quality.',
@@ -258,6 +252,17 @@ export const translations: Record<Language, TranslationDict> = {
       carouselHeading: 'Latest from the Blog',
       carouselPrev: 'Previous post',
       carouselNext: 'Next post',
+      heroEyebrow: 'Pharmacy · North Macedonia',
+      band2Eyebrow: 'From the blog',
+      band2Title: 'Small daily habits add up to real health.',
+      band2Copy: 'Hydration, sleep, nutrition — short, practical reads from our pharmacists.',
+      band2Button: 'Read the blog',
+      bandEyebrow: 'Why Zegin',
+      bandTitle: 'Real pharmacists. Real advice. Right around the corner.',
+      bandCopy: 'Ask at the counter, check live stock online, and pick up the same day at a branch near you.',
+      bandButton: 'Explore the catalog',
+      shelvesHeading: 'From our shelves',
+      shelvesLink: 'See all products',
     },
     team: {
       badge: 'OUR PEOPLE',
@@ -313,6 +318,10 @@ export const translations: Record<Language, TranslationDict> = {
       trustRxDetail: 'Verified at pickup',
       featured: 'Featured products',
       featuredNote: 'Over-the-counter essentials, selected by our pharmacists.',
+      bandEyebrow: 'Need advice?',
+      bandTitle: 'Not sure what you need? Ask a pharmacist.',
+      bandCopy: 'Our pharmacists can help you choose the right product, check interactions and explain how to take it.',
+      bandButton: 'Meet our pharmacists',
     },
     stock: {
       InStock: 'In Stock',
@@ -331,36 +340,6 @@ export const translations: Record<Language, TranslationDict> = {
       Diagnostics: 'Diagnostics',
       Digestive: 'Digestive',
       'K-Beauty': 'K-Beauty',
-    },
-    aiChecker: {
-      badge: 'GUIDED CARE',
-      title: 'Symptom Checker',
-      subtitle:
-        'Describe how you feel, and our checker will match your symptoms to common patterns for immediate health guidance and over-the-counter recommendations.',
-      ageLabel: 'Age',
-      agePlaceholder: 'e.g. 28',
-      symptomsLabel: 'Describe your symptoms',
-      symptomsPlaceholder:
-        "Tell us what's bothering you... (e.g. 'I have a scratchy throat and a slight headache since yesterday')",
-      disclaimerNote:
-        'Demo only — this uses a simple keyword-matching rules engine, not a real clinical AI. It is not medical advice.',
-      submitButton: 'Get Recommendation',
-      submitting: 'Analyzing…',
-      waitingTitle: 'Waiting for analysis',
-      waitingCopy: 'Complete the form to receive a recommendation based on your symptoms.',
-      urgencyLabel: 'Urgency',
-      suggestedProducts: 'Suggested OTC Products',
-      featureClinicalTitle: 'Clinically Backed',
-      featureClinicalText: 'Rule-based guidance mapped to common OTC care patterns, for demonstration purposes.',
-      featureTrackTitle: 'Track Progress',
-      featureTrackText: 'Results shown here are session-only in this demo — nothing is saved to your account.',
-      featureNearbyTitle: 'Nearby Pickups',
-      featureNearbyText: 'Suggested products link back to the Pharmacy Catalog with live stock status.',
-    },
-    urgency: {
-      Low: 'Low',
-      Moderate: 'Moderate',
-      'See a doctor': 'See a doctor',
     },
     languageToggle: {
       label: 'Јазик / Language',
@@ -394,7 +373,7 @@ export const translations: Record<Language, TranslationDict> = {
       successCopy: 'Thank you — we’ve received your order and it’s on its way.',
     },
     kbeauty: {
-      badge: '✨ K-Beauty',
+      badge: 'Korean skincare',
       title: 'K-Beauty',
       subtitle: 'Korean skincare favorites, picked by Zegin — glass skin, gentle formulas, and glow.',
       pick: 'Editor’s Pick',
@@ -406,6 +385,16 @@ export const translations: Record<Language, TranslationDict> = {
       routineTreat: 'Treat',
       routineMoisturize: 'Moisturize',
       routineProtect: 'Protect',
+      routineDetails: [
+        'A gentle, low-pH cleanser lifts sunscreen and grime without stripping the skin.',
+        'A watery toner rebalances the skin and preps it for everything that follows.',
+        'Serums and essences target one concern at a time — dullness, redness or breakouts.',
+        'A cream seals in hydration and supports the skin barrier overnight and through the day.',
+        'Daily SPF every morning — the step that keeps all the others working.',
+      ],
+      bandEyebrow: 'Glow, protected',
+      bandTitle: 'Gentle formulas. Daily SPF. Real glow.',
+      bandCopy: 'Korean skincare picked by our pharmacists for sensitive and everyday skin.',
       wishlistAdd: 'Add to wishlist',
       wishlistRemove: 'Remove from wishlist',
     },
@@ -422,7 +411,6 @@ export const translations: Record<Language, TranslationDict> = {
       home: 'Почетна',
       pharmacy: 'Аптека',
       kbeauty: 'K-Beauty',
-      aiChecker: 'Проверка на симптоми',
       cart: 'Кошница',
       team: 'Тимот',
       blog: 'Блог',
@@ -449,7 +437,7 @@ export const translations: Record<Language, TranslationDict> = {
     },
     home: {
       title: 'ZEGIN',
-      subtitle: 'МЕДИЦИНСКИ УВИДИ И МОДЕРНА БЛАГОСОСТОЈБА · БРОЈ 04 · 2026',
+      subtitle: 'Вашата аптека во соседството — здравствени совети, доверливи производи и вистинска помош.',
       loadError: 'Не успеа да се вчита содржината:',
       didYouKnowBadge: 'Дали знаете?',
       didYouKnowFact: 'Пиењето мед пред спиење може да го подобри здравјето на црниот дроб и квалитетот на сонот.',
@@ -473,6 +461,17 @@ export const translations: Record<Language, TranslationDict> = {
       carouselHeading: 'Најново од блогот',
       carouselPrev: 'Претходна објава',
       carouselNext: 'Следна објава',
+      heroEyebrow: 'Аптека · Северна Македонија',
+      band2Eyebrow: 'Од блогот',
+      band2Title: 'Малите дневни навики градат вистинско здравје.',
+      band2Copy: 'Хидратација, сон, исхрана — кратки, практични текстови од нашите фармацевти.',
+      band2Button: 'Прочитај го блогот',
+      bandEyebrow: 'Зошто Zegin',
+      bandTitle: 'Вистински фармацевти. Вистински совети. Веднаш до вас.',
+      bandCopy: 'Прашајте на шалтер, проверете залиха онлајн и подигнете уште истиот ден во најблискиот огранок.',
+      bandButton: 'Разгледај го каталогот',
+      shelvesHeading: 'Од нашите полици',
+      shelvesLink: 'Види ги сите производи',
     },
     team: {
       badge: 'НАШИТЕ ЛУЃЕ',
@@ -528,6 +527,10 @@ export const translations: Record<Language, TranslationDict> = {
       trustRxDetail: 'Проверка при подигање',
       featured: 'Издвоени производи',
       featuredNote: 'Основни производи без рецепт, избрани од нашите фармацевти.',
+      bandEyebrow: 'Ви треба совет?',
+      bandTitle: 'Не сте сигурни што ви треба? Прашајте фармацевт.',
+      bandCopy: 'Нашите фармацевти ќе ви помогнат да го изберете вистинскиот производ, ќе проверат интеракции и ќе објаснат како да го користите.',
+      bandButton: 'Запознајте ги фармацевтите',
     },
     stock: {
       InStock: 'Достапно',
@@ -546,36 +549,6 @@ export const translations: Record<Language, TranslationDict> = {
       Diagnostics: 'Дијагностика',
       Digestive: 'Пробава',
       'K-Beauty': 'K-Beauty',
-    },
-    aiChecker: {
-      badge: 'ВОДЕНА ГРИЖА',
-      title: 'Проверка на симптоми',
-      subtitle:
-        'Опишете како се чувствувате, а нашата алатка ќе ги спореди вашите симптоми со чести шеми за итни здравствени насоки и препораки за безрецептни производи.',
-      ageLabel: 'Возраст',
-      agePlaceholder: 'на пр. 28',
-      symptomsLabel: 'Опишете ги вашите симптоми',
-      symptomsPlaceholder:
-        "Кажете ни што ве мачи... (на пр. 'Имам грлобол и лесна главоболка од вчера')",
-      disclaimerNote:
-        'Само демо — ова користи едноставен механизам за совпаѓање клучни зборови, не вистинска клиничка вештачка интелигенција. Не претставува медицински совет.',
-      submitButton: 'Добиј препорака',
-      submitting: 'Се анализира…',
-      waitingTitle: 'Се чека анализа',
-      waitingCopy: 'Пополнете ја формата за да добиете препорака врз основа на вашите симптоми.',
-      urgencyLabel: 'Итност',
-      suggestedProducts: 'Препорачани безрецептни производи',
-      featureClinicalTitle: 'Клинички поддржано',
-      featureClinicalText: 'Насоки базирани на правила поврзани со чести шеми на нега, за демонстративни цели.',
-      featureTrackTitle: 'Следење на напредок',
-      featureTrackText: 'Резултатите прикажани тука важат само за оваа сесија во демото — ништо не се зачувува на вашата сметка.',
-      featureNearbyTitle: 'Подигање во близина',
-      featureNearbyText: 'Препорачаните производи водат назад кон Аптечниот каталог со статус на залиха во реално време.',
-    },
-    urgency: {
-      Low: 'Ниска',
-      Moderate: 'Умерена',
-      'See a doctor': 'Посетете лекар',
     },
     languageToggle: {
       label: 'Јазик / Language',
@@ -609,7 +582,7 @@ export const translations: Record<Language, TranslationDict> = {
       successCopy: 'Ви благодариме — нарачката е примена и е на пат.',
     },
     kbeauty: {
-      badge: '✨ K-Beauty',
+      badge: 'Корејска нега на кожа',
       title: 'K-Beauty',
       subtitle: 'Корејска нега на кожа, избрана од Zegin — стаклена кожа, нежни формули и сјај.',
       pick: 'Избор на уредникот',
@@ -621,6 +594,16 @@ export const translations: Record<Language, TranslationDict> = {
       routineTreat: 'Третман',
       routineMoisturize: 'Хидратација',
       routineProtect: 'Заштита',
+      routineDetails: [
+        'Нежно средство со низок pH ги отстранува сончевата заштита и нечистотијата без да ја исуши кожата.',
+        'Воден тонер ја балансира кожата и ја подготвува за сите следни чекори.',
+        'Серумите и есенциите таргетираат по еден проблем — тапа боја, црвенило или акни.',
+        'Кремата ја заклучува хидратацијата и ја зајакнува кожната бариера.',
+        'Дневен SPF секое утро — чекорот што ги прави сите останати ефикасни.',
+      ],
+      bandEyebrow: 'Сјај, со заштита',
+      bandTitle: 'Нежни формули. Дневен SPF. Вистински сјај.',
+      bandCopy: 'Корејска нега на кожа избрана од нашите фармацевти за чувствителна и секојдневна кожа.',
       wishlistAdd: 'Додади во листа со желби',
       wishlistRemove: 'Отстрани од листа со желби',
     },

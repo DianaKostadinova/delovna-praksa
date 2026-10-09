@@ -2,8 +2,6 @@ import type {
   Article,
   HealthFact,
   Product,
-  SymptomCheckRequest,
-  SymptomCheckResponse,
   PageViewRequest,
   ContactRequest,
 } from './types'
@@ -41,12 +39,6 @@ export const api = {
     return request<Product[]>(`/products${qs ? `?${qs}` : ''}`)
   },
   getCategories: () => request<string[]>('/products/categories'),
-
-  checkSymptoms: (payload: SymptomCheckRequest) =>
-    request<SymptomCheckResponse>('/symptomcheck', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    }),
 
   trackPageView: (payload: PageViewRequest) =>
     request<void>('/analytics/pageview', {

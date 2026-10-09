@@ -3,6 +3,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { translateTeamMember } from '../i18n/content'
 import { getTeamMembers } from '../data/team'
 import { Reveal } from '../components/Reveal'
+import { ParallaxBand } from '../components/ParallaxBand'
 
 export function Team() {
   const { t, language } = useLanguage()
@@ -12,44 +13,45 @@ export function Team() {
   const branches = translated.filter((m) => !m.isHeadOffice)
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-10 text-center">
-        <span className="mb-3 inline-block rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-          {t.team.badge}
-        </span>
-        <h1 className="text-3xl font-bold text-slate-900">{t.team.title}</h1>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-slate-500">{t.team.subtitle}</p>
+    <div>
+      <ParallaxBand
+        as="h1"
+        image="/images/article-personalized-medicine.webp"
+        eyebrow={t.team.badge}
+        title={t.team.title}
+        copy={t.team.subtitle}
+      />
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        {headOffice.length > 0 && (
+          <div className="mb-10">
+            <h2 className="mb-4 border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">
+              {t.team.headOfficeHeading}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {headOffice.map((member, i) => (
+                <Reveal key={member.id} delay={i * 80}>
+                  <TeamCard member={member} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {branches.length > 0 && (
+          <div>
+            <h2 className="mb-4 border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">
+              {t.team.branchesHeading}
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {branches.map((member, i) => (
+                <Reveal key={member.id} delay={i * 80}>
+                  <TeamCard member={member} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-
-      {headOffice.length > 0 && (
-        <div className="mb-10">
-          <h2 className="mb-4 border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">
-            {t.team.headOfficeHeading}
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {headOffice.map((member, i) => (
-              <Reveal key={member.id} delay={i * 80}>
-                <TeamCard member={member} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {branches.length > 0 && (
-        <div>
-          <h2 className="mb-4 border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">
-            {t.team.branchesHeading}
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {branches.map((member, i) => (
-              <Reveal key={member.id} delay={i * 80}>
-                <TeamCard member={member} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   )
 }

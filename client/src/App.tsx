@@ -4,7 +4,6 @@ import { Home } from './pages/Home'
 import { Pharmacy } from './pages/Pharmacy'
 import { KBeauty } from './pages/KBeauty'
 import { Cart } from './pages/Cart'
-import { AiChecker } from './pages/AiChecker'
 import { Team } from './pages/Team'
 import { Blog } from './pages/Blog'
 import { ArticleDetail } from './pages/ArticleDetail'
@@ -17,7 +16,6 @@ function App() {
         <Route path="/pharmacy" element={<Pharmacy />} />
         <Route path="/k-beauty" element={<KBeauty />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/ai-checker" element={<AiChecker />} />
         <Route path="/team" element={<Team />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/articles/:id" element={<ArticleDetail />} />

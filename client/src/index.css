@@ -24,31 +24,6 @@ body {
   color: #1e293b;
 }
 
-@keyframes petal-fall {
-  0% {
-    transform: translateY(-6px) translateX(0) rotate(0deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(56px) translateX(var(--petal-drift, 10px)) rotate(200deg);
-    opacity: 0;
-  }
-}
-
-.petal {
-  position: absolute;
-  top: 0;
-  pointer-events: none;
-  animation-name: petal-fall;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
-  animation-fill-mode: backwards;
-  z-index: 40;
-}
-
 /* ---------- Apothecary tile wall ----------
    A fixed backdrop of 80px wall tiles, each carrying one line-drawn pharmacy mark
    (cross, capsule, scored tablet, bottle). Kept very faint so content always leads. */
@@ -120,6 +95,21 @@ body {
   animation: hero-drift 18s ease-in-out infinite alternate;
 }
 
+/* Endless product strip: the list is rendered twice, so sliding by -50% loops seamlessly. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
 /* White bordered link cards across every page, plus anything opting in with .box-card. */
 .box-card,
 main a.border.bg-white {
@@ -152,7 +142,8 @@ main a:hover img {
   .animate-rise,
   .rise-letter,
   .rule-grow,
-  .hero-drift {
+  .hero-drift,
+  .marquee-track {
     animation: none;
   }
 

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { NavLink, Outlet, useLocation, useNavigationType } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useCart } from '../context/CartContext'
@@ -77,7 +77,7 @@ export function Layout() {
     { to: '/', label: t.nav.home },
     { to: '/blog', label: t.nav.blog },
     { to: '/pharmacy', label: t.nav.pharmacy },
-    { to: '/ai-checker', label: t.nav.aiChecker },
+    { to: '/k-beauty', label: t.nav.kbeauty },
     { to: '/team', label: t.nav.team },
   ]
 
@@ -103,12 +103,9 @@ export function Layout() {
 
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex lg:gap-8">
             {navItems.map((item) => (
-              <Fragment key={item.to}>
-                <NavLink to={item.to} end={item.to === '/'} className={navLinkClass}>
-                  {item.label}
-                </NavLink>
-                {item.to === '/pharmacy' && <KBeautyNavLink label={t.nav.kbeauty} />}
-              </Fragment>
+              <NavLink key={item.to} to={item.to} end={item.to === '/'} className={navLinkClass}>
+                {item.label}
+              </NavLink>
             ))}
           </nav>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -139,7 +136,7 @@ export function Layout() {
               className="absolute inset-x-0 top-full border-b border-slate-200 bg-white shadow-lg md:hidden"
             >
               <ul className="mx-auto max-w-6xl divide-y divide-slate-100 px-4">
-                {[...navItems.slice(0, 3), { to: '/k-beauty', label: t.nav.kbeauty }, ...navItems.slice(3)].map((item) => (
+                {navItems.map((item) => (
                   <li key={item.to}>
                     <NavLink
                       to={item.to}
@@ -179,59 +176,6 @@ function ZeginMark({ className = '' }: { className?: string }) {
       <rect width="24" height="24" fill="#1d4ed8" />
       <path d="M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z" fill="white" />
     </svg>
-  )
-}
-
-const PETAL_EMOJIS = ['🌸', '🌺', '💮']
-
-function KBeautyNavLink({ label }: { label: string }) {
-  const [hovering, setHovering] = useState(false)
-
-  const petals = useMemo(
-    () =>
-      Array.from({ length: 8 }, (_, i) => ({
-        id: i,
-        emoji: PETAL_EMOJIS[i % PETAL_EMOJIS.length],
-        left: Math.random() * 100,
-        duration: 1.2 + Math.random() * 1,
-        delay: Math.random() * 1.2,
-        size: 10 + Math.random() * 6,
-        drift: `${Math.random() > 0.5 ? '' : '-'}${10 + Math.random() * 20}px`,
-      })),
-    [],
-  )
-
-  return (
-    <span
-      className="relative inline-block"
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-    >
-      {hovering &&
-        petals.map((petal) => (
-          <span
-            key={petal.id}
-            className="petal"
-            style={{
-              left: `${petal.left}%`,
-              fontSize: petal.size,
-              animationDuration: `${petal.duration}s`,
-              animationDelay: `${petal.delay}s`,
-              ['--petal-drift' as string]: petal.drift,
-            }}
-          >
-            {petal.emoji}
-          </span>
-        ))}
-      <NavLink
-        to="/k-beauty"
-        className={({ isActive }) =>
-          isActive ? 'text-blue-700 font-semibold' : 'hover:text-blue-700 transition-colors'
-        }
-      >
-        {label}
-      </NavLink>
-    </span>
   )
 }
 

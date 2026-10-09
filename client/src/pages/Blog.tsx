@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { translateArticle } from '../i18n/content'
 import { ArrowRightIcon } from '../components/icons'
 import { Reveal } from '../components/Reveal'
+import { ParallaxBand } from '../components/ParallaxBand'
 
 const PAGE_SIZE = 6
 
@@ -43,116 +44,114 @@ export function Blog() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900">{t.blog.title}</h1>
-        <p className="mt-1 text-sm text-slate-500">{t.blog.subtitle}</p>
-      </div>
+    <div>
+      <ParallaxBand as="h1" image="/images/article-breakfast-bowl.webp" title={t.blog.title} copy={t.blog.subtitle} />
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        {error && (
+          <p className="mb-6 text-sm text-red-600">
+            {t.blog.loadError} {error}
+          </p>
+        )}
 
-      {error && (
-        <p className="mb-6 text-sm text-red-600">
-          {t.blog.loadError} {error}
-        </p>
-      )}
-
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          {loading ? (
-            <p className="text-sm text-slate-400">{t.blog.loading}</p>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {pageItems.map((post, i) => (
-                <Reveal key={post.id} delay={i * 80}>
-                  <Link
-                    to={`/articles/${post.id}`}
-                    className="block overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200"
-                  >
-                    <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-200 to-slate-300">
-                      {post.imageUrl && (
-                        <img
-                          src={post.imageUrl}
-                          alt={post.title}
-                          className="h-full w-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none'
-                          }}
-                        />
-                      )}
-                    </div>
-                    <div className="p-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600">{post.tag}</p>
-                      <h3 className="mt-1 text-sm font-semibold text-slate-800">{post.title}</h3>
-                      <p className="mt-1 text-xs text-slate-500 line-clamp-2">{post.excerpt}</p>
-                      <div className="mt-2 flex items-center justify-between">
-                        <p className="text-[11px] text-slate-400">{post.readTime}</p>
-                        <span className="flex items-center gap-1 text-xs font-semibold text-blue-700">
-                          {t.blog.readMore}
-                          <ArrowRightIcon className="h-3.5 w-3.5" />
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          )}
-
-          {!loading && totalPages > 1 && (
-            <div className="mt-6 flex items-center justify-center gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setSearchParams(p === 1 ? {} : { page: String(p) })}
-                  className={`h-8 w-8 rounded-md text-sm font-medium ${
-                    p === page ? 'bg-blue-700 text-white' : 'border border-slate-300 text-slate-600'
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <Reveal delay={150} className="space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h4 className="text-sm font-semibold text-slate-800">{t.blog.newsletterTitle}</h4>
-            <p className="mt-1 text-xs text-slate-500">{t.blog.newsletterCopy}</p>
-            {subscribed ? (
-              <p className="mt-3 text-xs font-medium text-green-700">{t.home.subscribedMessage}</p>
+        <div className="grid gap-8 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            {loading ? (
+              <p className="text-sm text-slate-400">{t.blog.loading}</p>
             ) : (
-              <form onSubmit={handleSubscribe} className="mt-3 space-y-2">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t.home.newsletterPlaceholder}
-                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                />
-                <button className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800">
-                  {t.home.subscribeButton}
-                </button>
-              </form>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {pageItems.map((post, i) => (
+                  <Reveal key={post.id} delay={i * 80}>
+                    <Link
+                      to={`/articles/${post.id}`}
+                      className="block overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200"
+                    >
+                      <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-slate-200 to-slate-300">
+                        {post.imageUrl && (
+                          <img
+                            src={post.imageUrl}
+                            alt={post.title}
+                            className="h-full w-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none'
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div className="p-4">
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-600">{post.tag}</p>
+                        <h3 className="mt-1 text-sm font-semibold text-slate-800">{post.title}</h3>
+                        <p className="mt-1 text-xs text-slate-500 line-clamp-2">{post.excerpt}</p>
+                        <div className="mt-2 flex items-center justify-between">
+                          <p className="text-[11px] text-slate-400">{post.readTime}</p>
+                          <span className="flex items-center gap-1 text-xs font-semibold text-blue-700">
+                            {t.blog.readMore}
+                            <ArrowRightIcon className="h-3.5 w-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </Reveal>
+                ))}
+              </div>
+            )}
+
+            {!loading && totalPages > 1 && (
+              <div className="mt-6 flex items-center justify-center gap-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setSearchParams(p === 1 ? {} : { page: String(p) })}
+                    className={`h-8 w-8 rounded-md text-sm font-medium ${
+                      p === page ? 'bg-blue-700 text-white' : 'border border-slate-300 text-slate-600'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h4 className="text-sm font-semibold text-slate-800">{t.blog.recipesTitle}</h4>
-            <ul className="mt-3 space-y-3">
-              {translatedRecipes.map((recipe) => (
-                <li key={recipe.id} className="text-xs">
-                  <p className="text-[10px] text-slate-400">
-                    {new Date(recipe.publishedAt).toLocaleDateString(language === 'mk' ? 'mk-MK' : 'en-US')}
-                  </p>
-                  <Link to={`/articles/${recipe.id}`} className="font-medium text-slate-700 hover:text-blue-700">
-                    {recipe.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
+          <Reveal delay={150} className="space-y-6">
+            <div className="rounded-xl border border-slate-200 bg-white p-5">
+              <h4 className="text-sm font-semibold text-slate-800">{t.blog.newsletterTitle}</h4>
+              <p className="mt-1 text-xs text-slate-500">{t.blog.newsletterCopy}</p>
+              {subscribed ? (
+                <p className="mt-3 text-xs font-medium text-green-700">{t.home.subscribedMessage}</p>
+              ) : (
+                <form onSubmit={handleSubscribe} className="mt-3 space-y-2">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={t.home.newsletterPlaceholder}
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  />
+                  <button className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+                    {t.home.subscribeButton}
+                  </button>
+                </form>
+              )}
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-5">
+              <h4 className="text-sm font-semibold text-slate-800">{t.blog.recipesTitle}</h4>
+              <ul className="mt-3 space-y-3">
+                {translatedRecipes.map((recipe) => (
+                  <li key={recipe.id} className="text-xs">
+                    <p className="text-[10px] text-slate-400">
+                      {new Date(recipe.publishedAt).toLocaleDateString(language === 'mk' ? 'mk-MK' : 'en-US')}
+                    </p>
+                    <Link to={`/articles/${recipe.id}`} className="font-medium text-slate-700 hover:text-blue-700">
+                      {recipe.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { translateProduct } from '../i18n/content'
 import { useCart } from '../context/CartContext'
 import { MapPinIcon, SearchIcon, ShieldCheckIcon, ShoppingCartIcon, UsersIcon } from '../components/icons'
+import { ParallaxBand } from '../components/ParallaxBand'
 
 const QUICK_FILTERS = ['Allergies', 'Pain Relief', 'Antibiotics', 'Skincare', 'Supplements'] as const
 const PAGE_SIZE = 8
@@ -432,6 +433,15 @@ export function Pharmacy() {
           </nav>
         )}
       </div>
+
+      <ParallaxBand
+        image="/images/article-blood-pressure.webp"
+        eyebrow={t.pharmacy.bandEyebrow}
+        title={t.pharmacy.bandTitle}
+        copy={t.pharmacy.bandCopy}
+        cta={{ to: '/team', label: t.pharmacy.bandButton }}
+        className="mt-6"
+      />
     </div>
   )
 }

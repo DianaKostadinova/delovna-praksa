@@ -34,19 +34,6 @@ export interface Product {
   requiresPrescription: boolean
 }
 
-export interface SymptomCheckRequest {
-  age: number | null
-  symptoms: string
-}
-
-export interface SymptomCheckResponse {
-  summary: string
-  urgency: string
-  recommendations: string[]
-  suggestedProducts: string[]
-  disclaimer: string
-}
-
 export interface PageViewRequest {
   visitorId: string
   path: string
