@@ -7,6 +7,7 @@ import { trackPageView } from '../analytics'
 import { api } from '../api/client'
 import { ShoppingCartIcon, MapPinIcon } from './icons'
 import { LocationsMap } from './LocationsMap'
+import { ScrollPulse } from './ScrollPulse'
 import { BRANCHES } from '../data/branches'
 
 export function Layout() {
@@ -14,6 +15,16 @@ export function Layout() {
   const location = useLocation()
   const navigationType = useNavigationType()
   const scrollPositions = useRef(new Map<string, number>()).current
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  // Close the mobile menu on navigation and on Escape.
+  useEffect(() => setMenuOpen(false), [location.key])
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
 
   useEffect(() => {
     // Fires on route changes only — a language switch alone shouldn't count as a new pageview.
@@ -71,10 +82,26 @@ export function Layout() {
   ]
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="relative isolate flex min-h-screen flex-col">
+      {/* Fixed tile wall behind every page, fading out toward the bottom of the viewport. */}
+      <div className="pharmacy-tiles pointer-events-none fixed inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_0%,rgb(0_0_0/0.55)_100%)]" />
+      <div className="pointer-events-none fixed inset-0 -z-20 bg-slate-50" />
+      {/* Blurred pharmacy photo across the top of the page, fading into the tiles below. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60vh] min-h-[420px] overflow-hidden [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]"
+      >
+        <img src="/images/hero-pharmacy.jpg" alt="" className="hero-drift h-full w-full object-cover blur-[4px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/45 to-white/70" />
+      </div>
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <nav className="flex items-center gap-8 text-sm font-medium text-slate-600">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+          <NavLink to="/" className="flex shrink-0 items-center gap-2 text-base font-semibold tracking-tight text-slate-900">
+            <ZeginMark className="h-6 w-6" />
+            Zegin
+          </NavLink>
+
+          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex lg:gap-8">
             {navItems.map((item) => (
               <Fragment key={item.to}>
                 <NavLink to={item.to} end={item.to === '/'} className={navLinkClass}>
@@ -84,20 +111,74 @@ export function Layout() {
               </Fragment>
             ))}
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <CartIconLink />
             <LanguageToggle />
+            <button
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              className="flex h-9 w-9 items-center justify-center border border-slate-200 text-slate-700 transition-colors hover:bg-slate-50 md:hidden"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" aria-hidden>
+                {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+              </svg>
+            </button>
           </div>
         </div>
+
+        <ScrollPulse />
+
+        {/* Mobile menu: drops below the header so the header itself never changes height. */}
+        {menuOpen && (
+          <>
+            <div className="fixed inset-0 top-[69px] bg-slate-900/20 md:hidden" onClick={() => setMenuOpen(false)} />
+            <nav
+              id="mobile-menu"
+              className="absolute inset-x-0 top-full border-b border-slate-200 bg-white shadow-lg md:hidden"
+            >
+              <ul className="mx-auto max-w-6xl divide-y divide-slate-100 px-4">
+                {[...navItems.slice(0, 3), { to: '/k-beauty', label: t.nav.kbeauty }, ...navItems.slice(3)].map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.to === '/'}
+                      className={({ isActive }) =>
+                        `flex items-center justify-between py-3.5 text-[15px] font-medium ${
+                          isActive ? 'text-blue-700' : 'text-slate-700'
+                        }`
+                      }
+                    >
+                      {item.label}
+                      <span className="text-slate-300">›</span>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </>
+        )}
       </header>
 
-      <main className="flex-1">
+      {/* Keyed by path so each page plays its rise-in entrance on navigation. */}
+      <main key={location.pathname} className="animate-rise flex-1">
         <Outlet />
       </main>
 
       <Footer />
       <CookieConsent />
     </div>
+  )
+}
+
+// Brand mark: a pharmacy cross knocked out of a solid blue square.
+function ZeginMark({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <rect width="24" height="24" fill="#1d4ed8" />
+      <path d="M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z" fill="white" />
+    </svg>
   )
 }
 
@@ -212,8 +293,8 @@ function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 px-6 py-12 sm:grid-cols-3">
         <div>
           <div className="mb-2 flex items-center gap-2 text-lg font-semibold text-white">
-            <span className="inline-block h-5 w-5 rounded bg-blue-600" />
-            Zegin Health
+            <ZeginMark className="h-6 w-6" />
+            Zegin
           </div>
           <p className="text-sm text-slate-400">{t.footer.tagline}</p>
         </div>

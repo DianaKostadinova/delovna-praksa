@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { translateArticle, translateFact } from '../i18n/content'
 import { ArrowRightIcon, HeartPulseIcon, BrainIcon, EyeIcon, DropletIcon, LightbulbIcon, UsersIcon } from '../components/icons'
 import { Reveal } from '../components/Reveal'
+import { PostCarousel } from '../components/PostCarousel'
 
 const FACT_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
   heart: HeartPulseIcon,
@@ -43,6 +44,7 @@ export function Home() {
   const healthTip = findTranslated((a) => a.tag === 'HEALTH TIP')
   const spotlight = findTranslated((a) => a.section === 'Spotlight')
   const originals = articles.filter((a) => a.section === 'Health Hub Originals').map((a) => translateArticle(a, language))
+  const blogPosts = articles.filter((a) => a.section === 'Blog Post').map((a) => translateArticle(a, language))
 
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault()
@@ -53,9 +55,18 @@ export function Home() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-10 text-center">
-        <h1 className="text-3xl font-bold tracking-wide text-blue-700">{t.home.title}</h1>
-        <p className="mt-1 text-xs font-medium tracking-widest text-slate-400">{t.home.subtitle}</p>
+      <div className="mb-12 pt-6 text-center">
+        <h1 className="text-6xl font-black tracking-[0.25em] text-blue-700 drop-shadow-[0_2px_12px_rgba(255,255,255,0.8)] sm:text-7xl" aria-label={t.home.title}>
+          {[...t.home.title].map((letter, i) => (
+            <span key={i} aria-hidden className="rise-letter" style={{ animationDelay: `${i * 70}ms` }}>
+              {letter}
+            </span>
+          ))}
+        </h1>
+        <div className="rule-grow mx-auto mt-4 h-1 w-24 bg-blue-700" />
+        <p className="animate-rise mt-4 text-xs font-semibold tracking-widest text-slate-700 [animation-delay:500ms]">
+          {t.home.subtitle}
+        </p>
       </div>
 
       {error && (
@@ -68,7 +79,7 @@ export function Home() {
         {trending && (
           <Link
             to={`/articles/${trending.id}`}
-            className="group relative overflow-hidden rounded-xl bg-slate-800 text-white lg:col-span-2"
+            className="animate-rise group relative overflow-hidden rounded-xl bg-slate-800 text-white transition-shadow duration-300 [animation-delay:350ms] hover:shadow-[8px_8px_0_0_#1d4ed8] lg:col-span-2"
           >
             <div className="aspect-[16/9] w-full overflow-hidden bg-gradient-to-br from-slate-700 to-slate-900">
               {trending.imageUrl && (
@@ -93,7 +104,7 @@ export function Home() {
         )}
 
         <div className="flex flex-col gap-4">
-          <div className="rounded-xl bg-blue-700 p-5 text-white">
+          <div className="animate-rise rounded-xl bg-blue-700 p-5 text-white shadow-[6px_6px_0_0_#0f172a] [animation-delay:500ms]">
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">{t.home.didYouKnowBadge}</p>
             <p className="mt-2 text-sm font-medium">
               {translatedFacts.length > 0 ? translatedFacts[factIndex % translatedFacts.length].detail : t.home.didYouKnowFact}
@@ -108,7 +119,7 @@ export function Home() {
             </button>
           </div>
           {healthTip && (
-            <Link to={`/articles/${healthTip.id}`} className="flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white hover:border-blue-200">
+            <Link to={`/articles/${healthTip.id}`} className="animate-rise flex-1 overflow-hidden rounded-xl border border-slate-200 bg-white [animation-delay:650ms]">
               {healthTip.imageUrl && (
                 <div className="aspect-[16/9] w-full overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
                   <img
@@ -135,8 +146,18 @@ export function Home() {
         </div>
       </div>
 
+      <Reveal>
+        <PostCarousel
+          posts={blogPosts}
+          heading={t.home.carouselHeading}
+          readMore={t.home.readMore}
+          prevLabel={t.home.carouselPrev}
+          nextLabel={t.home.carouselNext}
+        />
+      </Reveal>
+
       {spotlight && (
-        <Reveal className="mb-10 grid gap-6 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 lg:grid-cols-2">
+        <Reveal className="box-card mb-10 grid gap-6 overflow-hidden rounded-xl border border-slate-200 bg-white p-6 lg:grid-cols-2">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{t.home.spotlightBadge}</p>
             <h2 className="mt-2 text-2xl font-bold text-slate-900">{spotlight.title}</h2>
@@ -168,7 +189,7 @@ export function Home() {
       <Reveal className="mb-10">
         <Link
           to="/team"
-          className="flex flex-col items-center justify-between gap-4 rounded-xl bg-blue-600 p-6 text-white shadow-sm transition-colors hover:bg-blue-700 sm:flex-row sm:text-left"
+          className="flex flex-col items-center justify-between gap-4 rounded-xl bg-blue-600 p-6 text-white shadow-[6px_6px_0_0_#0f172a] transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-[10px_10px_0_0_#0f172a] sm:flex-row sm:text-left"
         >
           <div className="flex items-center gap-4">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
@@ -194,20 +215,32 @@ export function Home() {
           </Link>
         </div>
         <p className="mb-4 text-xs text-slate-400">{t.home.didYouKnowCaption}</p>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Expanding strip: on wide screens the hovered panel grows horizontally and the others
+            narrow to make room. Stacks into plain cards on small screens. */}
+        <Reveal className="flex flex-col gap-3 lg:h-60 lg:flex-row">
           {translatedFacts.map((fact, i) => {
             const FactIcon = FACT_ICONS[fact.icon] ?? LightbulbIcon
             return (
-              <Reveal key={fact.id} delay={i * 80} className="rounded-xl border border-slate-200 bg-white p-4">
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
-                  <FactIcon className="h-4 w-4 text-blue-700" />
+              <div
+                key={fact.id}
+                className="group relative flex min-w-0 flex-col overflow-hidden border border-slate-200 bg-white p-5 transition-[flex-grow,background-color,border-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-blue-700 hover:bg-blue-700 lg:flex-1 lg:hover:flex-[2.6]"
+              >
+                <span className="pointer-events-none absolute -right-2 -top-4 font-mono text-7xl font-black text-slate-100 transition-colors duration-500 group-hover:text-white/10">
+                  {String(i + 1).padStart(2, '0')}
                 </span>
-                <h4 className="mt-2 text-sm font-semibold text-slate-800">{fact.title}</h4>
-                <p className="mt-1 text-xs text-slate-500">{fact.detail}</p>
-              </Reveal>
+                <span className="relative flex h-10 w-10 shrink-0 items-center justify-center bg-blue-50 transition-colors duration-500 group-hover:bg-white/15">
+                  <FactIcon className="h-5 w-5 text-blue-700 transition-colors duration-500 group-hover:text-white" />
+                </span>
+                <h4 className="relative mt-auto pt-4 text-sm font-semibold text-slate-800 transition-colors duration-500 group-hover:text-lg group-hover:text-white">
+                  {fact.title}
+                </h4>
+                <p className="relative mt-1 text-xs text-slate-500 transition-colors duration-500 group-hover:text-sm group-hover:text-blue-100 lg:line-clamp-3 lg:group-hover:line-clamp-none">
+                  {fact.detail}
+                </p>
+              </div>
             )
           })}
-        </div>
+        </Reveal>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -247,7 +280,7 @@ export function Home() {
         </div>
 
         <Reveal delay={150} className="space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
+          <div className="box-card rounded-xl border border-slate-200 bg-white p-5">
             <h4 className="text-sm font-semibold text-slate-800">{t.home.newsletterTitle}</h4>
             <p className="mt-1 text-xs text-slate-500">{t.home.newsletterCopy}</p>
             {subscribed ? (

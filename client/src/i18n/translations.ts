@@ -52,6 +52,9 @@ export interface TranslationDict {
     meetTeamTitle: string
     meetTeamCopy: string
     meetTeamButton: string
+    carouselHeading: string
+    carouselPrev: string
+    carouselNext: string
   }
   team: {
     badge: string
@@ -94,6 +97,18 @@ export interface TranslationDict {
     onlyOneLeft: string
     prescriptionRequired: string
     prescriptionNote: string
+    all: string
+    results: (n: number) => string
+    empty: string
+    clearFilters: string
+    trustPharmacists: string
+    trustPharmacistsDetail: string
+    trustStock: string
+    trustStockDetail: string
+    trustRx: string
+    trustRxDetail: string
+    featured: string
+    featuredNote: string
   }
   stock: { InStock: string; LowStock: string; OutOfStock: string }
   categories: Record<
@@ -206,7 +221,7 @@ export const translations: Record<Language, TranslationDict> = {
       doctorConsultations: 'Doctor Consultations',
       insurancePartners: 'Insurance Partners',
       contact: 'Contact',
-      rights: '© 2026 Zegin Pharmacy. All Rights Reserved. — demo project, not a real pharmacy.',
+      rights: '© 2026 Zegin. All Rights Reserved. — demo project, not a real pharmacy.',
       contactFormNamePlaceholder: 'Your name',
       contactFormEmailPlaceholder: 'Your email',
       contactFormMessagePlaceholder: 'Your message',
@@ -218,7 +233,7 @@ export const translations: Record<Language, TranslationDict> = {
       locationsSubtitle: 'Tap a pin to see that branch’s address and contact details.',
     },
     home: {
-      title: 'ZEGIN HEALTH HUB',
+      title: 'ZEGIN',
       subtitle: 'MEDICAL INSIGHTS & MODERN WELLNESS · ISSUE 04 · 2026',
       loadError: "Couldn't load content:",
       didYouKnowBadge: 'Did You Know?',
@@ -230,7 +245,7 @@ export const translations: Record<Language, TranslationDict> = {
       didYouKnowHeading: 'Did You Know?',
       viewArchive: 'View Archive',
       didYouKnowCaption: 'Daily doses of medical curiosity for your health.',
-      originalsHeading: 'Health Hub Originals',
+      originalsHeading: 'Zegin Originals',
       newsletterTitle: 'Newsletter',
       newsletterCopy: 'Join 20k+ readers receiving weekly medical insights verified by pharmacists.',
       newsletterPlaceholder: 'Your email address',
@@ -240,6 +255,9 @@ export const translations: Record<Language, TranslationDict> = {
       meetTeamTitle: 'Meet the Team',
       meetTeamCopy: "The pharmacists and support staff behind Zegin's Skopje branches.",
       meetTeamButton: 'Meet the Team',
+      carouselHeading: 'Latest from the Blog',
+      carouselPrev: 'Previous post',
+      carouselNext: 'Next post',
     },
     team: {
       badge: 'OUR PEOPLE',
@@ -283,6 +301,18 @@ export const translations: Record<Language, TranslationDict> = {
       onlyOneLeft: 'Only 1 nearby store left',
       prescriptionRequired: 'Prescription Required',
       prescriptionNote: 'A doctor’s prescription is required to purchase this medicine.',
+      all: 'All products',
+      results: (n: number) => `${n} product${n === 1 ? '' : 's'}`,
+      empty: 'No products match your search.',
+      clearFilters: 'Clear search and filters',
+      trustPharmacists: 'Licensed pharmacists',
+      trustPharmacistsDetail: 'Advice on every order',
+      trustStock: 'Live stock',
+      trustStockDetail: 'Across nearby stores',
+      trustRx: 'Prescriptions',
+      trustRxDetail: 'Verified at pickup',
+      featured: 'Featured products',
+      featuredNote: 'Over-the-counter essentials, selected by our pharmacists.',
     },
     stock: {
       InStock: 'In Stock',
@@ -406,7 +436,7 @@ export const translations: Record<Language, TranslationDict> = {
       doctorConsultations: 'Консултации со лекар',
       insurancePartners: 'Осигурителни партнери',
       contact: 'Контакт',
-      rights: '© 2026 Zegin Pharmacy. Сите права се задржани. — демо проект, не е вистинска аптека.',
+      rights: '© 2026 Zegin. Сите права се задржани. — демо проект, не е вистинска аптека.',
       contactFormNamePlaceholder: 'Вашето име',
       contactFormEmailPlaceholder: 'Вашата е-пошта',
       contactFormMessagePlaceholder: 'Вашата порака',
@@ -418,7 +448,7 @@ export const translations: Record<Language, TranslationDict> = {
       locationsSubtitle: 'Кликнете на пинче за адреса и контакт на тој огранок.',
     },
     home: {
-      title: 'ZEGIN ЗДРАВСТВЕН ХАБ',
+      title: 'ZEGIN',
       subtitle: 'МЕДИЦИНСКИ УВИДИ И МОДЕРНА БЛАГОСОСТОЈБА · БРОЈ 04 · 2026',
       loadError: 'Не успеа да се вчита содржината:',
       didYouKnowBadge: 'Дали знаете?',
@@ -430,7 +460,7 @@ export const translations: Record<Language, TranslationDict> = {
       didYouKnowHeading: 'Дали знаете?',
       viewArchive: 'Види архива',
       didYouKnowCaption: 'Дневна доза на медицинска љубопитност за вашето здравје.',
-      originalsHeading: 'Оригинали од Health Hub',
+      originalsHeading: 'Оригинали од Zegin',
       newsletterTitle: 'Билтен',
       newsletterCopy: 'Придружете се на 20 000+ читатели кои добиваат неделни медицински увиди потврдени од фармацевти.',
       newsletterPlaceholder: 'Вашата е-пошта',
@@ -440,6 +470,9 @@ export const translations: Record<Language, TranslationDict> = {
       meetTeamTitle: 'Запознајте го тимот',
       meetTeamCopy: 'Фармацевтите и тимот за поддршка зад скопските огранци на Zegin.',
       meetTeamButton: 'Запознајте го тимот',
+      carouselHeading: 'Најново од блогот',
+      carouselPrev: 'Претходна објава',
+      carouselNext: 'Следна објава',
     },
     team: {
       badge: 'НАШИТЕ ЛУЃЕ',
@@ -483,6 +516,18 @@ export const translations: Record<Language, TranslationDict> = {
       onlyOneLeft: 'Само 1 блиска продавница останата',
       prescriptionRequired: 'Потребен е лекарски упат',
       prescriptionNote: 'За купување на овој лек е потребен лекарски упат (рецепт).',
+      all: 'Сите производи',
+      results: (n: number) => `${n} производ${n === 1 ? '' : 'и'}`,
+      empty: 'Нема производи што одговараат на пребарувањето.',
+      clearFilters: 'Исчисти пребарување и филтри',
+      trustPharmacists: 'Лиценцирани фармацевти',
+      trustPharmacistsDetail: 'Совет за секоја нарачка',
+      trustStock: 'Залиха во живо',
+      trustStockDetail: 'Во блиските продавници',
+      trustRx: 'Рецепти',
+      trustRxDetail: 'Проверка при подигање',
+      featured: 'Издвоени производи',
+      featuredNote: 'Основни производи без рецепт, избрани од нашите фармацевти.',
     },
     stock: {
       InStock: 'Достапно',

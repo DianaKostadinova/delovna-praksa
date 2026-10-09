@@ -56,7 +56,7 @@ public static class SeedData
                     Title = "“Prevention is the best cure.” — An Interview with Dr. Marcus Thorne",
                     Excerpt = "“Most lifestyle diseases can be mitigated with simple, consistent choices. Our goal at Zegin is to provide the data that empowers those choices.” In our exclusive monthly interview, we sit down with leading cardiologist Dr. Thorne to discuss the intersection of biotechnology and daily fitness routines.",
                     Content = """
-                    Zegin Health Hub: You've spent twenty years in cardiology. What's changed the most about how you talk to patients about prevention?
+                    Zegin: You've spent twenty years in cardiology. What's changed the most about how you talk to patients about prevention?
 
                     Dr. Thorne: Honestly, the conversation used to start after something had already gone wrong — a first cardiac event, a bad set of labs. Now, with wearable data and better screening, we can often have the conversation ten or fifteen years earlier, while the changes needed are still small ones. That shift matters more than any single new drug.
 
