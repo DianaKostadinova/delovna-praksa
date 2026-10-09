@@ -72,6 +72,12 @@ export function Home() {
   const originals = articles.filter((a) => a.section === 'Health Hub Originals').map((a) => translateArticle(a, language))
   const blogPosts = articles.filter((a) => a.section === 'Blog Post').map((a) => translateArticle(a, language))
 
+  // Sidebar picks: pharmacist-recommended items from the same catalog fetch as the shelf strip.
+  const featuredProducts = [...shelf]
+    .sort((a, b) => Number(b.pharmacistRecommended) - Number(a.pharmacistRecommended))
+    .slice(0, 3)
+    .map((p) => translateProduct(p, language))
+
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault()
     if (!email.trim()) return
@@ -418,23 +424,27 @@ export function Home() {
               )}
             </div>
 
-            <Link to="/pharmacy" className="block rounded-xl border border-slate-200 bg-white p-5 hover:border-blue-200">
-              <h4 className="text-sm font-semibold text-slate-800">{t.home.featuredProductsTitle}</h4>
-              <div className="mt-3 space-y-3 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-700">
-                    {language === 'mk' ? 'Напреден комплекс со витамин Ц' : 'Advanced Vitamin C Complex'}
-                  </span>
-                  <span className="font-semibold text-blue-700">$24.99</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-700">
-                    {language === 'mk' ? 'Дигитален монитор за крвен притисок Про' : 'Digital BP Monitor Pro'}
-                  </span>
-                  <span className="font-semibold text-blue-700">$89.00</span>
-                </div>
+            {featuredProducts.length > 0 && (
+              <div className="rounded-xl border border-slate-200 bg-white p-5">
+                <h4 className="text-sm font-semibold text-slate-800">{t.home.featuredProductsTitle}</h4>
+                <ul className="mt-3 divide-y divide-slate-100 text-sm">
+                  {featuredProducts.map((product) => (
+                    <li key={product.id}>
+                      <Link
+                        to={`/products/${product.id}`}
+                        className="flex items-center gap-3 py-2.5 text-slate-700 hover:text-blue-700"
+                      >
+                        <img src={product.imageUrl!} alt="" className="product-shot h-10 w-10 shrink-0 object-contain" />
+                        <span className="min-w-0 flex-1 truncate">{product.name}</span>
+                        <span className="shrink-0 font-semibold tabular-nums text-blue-700">
+                          {product.price.toFixed(0)} <span className="text-xs font-medium text-slate-400">ден.</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </Link>
+            )}
           </Reveal>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { translateProduct } from '../i18n/content'
 import { useCart } from '../context/CartContext'
 import { Reveal } from '../components/Reveal'
 import { ParallaxBand } from '../components/ParallaxBand'
+import { Product3D } from '../components/Product3D'
 import { ShoppingCartIcon } from '../components/icons'
 
 // Each routine step is illustrated by a product from the K-Beauty range that does that job.
@@ -148,18 +149,9 @@ export function KBeauty() {
               return (
                 <Reveal key={product.id} delay={(i % 4) * 80}>
                   <article className="group flex h-full flex-col border border-pink-100 bg-white transition-colors hover:border-pink-400">
-                    <div className="relative border-b border-slate-200">
-                      <Link to={`/products/${product.id}`} aria-label={product.name} className="block aspect-square overflow-hidden bg-pink-50">
-                        {product.imageUrl && (
-                          <img
-                            src={product.imageUrl}
-                            alt={product.name}
-                            className="product-shot h-full w-full object-contain p-[10%] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none'
-                            }}
-                          />
-                        )}
+                    <div className="relative">
+                      <Link to={`/products/${product.id}`} aria-label={product.name} className="block">
+                        {product.imageUrl && <Product3D src={product.imageUrl} alt={product.name} className="aspect-square" />}
                       </Link>
                       {(product.pharmacistRecommended || isBestSeller) && (
                         <span

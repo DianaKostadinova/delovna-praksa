@@ -6,6 +6,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { translateProduct } from '../i18n/content'
 import { useCart } from '../context/CartContext'
 import { Reveal } from '../components/Reveal'
+import { Product3D } from '../components/Product3D'
 import { ArrowRightIcon, MapPinIcon, ShieldCheckIcon, ShoppingCartIcon } from '../components/icons'
 
 // The API has no single-product endpoint and the catalogue is small, so load the list and pick
@@ -74,7 +75,7 @@ export function ProductDetail() {
           <article className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div className={`animate-rise relative aspect-square border border-slate-200 ${accent.tile} ${accent.shadow}`}>
               {product.imageUrl && (
-                <img src={product.imageUrl} alt={product.name} className="product-shot h-full w-full object-contain p-[12%]" />
+                <Product3D src={product.imageUrl} alt={product.name} className="h-full w-full" pad="12%" />
               )}
               <div className="absolute left-0 top-0 flex flex-col items-start">
                 {product.requiresPrescription && (
@@ -144,13 +145,7 @@ export function ProductDetail() {
                 {related.map((p, i) => (
                   <Reveal key={p.id} delay={i * 80}>
                     <Link to={`/products/${p.id}`} className="group block h-full border border-slate-200 bg-white">
-                      <div className={`aspect-square overflow-hidden border-b border-slate-200 ${accent.tile}`}>
-                        <img
-                          src={p.imageUrl!}
-                          alt={p.name}
-                          className="product-shot h-full w-full object-contain p-[12%]"
-                        />
-                      </div>
+                      <Product3D src={p.imageUrl!} alt={p.name} className="aspect-square" pad="12%" />
                       <div className="p-3 sm:p-4">
                         <h3 className="text-sm font-semibold leading-snug group-hover:underline">{p.name}</h3>
                         <p className="mt-2 font-semibold tabular-nums">

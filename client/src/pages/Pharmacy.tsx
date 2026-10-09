@@ -7,15 +7,20 @@ import { translateProduct } from '../i18n/content'
 import { useCart } from '../context/CartContext'
 import { MapPinIcon, SearchIcon, ShieldCheckIcon, ShoppingCartIcon, UsersIcon } from '../components/icons'
 import { ParallaxBand } from '../components/ParallaxBand'
+import { Product3D } from '../components/Product3D'
 
 const QUICK_FILTERS = ['Allergies', 'Pain Relief', 'Antibiotics', 'Skincare', 'Supplements'] as const
 const PAGE_SIZE = 8
 const FEATURED_COUNT = 4
 
-// Product photos are transparent cut-outs: larger ones get a soft shadow instead of a box.
+// Product photos are transparent cut-outs: larger ones float on the card and tilt in 3D on hover,
+// small thumbnails stay flat.
 function ProductImage({ product, className = '', shadow = true }: { product: Product; className?: string; shadow?: boolean }) {
+  if (shadow && product.imageUrl) {
+    return <Product3D src={product.imageUrl} alt={product.name} className={className} />
+  }
   return (
-    <div className={`overflow-hidden bg-slate-50 ${className}`}>
+    <div className={`overflow-hidden ${className}`}>
       {product.imageUrl && (
         <img
           src={product.imageUrl}
@@ -331,7 +336,7 @@ export function Pharmacy() {
                     key={product.id}
                     className="flex flex-col border border-slate-200 bg-white transition-colors hover:border-slate-400"
                   >
-                    <div className="relative border-b border-slate-200">
+                    <div className="relative">
                       <Link to={`/products/${product.id}`} aria-label={product.name}>
                         <ProductImage product={product} className="aspect-square" />
                       </Link>
