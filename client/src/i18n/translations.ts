@@ -85,6 +85,13 @@ export interface TranslationDict {
     recipesTitle: string
     readMore: string
   }
+  productPage: {
+    back: string
+    notFound: string
+    availability: string
+    stores: string
+    related: (category: string) => string
+  }
   articleDetail: {
     back: string
     loading: string
@@ -282,6 +289,13 @@ export const translations: Record<Language, TranslationDict> = {
       newsletterCopy: "Don't miss a great offer!",
       recipesTitle: 'Recipes',
       readMore: 'Read More',
+    },
+    productPage: {
+      back: 'Pharmacy Catalog',
+      notFound: "This product couldn't be found.",
+      availability: 'Availability',
+      stores: 'Stores',
+      related: (category: string) => `More in ${category}`,
     },
     articleDetail: {
       back: 'Back',
@@ -491,6 +505,13 @@ export const translations: Record<Language, TranslationDict> = {
       newsletterCopy: 'Не пропуштај ниту една одлична понуда!',
       recipesTitle: 'Рецепти',
       readMore: 'Прочитај повеќе',
+    },
+    productPage: {
+      back: 'Каталог на аптеката',
+      notFound: 'Овој производ не е пронајден.',
+      availability: 'Достапност',
+      stores: 'Продавници',
+      related: (category: string) => `Повеќе од ${category}`,
     },
     articleDetail: {
       back: 'Назад',

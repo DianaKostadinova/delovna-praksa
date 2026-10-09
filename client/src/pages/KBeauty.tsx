@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Product } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -85,7 +86,7 @@ export function KBeauty() {
                 className={`animate-rise border border-slate-200 bg-pink-50 p-3 shadow-[6px_6px_0_0_#db2777] ${i === 1 ? 'aspect-[3/4]' : 'aspect-square'}`}
                 style={{ animationDelay: `${200 + i * 120}ms` }}
               >
-                <img src={src} alt="" className="h-full w-full object-contain mix-blend-multiply" />
+                <img src={src} alt="" className="product-shot h-full w-full object-contain p-2" />
               </div>
             ))}
           </div>
@@ -103,13 +104,12 @@ export function KBeauty() {
                 key={key}
                 className="group relative flex min-h-56 min-w-0 flex-col overflow-hidden border border-slate-200 bg-white p-5 transition-[flex-grow,background-color,border-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-pink-600 hover:bg-pink-600 lg:min-h-0 lg:flex-1 lg:hover:flex-[2.4]"
               >
-                {/* Product shots are on white, so they melt into the card at rest; on hover,
-                    multiply blending turns that white into the card's pink. */}
+                {/* Transparent product cut-out: faint at rest, full strength once the step expands. */}
                 <img
                   src={image}
                   alt=""
                   aria-hidden
-                  className="pointer-events-none absolute right-0 top-0 h-[72%] w-[80%] object-contain object-right-top p-3 opacity-30 transition-[opacity,scale] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 group-hover:opacity-100 group-hover:mix-blend-multiply"
+                  className="pointer-events-none absolute right-0 top-0 h-[72%] w-[80%] object-contain object-right-top p-3 opacity-30 transition-[opacity,scale] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 group-hover:opacity-100"
                 />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-pink-700 via-pink-600/80 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <span className="relative font-mono text-4xl font-black text-pink-600 transition-colors duration-500 group-hover:text-white/40">
@@ -149,18 +149,18 @@ export function KBeauty() {
                 <Reveal key={product.id} delay={(i % 4) * 80}>
                   <article className="group flex h-full flex-col border border-pink-100 bg-white transition-colors hover:border-pink-400">
                     <div className="relative border-b border-slate-200">
-                      <div className="aspect-square overflow-hidden bg-pink-50">
+                      <Link to={`/products/${product.id}`} aria-label={product.name} className="block aspect-square overflow-hidden bg-pink-50">
                         {product.imageUrl && (
                           <img
                             src={product.imageUrl}
                             alt={product.name}
-                            className="h-full w-full object-contain mix-blend-multiply transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                            className="product-shot h-full w-full object-contain p-[10%] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none'
                             }}
                           />
                         )}
-                      </div>
+                      </Link>
                       {(product.pharmacistRecommended || isBestSeller) && (
                         <span
                           className={`absolute left-0 top-0 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white ${
@@ -183,7 +183,11 @@ export function KBeauty() {
                       </button>
                     </div>
                     <div className="flex flex-1 flex-col p-3 sm:p-4">
-                      <h3 className="text-sm font-semibold leading-snug sm:text-[15px]">{product.name}</h3>
+                      <h3 className="text-sm font-semibold leading-snug sm:text-[15px]">
+                        <Link to={`/products/${product.id}`} className="hover:text-pink-600 hover:underline">
+                          {product.name}
+                        </Link>
+                      </h3>
                       <p className="mt-1 hidden text-xs leading-relaxed text-slate-500 line-clamp-2 sm:block">{product.description}</p>
                       <div className="mt-3 flex items-baseline justify-between gap-2">
                         <p className="text-lg font-semibold tabular-nums">

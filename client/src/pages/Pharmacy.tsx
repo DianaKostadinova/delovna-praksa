@@ -12,14 +12,15 @@ const QUICK_FILTERS = ['Allergies', 'Pain Relief', 'Antibiotics', 'Skincare', 'S
 const PAGE_SIZE = 8
 const FEATURED_COUNT = 4
 
-function ProductImage({ product, className = '' }: { product: Product; className?: string }) {
+// Product photos are transparent cut-outs: larger ones get a soft shadow instead of a box.
+function ProductImage({ product, className = '', shadow = true }: { product: Product; className?: string; shadow?: boolean }) {
   return (
     <div className={`overflow-hidden bg-slate-50 ${className}`}>
       {product.imageUrl && (
         <img
           src={product.imageUrl}
           alt={product.name}
-          className="h-full w-full object-contain mix-blend-multiply"
+          className={`h-full w-full object-contain ${shadow ? 'product-shot p-[10%]' : 'p-1'}`}
           onError={(e) => {
             e.currentTarget.style.display = 'none'
           }}
@@ -233,7 +234,7 @@ export function Pharmacy() {
                         active ? 'bg-blue-50/70 shadow-[inset_3px_0_0_#1d4ed8]' : 'hover:bg-slate-50'
                       }`}
                     >
-                      <ProductImage product={p} className="h-16 w-16 shrink-0 border border-slate-200" />
+                      <ProductImage product={p} shadow={false} className="h-16 w-16 shrink-0 border border-slate-200" />
                       <div className="min-w-0 flex-1">
                         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {categoryName(p)}
@@ -331,7 +332,9 @@ export function Pharmacy() {
                     className="flex flex-col border border-slate-200 bg-white transition-colors hover:border-slate-400"
                   >
                     <div className="relative border-b border-slate-200">
-                      <ProductImage product={product} className="aspect-square" />
+                      <Link to={`/products/${product.id}`} aria-label={product.name}>
+                        <ProductImage product={product} className="aspect-square" />
+                      </Link>
                       <div className="absolute left-0 top-0 flex flex-col items-start">
                         {product.requiresPrescription && (
                           <span className="bg-amber-400 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-950">
@@ -355,7 +358,11 @@ export function Pharmacy() {
                           <span className="hidden sm:inline">{stock.text}</span>
                         </span>
                       </div>
-                      <h3 className="mt-1.5 text-sm font-semibold leading-snug sm:text-[15px]">{product.name}</h3>
+                      <h3 className="mt-1.5 text-sm font-semibold leading-snug sm:text-[15px]">
+                        <Link to={`/products/${product.id}`} className="hover:text-blue-700 hover:underline">
+                          {product.name}
+                        </Link>
+                      </h3>
                       <p className="mt-1 hidden text-xs leading-relaxed text-slate-500 line-clamp-2 sm:block">
                         {product.description}
                       </p>

@@ -95,6 +95,29 @@ body {
   animation: hero-drift 18s ease-in-out infinite alternate;
 }
 
+/* Heartbeat progress dot: a ring that swells and fades like a monitor blip. */
+@keyframes pulse-ring {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Cut-out product photos (transparent PNG/WebP) sit on a soft shadow instead of a box. */
+.product-shot {
+  filter: drop-shadow(0 14px 10px rgb(15 23 42 / 0.16));
+}
+
 /* Endless product strip: the list is rendered twice, so sliding by -50% loops seamlessly. */
 @keyframes marquee {
   to {
@@ -143,6 +166,7 @@ main a:hover img {
   .rise-letter,
   .rule-grow,
   .hero-drift,
+  .pulse-ring,
   .marquee-track {
     animation: none;
   }

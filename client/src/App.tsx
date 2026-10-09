@@ -7,6 +7,7 @@ import { Cart } from './pages/Cart'
 import { Team } from './pages/Team'
 import { Blog } from './pages/Blog'
 import { ArticleDetail } from './pages/ArticleDetail'
+import { ProductDetail } from './pages/ProductDetail'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/pharmacy" element={<Pharmacy />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/k-beauty" element={<KBeauty />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/team" element={<Team />} />

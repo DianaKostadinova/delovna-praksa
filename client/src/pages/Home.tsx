@@ -1,9 +1,9 @@
 import { useEffect, useState, type ComponentType, type SVGProps } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
-import type { Article, HealthFact } from '../api/types'
+import type { Article, HealthFact, Product } from '../api/types'
 import { useLanguage } from '../i18n/LanguageContext'
-import { translateArticle, translateFact } from '../i18n/content'
+import { translateArticle, translateFact, translateProduct } from '../i18n/content'
 import {
   ArrowRightIcon,
   HeartPulseIcon,
@@ -32,27 +32,14 @@ const FACT_IMAGES: Record<string, string> = {
   droplet: '/images/article-hydration.webp',
 }
 
-const SHELF_PRODUCTS = [
-  'product-vitaminc.png',
-  'product-kbeauty-anua-serum.png',
-  'product-centrum.png',
-  'product-avene.png',
-  'product-thermometer.png',
-  'product-kbeauty-joseon-cream.webp',
-  'product-zinc.png',
-  'product-effaclar.png',
-  'product-olynth.png',
-  'product-kbeauty-roundlab.png',
-  'product-bilobil.png',
-  'product-toleriane.png',
-  'product-icepower.webp',
-  'product-mixa.webp',
-]
+// How many catalog products ride the "From our shelves" strip.
+const SHELF_COUNT = 14
 
 export function Home() {
   const { t, language } = useLanguage()
   const [articles, setArticles] = useState<Article[]>([])
   const [facts, setFacts] = useState<HealthFact[]>([])
+  const [shelf, setShelf] = useState<Product[]>([])
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -65,6 +52,11 @@ export function Home() {
         setFacts(f)
       })
       .catch((e) => setError(e.message))
+    // Over-the-counter items with a photo; a failure here just leaves the strip empty.
+    api
+      .getProducts()
+      .then((p) => setShelf(p.filter((x) => x.imageUrl && !x.requiresPrescription).slice(0, SHELF_COUNT)))
+      .catch(() => {})
   }, [])
 
   const translatedFacts = facts.map((f) => translateFact(f, language))
@@ -89,7 +81,7 @@ export function Home() {
 
   return (
     <div className="overflow-x-clip pb-10">
-      <section className="mx-auto max-w-6xl px-6 pb-14 pt-16">
+      <section className="mx-auto max-w-6xl px-6 pb-10 pt-16">
         <div className="text-center">
           <p className="animate-rise text-[11px] font-bold uppercase tracking-[0.3em] text-blue-700">{t.home.heroEyebrow}</p>
           <h1 className="mt-3 text-6xl font-black tracking-[0.25em] text-blue-700 drop-shadow-[0_2px_12px_rgba(255,255,255,0.8)] sm:text-7xl" aria-label={t.home.title}>
@@ -199,7 +191,42 @@ export function Home() {
             )}
           </div>
         </div>
+      </div>
 
+      {/* Endless strip of catalog products, each linking to its page; pauses on hover. */}
+      {shelf.length > 0 && (
+        <section className="mb-12">
+          <div className="mx-auto mb-4 flex max-w-6xl items-center justify-between px-6">
+            <h3 className="border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">{t.home.shelvesHeading}</h3>
+            <Link to="/pharmacy" className="text-xs font-medium text-blue-700 hover:text-blue-800">
+              {t.home.shelvesLink}
+            </Link>
+          </div>
+          <div className="marquee overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+            <div className="marquee-track flex w-max gap-6 py-4 sm:gap-10">
+              {[...shelf, ...shelf].map((product, i) => (
+                <Link
+                  key={i}
+                  to={`/products/${product.id}`}
+                  title={translateProduct(product, language).name}
+                  aria-hidden={i >= shelf.length}
+                  tabIndex={i >= shelf.length ? -1 : undefined}
+                  className="flex h-36 w-32 shrink-0 items-center justify-center p-2 sm:h-44 sm:w-40"
+                >
+                  <img
+                    src={product.imageUrl!}
+                    alt=""
+                    loading="lazy"
+                    className="product-shot max-h-full max-w-full object-contain"
+                  />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <PostCarousel
             posts={blogPosts}
@@ -321,31 +348,6 @@ export function Home() {
         </div>
 
       </div>
-
-      {/* Endless strip of products from the catalog; pauses on hover. */}
-      <section className="mb-12">
-        <div className="mx-auto mb-4 flex max-w-6xl items-center justify-between px-6">
-          <h3 className="border-l-4 border-blue-600 pl-3 text-sm font-semibold text-slate-800">{t.home.shelvesHeading}</h3>
-          <Link to="/pharmacy" className="text-xs font-medium text-blue-700 hover:text-blue-800">
-            {t.home.shelvesLink}
-          </Link>
-        </div>
-        <div className="marquee overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-          <div className="marquee-track flex w-max gap-4 py-2">
-            {[...SHELF_PRODUCTS, ...SHELF_PRODUCTS].map((file, i) => (
-              <Link
-                key={i}
-                to="/pharmacy"
-                aria-hidden={i >= SHELF_PRODUCTS.length}
-                tabIndex={i >= SHELF_PRODUCTS.length ? -1 : undefined}
-                className="flex h-36 w-36 shrink-0 items-center justify-center overflow-hidden border border-slate-200 bg-white p-4 transition-colors hover:border-blue-700 sm:h-44 sm:w-44"
-              >
-                <img src={`/images/${file}`} alt="" loading="lazy" className="max-h-full max-w-full object-contain" />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <ParallaxBand
         image="/images/article-hydration.webp"
