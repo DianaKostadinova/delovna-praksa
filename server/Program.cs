@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using ZeginHealthHub.Api;
 using ZeginHealthHub.Api.Data;
-using ZeginHealthHub.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +33,6 @@ builder.Services.AddDbContext<ZeginDbContext>(options =>
         options.UseSqlite(database.ConnectionString);
     }
 });
-
-builder.Services.AddSingleton<SymptomCheckerService>();
 
 var allowedOrigins = CorsSettings.Resolve(builder.Configuration);
 builder.Services.AddCors(options =>

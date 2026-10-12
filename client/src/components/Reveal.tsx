@@ -25,7 +25,8 @@ export function Reveal({
           observer.disconnect()
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' },
+      // Start just before the block scrolls on screen, so it's already settling by the time it's seen.
+      { threshold: 0, rootMargin: '0px 0px 80px 0px' },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -34,7 +35,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`transition-[opacity,translate,scale] duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${visible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-12 scale-[0.97] opacity-0'} ${className}`}
+      className={`transition-[opacity,translate,scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${visible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-6 scale-[0.98] opacity-0'} ${className}`}
       style={{ transitionDelay: visible ? `${delay}ms` : '0ms' }}
     >
       {children}

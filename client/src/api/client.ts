@@ -38,7 +38,6 @@ export const api = {
     const qs = query.toString()
     return request<Product[]>(`/products${qs ? `?${qs}` : ''}`)
   },
-  getCategories: () => request<string[]>('/products/categories'),
 
   trackPageView: (payload: PageViewRequest) =>
     request<void>('/analytics/pageview', {

@@ -89,10 +89,10 @@ export function Layout() {
       {/* Blurred pharmacy photo across the top of the page, fading into the tiles below. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60vh] min-h-[420px] overflow-hidden [mask-image:linear-gradient(to_bottom,black_55%,transparent_100%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[90vh] min-h-[640px] overflow-hidden [mask-image:linear-gradient(to_bottom,black_65%,transparent_100%)]"
       >
-        <img src="/images/hero-pharmacy.jpg" alt="" className="hero-drift h-full w-full object-cover blur-[4px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/45 to-white/70" />
+        <img src="/images/hero-pharmacy.webp" alt="" className="hero-drift h-full w-full object-cover blur-[4px] brightness-[0.92]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-white/30 to-white/55" />
       </div>
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
@@ -169,12 +169,12 @@ export function Layout() {
   )
 }
 
-// Brand mark: a pharmacy cross knocked out of a solid blue square.
+// Brand mark: a bold "Z" knocked out of a solid blue square (same shape as public/favicon.svg).
 function ZeginMark({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
       <rect width="24" height="24" fill="#1d4ed8" />
-      <path d="M10 5h4v5h5v4h-5v5h-4v-5H5v-4h5z" fill="white" />
+      <path d="M6 5h12v3.2L10.6 15.8H18V19H6v-3.2L13.4 8.2H6z" fill="white" />
     </svg>
   )
 }
@@ -267,7 +267,8 @@ function Footer() {
           <h4 className="mb-1 text-sm font-semibold text-blue-400">{t.footer.locationsTitle}</h4>
           <p className="mb-4 text-xs text-slate-500">{t.footer.locationsSubtitle}</p>
           <div className="grid gap-4 lg:grid-cols-2">
-            <div className="h-80 overflow-hidden rounded-lg">
+            {/* `isolate` keeps Leaflet's high z-index panes (400–1000) from painting over the sticky header. */}
+            <div className="relative isolate z-0 h-80 overflow-hidden rounded-lg">
               <LocationsMap />
             </div>
             <div className="max-h-80 space-y-2 overflow-y-auto pr-2">

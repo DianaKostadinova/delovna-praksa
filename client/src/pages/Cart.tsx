@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import type { Product } from '../api/types'
@@ -72,15 +72,20 @@ export function Cart() {
     )
   }
 
+  const summary = <OrderSummary items={items} total={total} totalItems={totalItems} />
+
   if (step === 'details') {
     return (
-      <div className="mx-auto max-w-md px-6 py-8">
-        <h1 className="text-2xl font-bold text-slate-900">{t.cartPage.detailsTitle}</h1>
-        <div className="mt-6 space-y-4">
+      <CheckoutLayout title={t.cartPage.detailsTitle} summary={summary}>
+        <div className="grid gap-4 sm:grid-cols-2">
           <Field label={t.cartPage.firstName} value={firstName} onChange={setFirstName} />
           <Field label={t.cartPage.lastName} value={lastName} onChange={setLastName} />
-          <Field label={t.cartPage.address} value={address} onChange={setAddress} />
-          <Field label={t.cartPage.contact} value={contact} onChange={setContact} />
+          <div className="sm:col-span-2">
+            <Field label={t.cartPage.address} value={address} onChange={setAddress} />
+          </div>
+          <div className="sm:col-span-2">
+            <Field label={t.cartPage.contact} value={contact} onChange={setContact} />
+          </div>
         </div>
         <div className="mt-6 flex gap-3">
           <button
@@ -92,20 +97,19 @@ export function Cart() {
           <button
             onClick={() => detailsValid && setStep('payment')}
             disabled={!detailsValid}
-            className="flex-1 rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex-1 rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none sm:px-8"
           >
             {t.cartPage.continueButton}
           </button>
         </div>
-      </div>
+      </CheckoutLayout>
     )
   }
 
   if (step === 'payment') {
     return (
-      <div className="mx-auto max-w-md px-6 py-8">
-        <h1 className="text-2xl font-bold text-slate-900">{t.cartPage.paymentTitle}</h1>
-        <div className="mt-6 flex gap-3">
+      <CheckoutLayout title={t.cartPage.paymentTitle} summary={summary}>
+        <div className="flex gap-3">
           <button
             onClick={() => setPaymentMethod('cash')}
             className={`flex-1 rounded-md border py-3 text-sm font-semibold transition-colors ${
@@ -129,12 +133,12 @@ export function Cart() {
         </div>
 
         {paymentMethod === 'card' && (
-          <div className="mt-5 space-y-4">
-            <Field label={t.cartPage.cardNumber} value={cardNumber} onChange={setCardNumber} placeholder="4242 4242 4242 4242" />
-            <div className="flex gap-3">
-              <Field label={t.cartPage.cardExpiry} value={cardExpiry} onChange={setCardExpiry} placeholder="MM/YY" />
-              <Field label={t.cartPage.cardCvv} value={cardCvv} onChange={setCardCvv} placeholder="123" />
+          <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="col-span-2">
+              <Field label={t.cartPage.cardNumber} value={cardNumber} onChange={setCardNumber} placeholder="4242 4242 4242 4242" />
             </div>
+            <Field label={t.cartPage.cardExpiry} value={cardExpiry} onChange={setCardExpiry} placeholder="MM/YY" />
+            <Field label={t.cartPage.cardCvv} value={cardCvv} onChange={setCardCvv} placeholder="123" />
           </div>
         )}
 
@@ -148,17 +152,17 @@ export function Cart() {
           <button
             onClick={() => paymentValid && handleConfirmOrder()}
             disabled={!paymentValid}
-            className="flex-1 rounded-md bg-green-600 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex-1 rounded-md bg-green-600 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none sm:px-8"
           >
             {t.cartPage.confirmOrder}
           </button>
         </div>
-      </div>
+      </CheckoutLayout>
     )
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <h1 className="text-2xl font-bold text-slate-900">{t.cartPage.title}</h1>
       <p className="mt-1 text-sm text-slate-500">{t.cartPage.subtitle}</p>
 
@@ -181,9 +185,9 @@ export function Cart() {
             {items.map(({ product, quantity }) => (
               <div
                 key={product.id}
-                className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4"
+                className="flex flex-wrap items-center gap-x-4 gap-y-3 rounded-xl border border-slate-200 bg-white p-4 sm:flex-nowrap"
               >
-                <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-slate-100 to-slate-200">
+                <div className="h-16 w-16 flex-shrink-0 sm:h-20 sm:w-20 overflow-hidden rounded-lg bg-gradient-to-br from-slate-100 to-slate-200">
                   {product.imageUrl && (
                     <img
                       src={product.imageUrl}
@@ -195,12 +199,13 @@ export function Cart() {
                     />
                   )}
                 </div>
-                <div className="min-w-0 flex-1">
+                {/* On phones the info takes the rest of the first row, pushing the controls onto a second row. */}
+                <div className="min-w-0 flex-1 basis-[calc(100%-5rem)] sm:basis-0">
                   <h3 className="truncate text-sm font-semibold text-slate-800">{product.name}</h3>
                   <p className="truncate text-xs text-slate-500">{product.description}</p>
                   <p className="mt-1 text-sm font-bold text-blue-700">{product.price.toFixed(0)} ден.</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="ml-20 flex items-center gap-2 sm:ml-0">
                   <button
                     onClick={() => setQuantity(product.id, quantity - 1)}
                     className="h-7 w-7 rounded-md border border-slate-300 text-sm font-semibold text-slate-600 hover:border-blue-400 hover:text-blue-700"
@@ -217,7 +222,7 @@ export function Cart() {
                 </div>
                 <button
                   onClick={() => removeFromCart(product.id)}
-                  className="text-xs font-medium text-red-600 hover:text-red-700"
+                  className="ml-auto text-xs font-medium text-red-600 hover:text-red-700 sm:ml-0"
                 >
                   {t.cartPage.remove}
                 </button>
@@ -225,7 +230,7 @@ export function Cart() {
             ))}
           </div>
 
-          <div className="h-fit rounded-xl border border-slate-200 bg-white p-5">
+          <div className="h-fit rounded-xl border border-slate-200 bg-white p-5 lg:sticky lg:top-24">
             <p className="text-sm text-slate-500">{t.cartPage.itemsCount(totalItems)}</p>
             <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-base font-bold text-slate-900">
               <span>{t.cartPage.total}</span>
@@ -246,6 +251,51 @@ export function Cart() {
           </div>
         </div>
       )}
+    </div>
+  )
+}
+
+// Checkout steps: the form on the left, an order recap on the right (stacked on phones).
+function CheckoutLayout({ title, summary, children }: { title: string; summary: ReactNode; children: ReactNode }) {
+  return (
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+      <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+        <div className="h-fit rounded-xl border border-slate-200 bg-white p-5 sm:p-6 lg:col-span-2">{children}</div>
+        {summary}
+      </div>
+    </div>
+  )
+}
+
+function OrderSummary({
+  items,
+  total,
+  totalItems,
+}: {
+  items: { product: Product; quantity: number }[]
+  total: number
+  totalItems: number
+}) {
+  const { t } = useLanguage()
+
+  return (
+    <div className="h-fit rounded-xl border border-slate-200 bg-white p-5 lg:sticky lg:top-24">
+      <p className="text-sm text-slate-500">{t.cartPage.itemsCount(totalItems)}</p>
+      <ul className="mt-3 max-h-64 space-y-2 overflow-y-auto">
+        {items.map(({ product, quantity }) => (
+          <li key={product.id} className="flex items-center justify-between gap-3 text-sm">
+            <span className="min-w-0 truncate text-slate-700">
+              {quantity} × {product.name}
+            </span>
+            <span className="shrink-0 font-medium text-slate-800">{(product.price * quantity).toFixed(0)} ден.</span>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-base font-bold text-slate-900">
+        <span>{t.cartPage.total}</span>
+        <span>{total.toFixed(0)} ден.</span>
+      </div>
     </div>
   )
 }

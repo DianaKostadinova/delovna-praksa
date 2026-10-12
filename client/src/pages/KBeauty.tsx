@@ -12,18 +12,18 @@ import { ShoppingCartIcon } from '../components/icons'
 
 // Each routine step is illustrated by a product from the K-Beauty range that does that job.
 const ROUTINE_STEPS = [
-  { key: 'routineCleanse', image: '/images/product-kbeauty-roundlab.png' },
-  { key: 'routineTone', image: '/images/product-kbeauty-somebymi.png' },
-  { key: 'routineTreat', image: '/images/product-kbeauty-skin1004.png' },
+  { key: 'routineCleanse', image: '/images/product-kbeauty-roundlab.webp' },
+  { key: 'routineTone', image: '/images/product-kbeauty-somebymi.webp' },
+  { key: 'routineTreat', image: '/images/product-kbeauty-skin1004.webp' },
   { key: 'routineMoisturize', image: '/images/product-kbeauty-joseon-cream.webp' },
-  { key: 'routineProtect', image: '/images/product-kbeauty-tirtir.png' },
+  { key: 'routineProtect', image: '/images/product-kbeauty-tirtir.webp' },
 ] as const
 
 // Static so the intro collage shows even before (or without) the product request.
 const INTRO_IMAGES = [
-  '/images/product-kbeauty-anua-serum.png',
+  '/images/product-kbeauty-anua-serum.webp',
   '/images/product-kbeauty-joseon-cream.webp',
-  '/images/product-kbeauty-roundlab.png',
+  '/images/product-kbeauty-roundlab.webp',
 ]
 
 function HeartIcon({ filled, className = '' }: { filled: boolean; className?: string }) {

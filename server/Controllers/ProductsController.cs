@@ -25,11 +25,4 @@ public class ProductsController : ControllerBase
         var products = await query.OrderBy(p => p.Name).ToListAsync();
         return Ok(products);
     }
-
-    [HttpGet("categories")]
-    public async Task<IActionResult> GetCategories()
-    {
-        var categories = await _db.Products.Select(p => p.Category).Distinct().ToListAsync();
-        return Ok(categories);
-    }
 }

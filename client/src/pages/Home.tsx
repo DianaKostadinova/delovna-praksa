@@ -27,7 +27,7 @@ const FACT_ICONS: Record<string, ComponentType<SVGProps<SVGSVGElement>>> = {
 // Photo behind each "Did you know?" panel — faint at rest, full colour once the panel expands.
 const FACT_IMAGES: Record<string, string> = {
   heart: '/images/article-blood-pressure.webp',
-  brain: '/images/article-mindfulness.png',
+  brain: '/images/article-mindfulness.webp',
   eye: '/images/article-sunscreen-myths.webp',
   droplet: '/images/article-hydration.webp',
 }
@@ -90,7 +90,7 @@ export function Home() {
       <section className="mx-auto max-w-6xl px-6 pb-10 pt-16">
         <div className="text-center">
           <p className="animate-rise text-[11px] font-bold uppercase tracking-[0.3em] text-blue-700">{t.home.heroEyebrow}</p>
-          <h1 className="mt-3 text-6xl font-black tracking-[0.25em] text-blue-700 drop-shadow-[0_2px_12px_rgba(255,255,255,0.8)] sm:text-7xl" aria-label={t.home.title}>
+          <h1 className="mt-3 text-6xl font-black tracking-[0.25em] text-blue-700 drop-shadow-[0_2px_12px_rgba(255,255,255,0.8)] sm:text-7xl lg:text-[5.5rem]" aria-label={t.home.title}>
             {[...t.home.title].map((letter, i) => (
               <span key={i} aria-hidden className="rise-letter" style={{ animationDelay: `${i * 70}ms` }}>
                 {letter}
@@ -276,7 +276,7 @@ export function Home() {
       </div>
 
       <ParallaxBand
-        image="/images/hero-pharmacy.jpg"
+        image="/images/hero-pharmacy.webp"
         eyebrow={t.home.bandEyebrow}
         title={t.home.bandTitle}
         copy={t.home.bandCopy}

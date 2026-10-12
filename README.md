@@ -25,9 +25,6 @@ no internal admin/staff area; this app is scoped to what a pharmacy customer wou
   from scratch for this project. Every post links to its own article page.
 - **Pharmacy** — a product catalog with search, category quick-filters, pagination, and an
   in-memory cart.
-- **AI Checker** — a symptom-description form. Wired to a small **keyword-matching rules
-  engine** on the backend (clearly labeled as a mock, not a real clinical AI) that returns a
-  suggested urgency level, recommendations, and OTC products.
 - **Meet the Team** — a directory of Zegin's fictional Skopje pharmacy branches: head-office
   support staff and branch pharmacists, each with a contact email/phone and role. Linked from
   the main nav and from a teaser card on the Home page.
@@ -43,8 +40,7 @@ no internal admin/staff area; this app is scoped to what a pharmacy customer wou
   > DB-backed feature, so if that happens again, delete `server/zeginhealthhub.db` and restart.
 - **English / Macedonian toggle** — an EN/МК switch in the top nav (persisted in
   `localStorage`) translates every static label plus the seeded demo content (articles,
-  products, team members). The AI Checker's rules engine also matches Macedonian symptom
-  keywords, so it works end-to-end in either language.
+  products, team members).
 - **Cookie consent + first-party analytics** — a compact bottom-left card asks for consent on
   first visit. Only after accepting does the app track anonymous page views (a random per-browser
   id, the path, and the language — no accounts, no IP address, nothing shared with third
@@ -265,9 +261,8 @@ curl -X POST https://<your-api>.onrender.com/api/maintenance/cleanup -H "X-Maint
 server/                 ASP.NET Core Web API
   Models/                domain models (Article, Product, PageViewEvent, ...)
   Data/                  EF Core DbContext + seed data
-  Services/              SymptomCheckerService (mock rules engine)
   Controllers/           API endpoints (/api/articles incl. /api/articles/{id},
-                         /api/products, /api/symptomcheck, /api/analytics/*)
+                         /api/products, /api/contact, /api/analytics/*)
 
   Dockerfile             container image for the API
 
@@ -277,7 +272,7 @@ client/                 React + TypeScript app (Vite)
   src/data/               static in-code data (team.ts) — not DB-backed, see note above
   src/i18n/               EN/MK translation dictionaries + content overlays
   src/analytics.ts        consent-gated page-view tracking helper
-  src/pages/              Home, Blog, ArticleDetail, Pharmacy, KBeauty, Cart, AiChecker, Team
+  src/pages/              Home, Blog, ArticleDetail, Pharmacy, ProductDetail, KBeauty, Cart, Team
   Dockerfile              build + nginx image for the frontend
   nginx.conf              SPA fallback + /api proxy
   vercel.json             Vercel build settings + SPA rewrite
@@ -300,8 +295,6 @@ render.yaml             Render blueprint for the API web service
 - CORS is pre-configured on the API for the usual local ports (`5173` dev, `4173` preview,
   `8080` the Docker frontend) in case you run the frontend without the Vite proxy. Deployed
   origins are added through `CORS_ALLOWED_ORIGINS` — see [Configuration](#configuration).
-- The AI Checker's backend logic lives in `server/Services/SymptomCheckerService.cs` — it's a
-  small keyword-to-recommendation table, easy to extend with more conditions.
 - There is deliberately no admin/staff area (an earlier "Pharmacist Dashboard" with a patient
   lookup and prescription verification was removed) — this project is scoped to the
   client-facing pharmacy site only. Every article/blog card opens a real page at

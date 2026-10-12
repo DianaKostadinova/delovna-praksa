@@ -45,7 +45,7 @@ public static class SeedData
 
                     A blood test for 25-hydroxyvitamin D is the only accurate way to know where you actually stand — guessing from symptoms alone isn't reliable, and taking very high doses without medical guidance can cause problems of its own, since vitamin D is fat-soluble and builds up in the body over time.
                     """,
-                    ImageUrl = "/images/article-vitamin-d.png",
+                    ImageUrl = "/images/article-vitamin-d.webp",
                     Section = "Health Tip",
                     Tag = "HEALTH TIP",
                     IsFeatured = false,
@@ -92,7 +92,7 @@ public static class SeedData
 
                     None of this means these foods are bad choices — most "superfoods" are, at minimum, healthy foods. The actual research consistently points to a different conclusion than any single ingredient: dietary pattern matters far more than any one item on the plate. A varied diet built around vegetables, fruit, whole grains, and lean protein will outperform a diet built around a handful of trendy ingredients surrounded by less healthy choices, every time.
                     """,
-                    ImageUrl = "/images/article-superfoods.png",
+                    ImageUrl = "/images/article-superfoods.webp",
                     Section = "Health Hub Originals",
                     Tag = "NUTRITION",
                     ReadTime = "12 Min Read",
@@ -111,7 +111,7 @@ public static class SeedData
 
                     What does seem consistent across the research is that the practice itself doesn't need to be elaborate. Ten minutes of focused breathing, done consistently, shows up in the data more reliably than occasional long sessions. If you're looking to start, consistency is a better goal than duration.
                     """,
-                    ImageUrl = "/images/article-mindfulness.png",
+                    ImageUrl = "/images/article-mindfulness.webp",
                     Section = "Health Hub Originals",
                     Tag = "MENTAL WELLBEING",
                     ReadTime = "6 Min Read",
@@ -246,7 +246,7 @@ public static class SeedData
 
                     It's worth being cautious with the conclusion here: this is a genuinely emerging area of research, individual results vary considerably, and diet is one factor among several — including genetics, hormones, and skincare routine — not a guaranteed fix on its own. If breakouts are persistent or severe, a dermatologist can rule out other causes and suggest treatment alongside any dietary changes, rather than in place of them.
                     """,
-                    ImageUrl = "/images/article-gut-skin.png",
+                    ImageUrl = "/images/article-gut-skin.webp",
                     Section = "Blog Post",
                     Tag = "SKIN CARE",
                     ReadTime = "6 Min Read",
@@ -284,7 +284,7 @@ public static class SeedData
 
                     Finally, back pain accompanied by unexplained weight loss or fever deserves prompt evaluation, since together they can (rarely) point to something beyond a musculoskeletal cause. None of these signs are common, but knowing them is what separates "wait it out" from "get it checked" — and getting that distinction right matters more than trying to tough out pain that's actually a signal.
                     """,
-                    ImageUrl = "/images/article-back-pain.png",
+                    ImageUrl = "/images/article-back-pain.webp",
                     Section = "Blog Post",
                     Tag = "PAIN MANAGEMENT",
                     ReadTime = "5 Min Read",
@@ -333,7 +333,7 @@ public static class SeedData
 
                     Method: Add all ingredients to a blender and blend until smooth, about 45 seconds. Taste and adjust honey or ginger to preference. Serves 1, ready in 5 minutes.
                     """,
-                    ImageUrl = "/images/article-turmeric-smoothie.png",
+                    ImageUrl = "/images/article-turmeric-smoothie.webp",
                     Section = "Recipe",
                     PublishedAt = DateTime.UtcNow.AddDays(-7)
                 },
@@ -368,47 +368,59 @@ public static class SeedData
         if (!db.Products.Any())
         {
             db.Products.AddRange(
-                new Product { Name = "Zyrtec Allergy Relief", Category = "Allergies", Description = "10mg Tablets, 30 Count", Price = 450m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-zyrtec.png", PharmacistRecommended = true },
-                new Product { Name = "Ventolin HFA Inhaler", Category = "Respiratory", Description = "108mcg, 200 Metered Doses", Price = 380m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-ventolin.png" },
-                new Product { Name = "Centrum Silver Men", Category = "Vitamins", Description = "Multivitamin, 100 Tablets", Price = 1450m, Stock = StockStatus.LowStock, NearbyStoreCount = 1, ImageUrl = "/images/product-centrum.png" },
-                new Product { Name = "Hydrocortisone 1%", Category = "Topical Care", Description = "Maximum Strength, 1oz Cream", Price = 180m, Stock = StockStatus.InStock, NearbyStoreCount = 8, ImageUrl = "/images/product-hydrocortisone.png" },
-                new Product { Name = "Naproxen Sodium", Category = "Pain Relief", Description = "220mg Liquid Gels, 80 Count", Price = 420m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-naproxen.png" },
-                new Product { Name = "Digital No-Touch Thermometer", Category = "Diagnostics", Description = "Infrared, Medical Grade Accuracy", Price = 1200m, Stock = StockStatus.InStock, NearbyStoreCount = 6, ImageUrl = "/images/product-thermometer.png" },
-                new Product { Name = "Dulcolax 5mg", Category = "Digestive", Description = "Laxative Tablets, 20 Count", Price = 327m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-dulcolax.png" },
-                new Product { Name = "Olynth HA 0.1%", Category = "Respiratory", Description = "Nasal Spray, 10ml", Price = 299m, Stock = StockStatus.InStock, NearbyStoreCount = 7, ImageUrl = "/images/product-olynth.png" },
-                new Product { Name = "Bisolvon Syrup", Category = "Respiratory", Description = "4mg/5ml Cough Expectorant, 100ml", Price = 443m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-bisolvon.png" },
+                new Product { Name = "Zyrtec Allergy Relief", Category = "Allergies", Description = "10mg Tablets, 30 Count", Price = 450m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-zyrtec.webp", PharmacistRecommended = true },
+                new Product { Name = "Ventolin HFA Inhaler", Category = "Respiratory", Description = "108mcg, 200 Metered Doses", Price = 380m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-ventolin.webp" },
+                new Product { Name = "Centrum Silver Men", Category = "Vitamins", Description = "Multivitamin, 100 Tablets", Price = 1450m, Stock = StockStatus.LowStock, NearbyStoreCount = 1, ImageUrl = "/images/product-centrum.webp" },
+                new Product { Name = "Hydrocortisone 1%", Category = "Topical Care", Description = "Maximum Strength, 1oz Cream", Price = 180m, Stock = StockStatus.InStock, NearbyStoreCount = 8, ImageUrl = "/images/product-hydrocortisone.webp" },
+                new Product { Name = "Naproxen Sodium", Category = "Pain Relief", Description = "220mg Liquid Gels, 80 Count", Price = 420m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-naproxen.webp" },
+                new Product { Name = "Digital No-Touch Thermometer", Category = "Diagnostics", Description = "Infrared, Medical Grade Accuracy", Price = 1200m, Stock = StockStatus.InStock, NearbyStoreCount = 6, ImageUrl = "/images/product-thermometer.webp" },
+                new Product { Name = "Dulcolax 5mg", Category = "Digestive", Description = "Laxative Tablets, 20 Count", Price = 327m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-dulcolax.webp" },
+                new Product { Name = "Olynth HA 0.1%", Category = "Respiratory", Description = "Nasal Spray, 10ml", Price = 299m, Stock = StockStatus.InStock, NearbyStoreCount = 7, ImageUrl = "/images/product-olynth.webp" },
+                new Product { Name = "Bisolvon Syrup", Category = "Respiratory", Description = "4mg/5ml Cough Expectorant, 100ml", Price = 443m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-bisolvon.webp" },
                 new Product { Name = "Alergoforce Nasal Spray", Category = "Allergies", Description = "Antihistamine Nasal Spray, 15ml", Price = 399m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-alergoforce.webp" },
-                new Product { Name = "Hepathrombin Gel", Category = "Topical Care", Description = "300 IE, Heparin Gel, 40g Tube", Price = 254m, Stock = StockStatus.InStock, NearbyStoreCount = 6, ImageUrl = "/images/product-hepathrombin.png" },
-                new Product { Name = "Tyrosur Wound Powder", Category = "Topical Care", Description = "Tyrothricin 1mg/g Topical Powder", Price = 389m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-tyrosur.png" },
+                new Product { Name = "Hepathrombin Gel", Category = "Topical Care", Description = "300 IE, Heparin Gel, 40g Tube", Price = 254m, Stock = StockStatus.InStock, NearbyStoreCount = 6, ImageUrl = "/images/product-hepathrombin.webp" },
+                new Product { Name = "Tyrosur Wound Powder", Category = "Topical Care", Description = "Tyrothricin 1mg/g Topical Powder", Price = 389m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-tyrosur.webp" },
                 new Product { Name = "Rinobact P", Category = "Respiratory", Description = "0.5mg/ml + 0.5mg/ml Nasal Drops with Antibiotic", Price = 280m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-rinobact.webp", RequiresPrescription = true },
-                new Product { Name = "Tabex", Category = "Supplements", Description = "Cytisine 1.5mg, Smoking Cessation Tablets x 100", Price = 880m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-tabex.png", RequiresPrescription = true },
-                new Product { Name = "Enterosgel", Category = "Digestive", Description = "Adsorbent Gel Sachets, 10 x 15g", Price = 1664m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-enterosgel.png" },
-                new Product { Name = "Vitamin C 500mg", Category = "Supplements", Description = "Tablets, 100 Count", Price = 1194m, Stock = StockStatus.InStock, NearbyStoreCount = 6, ImageUrl = "/images/product-vitaminc.png" },
-                new Product { Name = "Zinc 15mg", Category = "Supplements", Description = "Tablets, 60 Count (4 x 15 Blister)", Price = 580m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-zinc.png" },
-                new Product { Name = "Throat Lozenges", Category = "Respiratory", Description = "Sore Throat Lozenges", Price = 29m, Stock = StockStatus.InStock, NearbyStoreCount = 8, ImageUrl = "/images/product-throat-lozenges.png" },
+                new Product { Name = "Tabex", Category = "Supplements", Description = "Cytisine 1.5mg, Smoking Cessation Tablets x 100", Price = 880m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-tabex.webp", RequiresPrescription = true },
+                new Product { Name = "Enterosgel", Category = "Digestive", Description = "Adsorbent Gel Sachets, 10 x 15g", Price = 1664m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-enterosgel.webp" },
+                new Product { Name = "Vitamin C 500mg", Category = "Supplements", Description = "Tablets, 100 Count", Price = 1194m, Stock = StockStatus.InStock, NearbyStoreCount = 6, ImageUrl = "/images/product-vitaminc.webp" },
+                new Product { Name = "Zinc 15mg", Category = "Supplements", Description = "Tablets, 60 Count (4 x 15 Blister)", Price = 580m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-zinc.webp" },
+                new Product { Name = "Throat Lozenges", Category = "Respiratory", Description = "Sore Throat Lozenges", Price = 29m, Stock = StockStatus.InStock, NearbyStoreCount = 8, ImageUrl = "/images/product-throat-lozenges.webp" },
                 new Product { Name = "Ice Power Cold Spray", Category = "Pain Relief", Description = "Cooling Pain Relief Spray, 200ml", Price = 499m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-icepower.webp" },
-                new Product { Name = "Bilobil Forte", Category = "Supplements", Description = "Ginkgo Biloba 80mg Capsules, 20 Count", Price = 235m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-bilobil.png" },
-                new Product { Name = "Rinasek", Category = "Allergies", Description = "Decongestant + Antihistamine Tablets, 10 x (60mg + 2.5mg)", Price = 127m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-rinasek.png" },
-                new Product { Name = "Minotic Ear Drops", Category = "Topical Care", Description = "Antibiotic + Corticosteroid Ear Drops", Price = 521m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-minotic.png", RequiresPrescription = true },
-                new Product { Name = "Amoxicillin 500mg", Category = "Antibiotics", Description = "Oral Antibiotic Capsules, 16 Count", Price = 450m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-amoxicillin.png", RequiresPrescription = true },
-                new Product { Name = "Azithromycin 500mg", Category = "Antibiotics", Description = "Oral Antibiotic Tablets, 3 Count", Price = 620m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-azithromycin.png", RequiresPrescription = true },
-                new Product { Name = "Avene Cleansing Foam", Category = "Skincare", Description = "Gentle Cleansing Foam for Sensitive Skin, 200ml", Price = 1344m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-avene.png" },
+                new Product { Name = "Bilobil Forte", Category = "Supplements", Description = "Ginkgo Biloba 80mg Capsules, 20 Count", Price = 235m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-bilobil.webp" },
+                new Product { Name = "Rinasek", Category = "Allergies", Description = "Decongestant + Antihistamine Tablets, 10 x (60mg + 2.5mg)", Price = 127m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-rinasek.webp" },
+                new Product { Name = "Minotic Ear Drops", Category = "Topical Care", Description = "Antibiotic + Corticosteroid Ear Drops", Price = 521m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-minotic.webp", RequiresPrescription = true },
+                new Product { Name = "Amoxicillin 500mg", Category = "Antibiotics", Description = "Oral Antibiotic Capsules, 16 Count", Price = 450m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-amoxicillin.webp", RequiresPrescription = true },
+                new Product { Name = "Azithromycin 500mg", Category = "Antibiotics", Description = "Oral Antibiotic Tablets, 3 Count", Price = 620m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-azithromycin.webp", RequiresPrescription = true },
+                new Product { Name = "Avene Cleansing Foam", Category = "Skincare", Description = "Gentle Cleansing Foam for Sensitive Skin, 200ml", Price = 1344m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-avene.webp" },
                 new Product { Name = "Mixa Ceramide Protect", Category = "Skincare", Description = "Ceramide Protect Body Lotion, 400ml", Price = 445m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-mixa.webp" },
-                new Product { Name = "Effaclar AZ Gel Cream", Category = "Skincare", Description = "Acne Treatment Gel Cream, 40ml", Price = 2674m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-effaclar.png" },
-                new Product { Name = "Toleriane Rosaliac SPF30", Category = "Skincare", Description = "Redness Relief Cream SPF30, 50ml", Price = 2000m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-toleriane.png" },
+                new Product { Name = "Effaclar AZ Gel Cream", Category = "Skincare", Description = "Acne Treatment Gel Cream, 40ml", Price = 2674m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-effaclar.webp" },
+                new Product { Name = "Toleriane Rosaliac SPF30", Category = "Skincare", Description = "Redness Relief Cream SPF30, 50ml", Price = 2000m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-toleriane.webp" },
                 new Product { Name = "Beauty of Joseon Dynasty Cream", Category = "K-Beauty", Description = "Ginseng & Snail Mucin Cream, 50ml", Price = 1099m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-joseon-cream.webp", PharmacistRecommended = true },
-                new Product { Name = "Beauty of Joseon Revive Serum", Category = "K-Beauty", Description = "Ginseng + Retinal Revive Serum, 30ml", Price = 1499m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-kbeauty-joseon-serum.png" },
-                new Product { Name = "Anua Rice Enzyme Cleanser", Category = "K-Beauty", Description = "Brightening Powder Wash, 120g", Price = 1099m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-kbeauty-anua-cleanser.png" },
-                new Product { Name = "Anua Azelaic Acid Serum", Category = "K-Beauty", Description = "Azelaic Acid 10% + Hyaluron Serum, 30ml", Price = 1699m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-kbeauty-anua-serum.png" },
-                new Product { Name = "Round Lab Dokdo Cleanser", Category = "K-Beauty", Description = "1025 Dokdo Mineral Cleansing Foam, 150ml", Price = 799m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-roundlab.png" },
-                new Product { Name = "SKIN1004 Centella Ampoule", Category = "K-Beauty", Description = "Madagascar Centella Asiatica 100 Ampoule, 100ml", Price = 949m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-kbeauty-skin1004.png", PharmacistRecommended = true },
-                new Product { Name = "SOME BY MI AHA BHA PHA Toner", Category = "K-Beauty", Description = "30 Days Miracle Toner for Blemishes, 150ml", Price = 1099m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-somebymi.png" },
-                new Product { Name = "Centellian24 360 Shot PDRN", Category = "K-Beauty", Description = "PDRN Barrier Repair Essence", Price = 899m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-kbeauty-centellian24.png" },
-                new Product { Name = "VT Reedle Shot 300", Category = "K-Beauty", Description = "Microneedle Texture Serum, 50ml", Price = 1999m, Stock = StockStatus.LowStock, NearbyStoreCount = 1, ImageUrl = "/images/product-kbeauty-vt.png" },
-                new Product { Name = "TIRTIR Mask Fit Red Cushion", Category = "K-Beauty", Description = "Glow Cushion Foundation with SPF", Price = 1599m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-tirtir.png" }
+                new Product { Name = "Beauty of Joseon Revive Serum", Category = "K-Beauty", Description = "Ginseng + Retinal Revive Serum, 30ml", Price = 1499m, Stock = StockStatus.InStock, NearbyStoreCount = 2, ImageUrl = "/images/product-kbeauty-joseon-serum.webp" },
+                new Product { Name = "Anua Rice Enzyme Cleanser", Category = "K-Beauty", Description = "Brightening Powder Wash, 120g", Price = 1099m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-kbeauty-anua-cleanser.webp" },
+                new Product { Name = "Anua Azelaic Acid Serum", Category = "K-Beauty", Description = "Azelaic Acid 10% + Hyaluron Serum, 30ml", Price = 1699m, Stock = StockStatus.LowStock, NearbyStoreCount = 2, ImageUrl = "/images/product-kbeauty-anua-serum.webp" },
+                new Product { Name = "Round Lab Dokdo Cleanser", Category = "K-Beauty", Description = "1025 Dokdo Mineral Cleansing Foam, 150ml", Price = 799m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-roundlab.webp" },
+                new Product { Name = "SKIN1004 Centella Ampoule", Category = "K-Beauty", Description = "Madagascar Centella Asiatica 100 Ampoule, 100ml", Price = 949m, Stock = StockStatus.InStock, NearbyStoreCount = 5, ImageUrl = "/images/product-kbeauty-skin1004.webp", PharmacistRecommended = true },
+                new Product { Name = "SOME BY MI AHA BHA PHA Toner", Category = "K-Beauty", Description = "30 Days Miracle Toner for Blemishes, 150ml", Price = 1099m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-somebymi.webp" },
+                new Product { Name = "Centellian24 360 Shot PDRN", Category = "K-Beauty", Description = "PDRN Barrier Repair Essence", Price = 899m, Stock = StockStatus.InStock, NearbyStoreCount = 4, ImageUrl = "/images/product-kbeauty-centellian24.webp" },
+                new Product { Name = "VT Reedle Shot 300", Category = "K-Beauty", Description = "Microneedle Texture Serum, 50ml", Price = 1999m, Stock = StockStatus.LowStock, NearbyStoreCount = 1, ImageUrl = "/images/product-kbeauty-vt.webp" },
+                new Product { Name = "TIRTIR Mask Fit Red Cushion", Category = "K-Beauty", Description = "Glow Cushion Foundation with SPF", Price = 1599m, Stock = StockStatus.InStock, NearbyStoreCount = 3, ImageUrl = "/images/product-kbeauty-tirtir.webp" }
             );
         }
 
+        // The bundled images were re-encoded from PNG/JPG to WebP. Databases seeded before that
+        // still point at the old extensions, so rewrite them in place (no-op once migrated).
+        foreach (var article in db.Articles.Where(a => a.ImageUrl != null && a.ImageUrl.StartsWith("/images/")))
+            article.ImageUrl = ToWebp(article.ImageUrl!);
+        foreach (var product in db.Products.Where(p => p.ImageUrl != null && p.ImageUrl.StartsWith("/images/")))
+            product.ImageUrl = ToWebp(product.ImageUrl!);
+
         db.SaveChanges();
     }
+
+    private static string ToWebp(string url) =>
+        Path.GetExtension(url).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg"
+            ? Path.ChangeExtension(url, ".webp")
+            : url;
 }
